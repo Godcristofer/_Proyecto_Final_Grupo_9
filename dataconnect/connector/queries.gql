@@ -8,3 +8,31 @@ query ListProducts @auth(level: PUBLIC) {
     category
   }
 }
+query GetProduct @auth(level: PUBLIC) {
+  products(id: "550e8400-e29b-41d4-a716-446655440000") {
+    id
+    name
+    description
+    price
+    image
+    category
+  }
+}
+query ListProductsByCategory @auth(level: PUBLIC) {
+  productss(where: {category: {eq: "Electronics"}}) {
+    id
+    name
+    description
+    price
+    image
+    category
+  }
+}
+query ListUsers @auth(level: PUBLIC) {
+  userss(limit: 50) {
+    id
+    name
+    email
+    createdAt
+  }
+}

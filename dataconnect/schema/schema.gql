@@ -1,4 +1,4 @@
-type products @table {
+type Products @table {
   id: UUID! 
   name: String!
   description: String
@@ -7,7 +7,7 @@ type products @table {
   category: String
 }
 
-type users @table {
+type Users @table {
   id: UUID! 
   name: String
   email: String! @unique
