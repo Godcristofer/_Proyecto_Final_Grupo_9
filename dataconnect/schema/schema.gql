@@ -1,18 +1,15 @@
 type products @table {
-  id: ID! @pk
+  id: UUID! 
   name: String!
   description: String
   price: Float!
   image: String
-  data_ai_hint: String
-  rating: Int
   category: String
-  reviews: Int
 }
 
 type users @table {
-  id: ID! @pk
+  id: UUID! 
   name: String
   email: String! @unique
-  created_at: Timestamp! @default(value: "now()")
+  createdAt: Timestamp!
 }
