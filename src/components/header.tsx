@@ -29,7 +29,7 @@ export default function Header() {
   const DesktopNav = () => (
     <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
       {navLinks.map((link) => (
-        <Link key={link.href} href={link.href} className="text-foreground/80 hover:text-foreground transition-colors">
+        <Link key={`${link.href}-${link.label}`} href={link.href} className="text-foreground/80 hover:text-foreground transition-colors">
           {link.label}
         </Link>
       ))}
@@ -51,7 +51,7 @@ export default function Header() {
           </Link>
           <nav className="flex flex-col gap-4">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="text-lg text-foreground/80 hover:text-foreground transition-colors">
+              <Link key={`${link.href}-${link.label}`} href={link.href} className="text-lg text-foreground/80 hover:text-foreground transition-colors">
                 {link.label}
               </Link>
             ))}
