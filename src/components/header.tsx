@@ -10,7 +10,7 @@ import { useCart } from '@/hooks/use-cart';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/use-auth';
-import { auth } from '@/lib/firebase';
+import { getFirebaseAuth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 import {
   DropdownMenu,
@@ -29,6 +29,7 @@ export default function Header() {
   const router = useRouter();
 
   const handleSignOut = async () => {
+    const auth = getFirebaseAuth();
     if (auth) {
       await signOut(auth);
       router.push('/');

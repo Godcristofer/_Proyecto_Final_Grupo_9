@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { getFirebaseAuth } from "@/lib/firebase";
 import { useToast } from "@/hooks/use-toast";
 
 import { Button } from "@/components/ui/button";
@@ -55,6 +55,7 @@ export default function SignupPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
+    const auth = getFirebaseAuth();
     try {
       if (!auth) {
         throw new Error("La configuración de Firebase no está disponible.");
