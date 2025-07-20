@@ -1,0 +1,18 @@
+type products @table {
+  id: ID! @pk
+  name: String!
+  description: String
+  price: Float!
+  image: String
+  data_ai_hint: String
+  rating: Int
+  category: String
+  reviews: Int
+}
+
+type users @table {
+  id: ID! @pk
+  name: String
+  email: String! @unique
+  created_at: Timestamp! @default(value: "now()")
+}
