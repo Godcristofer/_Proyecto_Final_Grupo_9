@@ -16,7 +16,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
 
   return (
-    <Card className="flex flex-col overflow-hidden rounded-lg border shadow-sm transition-shadow hover:shadow-lg text-center">
+    <Card className="flex flex-col overflow-hidden rounded-lg border shadow-sm transition-shadow hover:shadow-lg">
       <Link href={`/product/${product.id}`} className="block relative h-60 w-full bg-white p-4">
         <Image
           src={product.image}

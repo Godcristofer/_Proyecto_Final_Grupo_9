@@ -22,13 +22,13 @@ export default function Header() {
     <div className="relative w-full max-w-sm">
       <form className="flex w-full items-center space-x-2">
         <Input type="search" placeholder="Buscar productos..." className="flex-1 bg-white text-gray-900 placeholder:text-gray-500 rounded-md" />
-        <Button type="submit" variant="secondary" className="bg-white text-primary hover:bg-gray-200">Buscar</Button>
+        <Button type="submit" variant="outline">Buscar</Button>
       </form>
     </div>
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-primary text-primary-foreground">
+    <header className="sticky top-0 z-50 w-full border-b bg-background text-foreground">
       <div className="container mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 gap-4">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2 text-2xl font-bold">
@@ -37,7 +37,7 @@ export default function Header() {
           {!isMobile && (
             <nav className="flex items-center gap-4 text-sm font-medium">
               {navLinks.map((link) => (
-                <Link key={`${link.href}-${link.label}`} href={link.href} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                <Link key={`${link.href}-${link.label}`} href={link.href} className="text-foreground/80 hover:text-foreground transition-colors">
                   {link.label}
                 </Link>
               ))}
@@ -64,7 +64,7 @@ export default function Header() {
                   <Link href="/" className="text-2xl font-bold">ComCorp</Link>
                    <nav className="flex flex-col gap-4">
                     {navLinks.map((link) => (
-                      <Link key={`${link.href}-${link.label}`} href={link.href} className="text-lg text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                      <Link key={`${link.href}-${link.label}-mobile`} href={link.href} className="text-lg text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                         {link.label}
                       </Link>
                     ))}
@@ -77,17 +77,27 @@ export default function Header() {
             </Sheet>
           ) : (
             <>
-              <Button variant="ghost" asChild>
+              <Button variant="outline" asChild>
                 <Link href="/cart">
                   <ShoppingCart className="mr-2 h-5 w-5" />
                   Carrito ({cartCount})
                 </Link>
               </Button>
-              <Button variant="secondary" asChild className="bg-white text-primary hover:bg-gray-200">
+              <Button variant="default" asChild>
                 <Link href="/login">INICIAR SESIÓN</Link>
               </Button>
             </>
           )}
+           <Link href="/cart" className="md:hidden">
+              <Button variant="ghost" size="icon" aria-label="Cart">
+                <ShoppingCart className="h-6 w-6" />
+                 {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
         </div>
       </div>
     </header>
