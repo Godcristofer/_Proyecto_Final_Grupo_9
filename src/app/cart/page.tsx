@@ -1,16 +1,36 @@
+
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, Minus, Trash2, ShoppingCart } from "lucide-react";
+import { Plus, Minus, Trash2, ShoppingCart, Loader2 } from "lucide-react";
 
 export default function CartPage() {
   const { cartItems, updateQuantity, removeFromCart, cartTotal, cartCount } = useCart();
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user) {
+    return (
+      <div className="container mx-auto flex min-h-[calc(100vh-14rem)] items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   if (cartCount === 0) {
     return (
