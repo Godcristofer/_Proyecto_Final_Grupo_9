@@ -2,5 +2,3 @@ connectorId: "default"
 generate:
   javascriptSdk:
     outputDir: "src/dataconnect/sdk"
-    package: "@firebasegen/comcorp-store-service"
-    packageJsonDir: "."
