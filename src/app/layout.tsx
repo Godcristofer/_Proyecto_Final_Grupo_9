@@ -7,7 +7,7 @@ import { CartProvider } from '@/hooks/use-cart';
 
 export const metadata: Metadata = {
   title: 'Comcorp Store',
-  description: 'Your one-stop shop for tech accessories',
+  description: 'Tu tienda única para accesorios de tecnología',
 };
 
 export default function RootLayout({
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="es" className="h-full">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

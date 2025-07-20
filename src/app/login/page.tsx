@@ -24,8 +24,8 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  email: z.string().email({ message: "Dirección de correo electrónico inválida." }),
+  password: z.string().min(6, { message: "La contraseña debe tener al menos 6 caracteres." }),
 });
 
 export default function LoginPage() {
@@ -40,16 +40,16 @@ export default function LoginPage() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     // Mock login logic
-    alert("Login successful (mock)!");
+    alert("¡Inicio de sesión exitoso (simulado)!");
   }
 
   return (
     <div className="container flex min-h-[calc(100vh-14rem)] items-center justify-center py-12">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl">Log In</CardTitle>
+          <CardTitle className="text-2xl">Iniciar Sesión</CardTitle>
           <CardDescription>
-            Enter your email below to log in to your account.
+            Ingresa tu correo electrónico a continuación para iniciar sesión en tu cuenta.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -60,9 +60,9 @@ export default function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Correo Electrónico</FormLabel>
                     <FormControl>
-                      <Input placeholder="name@example.com" {...field} />
+                      <Input placeholder="nombre@ejemplo.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -73,7 +73,7 @@ export default function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Contraseña</FormLabel>
                     <FormControl>
                       <Input type="password" placeholder="••••••••" {...field} />
                     </FormControl>
@@ -82,14 +82,14 @@ export default function LoginPage() {
                 )}
               />
               <Button type="submit" className="w-full">
-                Log In
+                Iniciar Sesión
               </Button>
             </form>
           </Form>
           <div className="mt-4 text-center text-sm">
-            Don't have an account?{" "}
+            ¿No tienes una cuenta?{" "}
             <Link href="/signup" className="underline hover:text-primary">
-              Sign up
+              Regístrate
             </Link>
           </div>
         </CardContent>

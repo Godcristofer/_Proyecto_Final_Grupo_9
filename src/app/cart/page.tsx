@@ -16,10 +16,10 @@ export default function CartPage() {
     return (
       <div className="container mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
         <ShoppingCart className="mx-auto h-16 w-16 text-muted-foreground" />
-        <h1 className="mt-4 text-3xl font-bold tracking-tight">Your cart is empty</h1>
-        <p className="mt-2 text-lg text-muted-foreground">Looks like you haven't added anything to your cart yet.</p>
+        <h1 className="mt-4 text-3xl font-bold tracking-tight">Tu carrito está vacío</h1>
+        <p className="mt-2 text-lg text-muted-foreground">Parece que aún no has añadido nada a tu carrito.</p>
         <Button asChild className="mt-6">
-          <Link href="/">Start Shopping</Link>
+          <Link href="/">Comenzar a Comprar</Link>
         </Button>
       </div>
     );
@@ -27,17 +27,17 @@ export default function CartPage() {
 
   return (
     <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold tracking-tight mb-8">Your Shopping Cart</h1>
+      <h1 className="text-3xl font-bold tracking-tight mb-8">Tu Carrito de Compras</h1>
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <Card>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">Product</TableHead>
+                  <TableHead className="w-[100px]">Producto</TableHead>
                   <TableHead></TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Quantity</TableHead>
+                  <TableHead>Precio</TableHead>
+                  <TableHead>Cantidad</TableHead>
                   <TableHead className="text-right">Total</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
@@ -103,7 +103,7 @@ export default function CartPage() {
         <div className="lg:col-span-1">
           <Card>
             <CardHeader>
-              <CardTitle>Order Summary</CardTitle>
+              <CardTitle>Resumen del Pedido</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex justify-between">
@@ -111,8 +111,8 @@ export default function CartPage() {
                 <span>S/ {cartTotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span>Shipping</span>
-                <span>Free</span>
+                <span>Envío</span>
+                <span>Gratis</span>
               </div>
               <div className="flex justify-between font-bold text-lg">
                 <span>Total</span>
@@ -120,7 +120,7 @@ export default function CartPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" size="lg">Proceed to Checkout</Button>
+              <Button className="w-full" size="lg">Proceder al Pago</Button>
             </CardFooter>
           </Card>
         </div>

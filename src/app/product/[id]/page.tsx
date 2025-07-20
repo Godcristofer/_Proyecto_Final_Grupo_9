@@ -45,7 +45,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
             <div className="flex items-center">
               {renderStars(product.rating)}
             </div>
-            <p className="ml-3 text-sm text-muted-foreground">{product.reviews} reviews</p>
+            <p className="ml-3 text-sm text-muted-foreground">{product.reviews} reseñas</p>
           </div>
           
           <Separator className="my-6" />

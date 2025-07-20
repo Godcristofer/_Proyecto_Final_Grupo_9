@@ -35,7 +35,7 @@ export function AddToCartSection({ product }: { product: Product }) {
         </Button>
       </div>
       <Button size="lg" onClick={handleAddToCart} className="flex-grow">
-        <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
+        <ShoppingCart className="mr-2 h-5 w-5" /> Agregar al Carrito
       </Button>
     </div>
   );

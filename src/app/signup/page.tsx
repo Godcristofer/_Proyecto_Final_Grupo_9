@@ -24,9 +24,9 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Invalid email address." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }),
+  email: z.string().email({ message: "Dirección de correo electrónico inválida." }),
+  password: z.string().min(6, { message: "La contraseña debe tener al menos 6 caracteres." }),
 });
 
 export default function SignupPage() {
@@ -42,16 +42,16 @@ export default function SignupPage() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     // Mock signup logic
-    alert("Account created successfully (mock)!");
+    alert("¡Cuenta creada exitosamente (simulado)!");
   }
 
   return (
     <div className="container flex min-h-[calc(100vh-14rem)] items-center justify-center py-12">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl">Create an account</CardTitle>
+          <CardTitle className="text-2xl">Crear una cuenta</CardTitle>
           <CardDescription>
-            Enter your information to create a new account.
+            Ingresa tu información para crear una nueva cuenta.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -62,9 +62,9 @@ export default function SignupPage() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Nombre</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your Name" {...field} />
+                      <Input placeholder="Tu Nombre" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -75,9 +75,9 @@ export default function SignupPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Correo Electrónico</FormLabel>
                     <FormControl>
-                      <Input placeholder="name@example.com" {...field} />
+                      <Input placeholder="nombre@ejemplo.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -88,7 +88,7 @@ export default function SignupPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Contraseña</FormLabel>
                     <FormControl>
                       <Input type="password" placeholder="••••••••" {...field} />
                     </FormControl>
@@ -97,14 +97,14 @@ export default function SignupPage() {
                 )}
               />
               <Button type="submit" className="w-full">
-                Create Account
+                Crear Cuenta
               </Button>
             </form>
           </Form>
           <div className="mt-4 text-center text-sm">
-            Already have an account?{" "}
+            ¿Ya tienes una cuenta?{" "}
             <Link href="/login" className="underline hover:text-primary">
-              Log in
+              Inicia sesión
             </Link>
           </div>
         </CardContent>

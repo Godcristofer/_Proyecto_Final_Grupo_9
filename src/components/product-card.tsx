@@ -38,7 +38,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <Button 
           className="mt-4 w-full bg-primary hover:bg-primary/90" 
           onClick={() => addToCart(product)} 
-          aria-label={`Add ${product.name} to cart`}>
+          aria-label={`Agregar ${product.name} al carrito`}>
           <ShoppingCart className="mr-2 h-4 w-4" />
           Agregar al carrito
         </Button>
