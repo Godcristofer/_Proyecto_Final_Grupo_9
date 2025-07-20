@@ -1,9 +1,8 @@
-
 'use server';
 
-import { getConnector } from '../dataconnect/sdk';
+import { getConnector } from '@firebasegen/comcorp-store-service';
 import type { Product } from '@/lib/types';
-import { ListProductsResponse, GetProductByIdResponse } from '../dataconnect/sdk/queries/dataconnect.queries.graphql';
+import { ListProductsResponse, GetProductByIdResponse } from '@firebasegen/comcorp-store-service/queries/dataconnect.queries.graphql';
 
 function mapProduct(productData: ListProductsResponse['productss'][0] | (GetProductByIdResponse['products'] extends { nodes: Array<any> } ? GetProductByIdResponse['products']['nodes'][0] : never)): Product {
   if (!productData) {
