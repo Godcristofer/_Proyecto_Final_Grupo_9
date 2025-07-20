@@ -1,9 +1,15 @@
+
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useToast } from "@/hooks/use-toast";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +28,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Loader2 } from "lucide-react";
+
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }),
@@ -30,6 +38,10 @@ const formSchema = z.object({
 });
 
 export default function SignupPage() {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,10 +51,43 @@ export default function SignupPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Mock signup logic
-    alert("¡Cuenta creada exitosamente (simulado)!");
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
+    try {
+      if (!auth) {
+        throw new Error("La configuración de Firebase no está disponible.");
+      }
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      
+      await updateProfile(userCredential.user, {
+        displayName: values.name
+      });
+      
+      toast({
+        title: "¡Cuenta creada!",
+        description: "Tu cuenta ha sido creada exitosamente.",
+      });
+
+      router.push("/");
+
+    } catch (error: any) {
+      console.error("Error al crear la cuenta:", error);
+      let errorMessage = "Ocurrió un error inesperado.";
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = "Este correo electrónico ya está en uso.";
+      }
+      toast({
+        variant: "destructive",
+        title: "Error al crear la cuenta",
+        description: errorMessage,
+      });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -64,7 +109,7 @@ export default function SignupPage() {
                   <FormItem>
                     <FormLabel>Nombre</FormLabel>
                     <FormControl>
-                      <Input placeholder="Tu Nombre" {...field} />
+                      <Input placeholder="Tu Nombre" {...field} disabled={loading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -77,7 +122,7 @@ export default function SignupPage() {
                   <FormItem>
                     <FormLabel>Correo Electrónico</FormLabel>
                     <FormControl>
-                      <Input placeholder="nombre@ejemplo.com" {...field} />
+                      <Input placeholder="nombre@ejemplo.com" {...field} disabled={loading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -90,13 +135,14 @@ export default function SignupPage() {
                   <FormItem>
                     <FormLabel>Contraseña</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input type="password" placeholder="••••••••" {...field} disabled={loading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Crear Cuenta
               </Button>
             </form>

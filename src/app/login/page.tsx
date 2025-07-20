@@ -1,9 +1,15 @@
+
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useToast } from "@/hooks/use-toast";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +28,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Dirección de correo electrónico inválida." }),
@@ -29,6 +36,10 @@ const formSchema = z.object({
 });
 
 export default function LoginPage() {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,10 +48,39 @@ export default function LoginPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Mock login logic
-    alert("¡Inicio de sesión exitoso (simulado)!");
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
+    try {
+      if (!auth) {
+        throw new Error("La configuración de Firebase no está disponible.");
+      }
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      toast({
+        title: "¡Bienvenido de nuevo!",
+        description: "Has iniciado sesión correctamente.",
+      });
+      router.push("/");
+    } catch (error: any) {
+      console.error("Error al iniciar sesión:", error);
+      let errorMessage = "Ocurrió un error inesperado.";
+      switch (error.code) {
+        case 'auth/user-not-found':
+        case 'auth/wrong-password':
+        case 'auth/invalid-credential':
+          errorMessage = "Correo electrónico o contraseña incorrectos.";
+          break;
+        case 'auth/invalid-email':
+          errorMessage = "El formato del correo electrónico es inválido.";
+          break;
+      }
+      toast({
+        variant: "destructive",
+        title: "Error al iniciar sesión",
+        description: errorMessage,
+      });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -62,7 +102,7 @@ export default function LoginPage() {
                   <FormItem>
                     <FormLabel>Correo Electrónico</FormLabel>
                     <FormControl>
-                      <Input placeholder="nombre@ejemplo.com" {...field} />
+                      <Input placeholder="nombre@ejemplo.com" {...field} disabled={loading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -75,13 +115,14 @@ export default function LoginPage() {
                   <FormItem>
                     <FormLabel>Contraseña</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input type="password" placeholder="••••••••" {...field} disabled={loading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Iniciar Sesión
               </Button>
             </form>
