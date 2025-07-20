@@ -4,7 +4,5 @@ mutation CreateUser($id: UUID!, $email: String!, $name: String) @auth(level: PUB
     email: $email, 
     name: $name, 
     createdAt_expr: "request.time"
-  }) {
-    id
-  }
+  })
 }
