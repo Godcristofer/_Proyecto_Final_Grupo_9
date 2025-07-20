@@ -4,75 +4,77 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { getProducts, getProductCategories } from '@/lib/products';
 import ProductCard from '@/components/product-card';
-import { ArrowRight, Monitor, Keyboard, Headphones, Speaker, Mouse, Webcam, Mic } from 'lucide-react';
+import { Monitor, Mouse, Keyboard } from 'lucide-react';
 
-const categoryIcons: { [key: string]: React.ElementType } = {
-  'Monitores': Monitor,
-  'Teclados': Keyboard,
-  'Auriculares': Headphones,
-  'Parlantes': Speaker,
-  'Mouse': Mouse,
-  'Cámaras Web': Webcam,
-  'Microfonos': Mic,
+const categoryDetails: { [key: string]: { icon: React.ElementType, image: string, hint: string, description: string } } = {
+  'Mouses': { icon: Mouse, image: 'https://placehold.co/600x400.png', hint: 'computer mouse', description: 'Descripción del artículo' },
+  'Monitores': { icon: Monitor, image: 'https://placehold.co/600x400.png', hint: 'computer monitor', description: 'Descripción del artículo' },
+  'Teclados': { icon: Keyboard, image: 'https://placehold.co/600x400.png', hint: 'computer keyboard', description: 'Descripción del artículo' },
 };
 
 export default function HomePage() {
   const allProducts = getProducts();
-  const featuredProducts = allProducts.slice(0, 4);
-  const categories = getProductCategories();
+  const featuredProducts = allProducts.slice(0, 3);
+  const categories = ['Mouses', 'Monitores', 'Teclados'];
 
   return (
-    <div className="flex flex-col">
-      <section className="relative w-full h-[60vh] bg-gradient-to-r from-purple-500 to-indigo-600 text-white flex items-center justify-center">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tighter">
-            Encuentra los mejores productos
+    <div className="flex flex-col bg-gray-50">
+      <section className="w-full bg-primary text-primary-foreground py-10">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center min-h-[40vh]">
+          <div className="flex items-center gap-4 mb-4">
+              <div className="bg-white p-3 rounded-lg">
+                <Monitor className="h-10 w-10 text-primary" />
+              </div>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tighter">
+            ComCorp
           </h1>
-          <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
-            Explora nuestra amplia gama de accesorios tecnológicos diseñados para mejorar tu productividad y entretenimiento.
+          <p className="mt-2 text-lg md:text-xl">
+            Tu Aliado En Tecnología
           </p>
-          <Button asChild size="lg" className="mt-8 bg-white text-primary hover:bg-gray-100">
-            <Link href="/productos">
-              Ver catálogo <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
         </div>
       </section>
-
-      <section className="py-16 bg-background">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-10">Categorías</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
+      
+      <main className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-8">Lo más vendido</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {categories.map((category) => {
-              const Icon = categoryIcons[category] || Monitor;
+              const details = categoryDetails[category];
+              if (!details) return null;
               return (
-                <Link href="/productos" key={category}>
-                  <Card className="flex flex-col items-center justify-center p-4 aspect-square transition-all hover:shadow-lg hover:-translate-y-1">
-                    <Icon className="h-10 w-10 text-primary" />
-                    <p className="mt-2 text-sm font-semibold text-center">{category}</p>
-                  </Card>
-                </Link>
+                <Card key={category} className="overflow-hidden">
+                   <div className="relative h-48 w-full">
+                    <Image
+                        src={details.image}
+                        alt={category}
+                        fill
+                        className="object-cover"
+                        data-ai-hint={details.hint}
+                      />
+                   </div>
+                  <CardContent className="p-4">
+                    <h3 className="text-lg font-bold">{category}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">{details.description}</p>
+                    <Button variant="outline" className="mt-4" asChild>
+                      <Link href="/productos">Ver más</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
               );
             })}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="py-16 bg-muted/40">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-10">Productos Destacados</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section>
+          <h2 className="text-3xl font-bold text-center mb-8">Nuestros Productos</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
-          <div className="text-center mt-12">
-            <Button asChild variant="outline">
-               <Link href="/productos">Ver todos los productos</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+        </section>
+      </main>
     </div>
   );
 }
