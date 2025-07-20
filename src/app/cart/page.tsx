@@ -58,7 +58,7 @@ export default function CartPage() {
                     <TableCell className="font-medium">
                       <Link href={`/product/${product.id}`} className="hover:text-primary">{product.name}</Link>
                     </TableCell>
-                    <TableCell>${product.price.toFixed(2)}</TableCell>
+                    <TableCell>S/ {product.price.toFixed(2)}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Button
@@ -86,7 +86,7 @@ export default function CartPage() {
                       </div>
                     </TableCell>
                     <TableCell className="text-right font-medium">
-                      ${(product.price * quantity).toFixed(2)}
+                      S/ {(product.price * quantity).toFixed(2)}
                     </TableCell>
                     <TableCell className="text-right">
                        <Button variant="ghost" size="icon" onClick={() => removeFromCart(product.id)}>
@@ -108,7 +108,7 @@ export default function CartPage() {
             <CardContent className="space-y-4">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>${cartTotal.toFixed(2)}</span>
+                <span>S/ {cartTotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping</span>
@@ -116,7 +116,7 @@ export default function CartPage() {
               </div>
               <div className="flex justify-between font-bold text-lg">
                 <span>Total</span>
-                <span>${cartTotal.toFixed(2)}</span>
+                <span>S/ {cartTotal.toFixed(2)}</span>
               </div>
             </CardContent>
             <CardFooter>

@@ -2,10 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Star, ShoppingCart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import type { Product } from '@/lib/types';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { useCart } from '@/hooks/use-cart';
 
 interface ProductCardProps {
@@ -15,46 +15,34 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`h-4 w-4 ${
-          i < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
-        }`}
-      />
-    ));
-  };
-
   return (
-    <Card className="flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
-      <CardHeader className="p-0">
-        <Link href={`/product/${product.id}`} className="block">
+    <Card className="flex flex-col overflow-hidden rounded-lg border shadow-none transition-shadow hover:shadow-lg">
+      <div className="relative h-48 w-full">
+        <Link href={`/product/${product.id}`} className="block h-full w-full">
           <Image
             src={product.image}
             alt={product.name}
-            width={600}
-            height={400}
-            className="h-48 w-full object-cover"
+            fill
+            className="object-contain p-4"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             data-ai-hint={product.data_ai_hint}
           />
         </Link>
-      </CardHeader>
-      <CardContent className="flex-grow p-4">
-        <Link href={`/product/${product.id}`} className="block">
-          <CardTitle className="text-lg font-semibold hover:text-primary transition-colors">{product.name}</CardTitle>
-        </Link>
-        <div className="mt-2 flex items-center">
-          {renderStars(product.rating)}
-          <span className="ml-2 text-sm text-muted-foreground">{product.reviews} reviews</span>
+      </div>
+      <CardContent className="flex flex-grow flex-col p-4">
+        <div className="flex-grow">
+          <h3 className="text-lg font-semibold">{product.name}</h3>
+          <p className="mt-1 text-lg font-bold">S/ {product.price.toFixed(2)}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{product.category}</p>
         </div>
-      </CardContent>
-      <CardFooter className="flex items-center justify-between p-4 pt-0">
-        <p className="text-xl font-bold text-primary">${product.price.toFixed(2)}</p>
-        <Button size="icon" variant="outline" onClick={() => addToCart(product)} aria-label={`Add ${product.name} to cart`}>
-          <ShoppingCart className="h-5 w-5" />
+        <Button 
+          className="mt-4 w-full bg-primary hover:bg-primary/90" 
+          onClick={() => addToCart(product)} 
+          aria-label={`Add ${product.name} to cart`}>
+          <ShoppingCart className="mr-2 h-4 w-4" />
+          Agregar al carrito
         </Button>
-      </CardFooter>
+      </CardContent>
     </Card>
   );
 }
