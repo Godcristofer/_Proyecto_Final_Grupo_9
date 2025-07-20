@@ -30,6 +30,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 
+import { createUser } from "@/lib/users";
+
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }),
@@ -63,8 +65,16 @@ export default function SignupPage() {
         values.password
       );
       
-      await updateProfile(userCredential.user, {
+      const user = userCredential.user;
+
+      await updateProfile(user, {
         displayName: values.name
+      });
+
+      await createUser({
+        id: user.uid,
+        email: user.email!,
+        name: values.name,
       });
       
       toast({

@@ -9,4 +9,6 @@ schema:
       cloudSql:
         instanceId: "comcorp-store-instance"
       # schemaValidation: "COMPATIBLE"
+mutations:
+  source: "./mutations"
 connectorDirs: ["./connector"]
