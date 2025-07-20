@@ -1,0 +1,13 @@
+/**
+ * @table [products]
+ */
+type Product @table(name: "products") {
+  id: String! @column(name: "product_id", primaryKey: true)
+  name: String! @column(name: "name")
+  description: String @column(name: "description")
+  price: Float! @column(name: "price")
+  category: String! @column(name: "category")
+  image: String! @column(name: "image_url")
+  rating: Int @column(name: "rating")
+  reviews: Int @column(name: "review_count")
+}

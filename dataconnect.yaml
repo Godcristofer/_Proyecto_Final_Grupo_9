@@ -1,0 +1,26 @@
+# Firebase Data Connect configuration
+# For more information, see https://firebase.google.com/docs/data-connect
+# Replace with your service ID and connector details.
+serviceId: comcorp-store
+connector: postgres-prod
+connector.source:
+  postgres:
+    # Set your GCP project and Cloud SQL instance details
+    # Example: my-gcp-project:us-central1:my-instance
+    instance: ${env:PROJECT_ID}:${env:LOCATION}:${env:INSTANCE_ID}
+    database: comcorp-store-db
+    # Configure authentication, e.g., using a secret in Secret Manager
+    auth:
+      iam: {}
+    # Or use password-based auth
+    # auth:
+    #   password:
+    #     secret: projects/${env:PROJECT_ID}/secrets/my-db-secret/versions/latest
+schema:
+  path: dataconnect/schema
+queries:
+  path: dataconnect/queries
+# You might need to generate types for your client-side code
+# generate:
+#   - path: src/dataconnect/generated.ts
+#     language: typescript

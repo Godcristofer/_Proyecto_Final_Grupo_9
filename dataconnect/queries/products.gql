@@ -1,0 +1,27 @@
+# Gets all products
+query AllProducts {
+  products {
+    id
+    name
+    description
+    price
+    category
+    image
+    rating
+    reviews
+  }
+}
+
+# Gets a single product by its ID
+query ProductById($id: String!) {
+  products_by_pk(id: $id) {
+    id
+    name
+    description
+    price
+    category
+    image
+    rating
+    reviews
+  }
+}
