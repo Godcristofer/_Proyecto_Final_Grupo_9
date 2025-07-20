@@ -1,5 +1,4 @@
 connectorId: "default-2"
 generate:
   javascriptSdk:
-    package: "@firebasegen/default-connector"
     outputDir: "src/dataconnect/sdk"
