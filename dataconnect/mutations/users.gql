@@ -1,8 +1,10 @@
 mutation CreateUser($id: String!, $email: String!, $name: String) @auth(level: PUBLIC) {
-    users_insert(data: {
-        id: $id,
-        email: $email,
-        name: $name,
-        createdAt_expr: "request.time"
-    })
+  users_insert(
+    data: {
+      id_expr: "$id",
+      email_expr: "$email",
+      name_expr: "$name",
+      createdAt_expr: "request.time"
+    }
+  )
 }

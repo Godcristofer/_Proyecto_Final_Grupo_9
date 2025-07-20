@@ -1,9 +1,3 @@
-mutation UpdateProduct @auth(level: PUBLIC) {
-  products_update(id: "550e8400-e29b-41d4-a716-446655440000", data: {price: 99.99})
-}
-mutation DeleteProduct @auth(level: PUBLIC) {
-  products_delete(id: "550e8400-e29b-41d4-a716-446655440000")
-}
 mutation CreateUser($id: UUID!, $email: String!, $name: String) @auth(level: PUBLIC) {
   users_insert(data: {
     id: $id, 
