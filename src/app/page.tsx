@@ -6,8 +6,8 @@ import { getProducts } from '@/lib/products';
 import ProductCard from '@/components/product-card';
 import { Monitor } from 'lucide-react';
 
-export default function HomePage() {
-  const allProducts = getProducts();
+export default async function HomePage() {
+  const allProducts = await getProducts();
   const featuredProducts = allProducts.slice(0, 3);
   const topCategories = [
     {

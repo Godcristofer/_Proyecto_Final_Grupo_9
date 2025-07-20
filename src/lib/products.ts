@@ -1,98 +1,51 @@
+
+'use server';
+
+import { getConnector } from '../dataconnect/sdk';
 import type { Product } from '@/lib/types';
+import { ListProductsResponse, GetProductByIdResponse } from '../dataconnect/sdk/queries/dataconnect.queries.graphql';
 
-export const products: Product[] = [
-  {
-    id: '1',
-    name: 'Monitor Samsung',
-    description: 'Monitor Samsung de alta calidad para imágenes nítidas y vibrantes, perfecto para trabajar y jugar.',
-    price: 1000.00,
-    image: '/img/MONITOR01.jpg',
-    data_ai_hint: 'samsung monitor',
-    rating: 5,
-    category: 'Monitores',
-    reviews: 152
-  },
-  {
-    id: '2',
-    name: 'Teclado T#01',
-    description: 'Un teclado confiable y cómodo para el uso diario, con una construcción duradera.',
-    price: 7.50,
-    image: '/img/teclado01.jpg',
-    data_ai_hint: 'keyboard',
-    rating: 4,
-    category: 'Teclados',
-    reviews: 89
-  },
-  {
-    id: '3',
-    name: 'Auriculares A#01',
-    description: 'Auriculares cómodos con una calidad de sonido clara para una experiencia de audio inmersiva.',
-    price: 3.50,
-    image: '/img/Audifonos_01.jpg',
-    data_ai_hint: 'headphones',
-    rating: 4,
-    category: 'Auriculares',
-    reviews: 124
-  },
-  {
-    id: '4',
-    name: 'Parlantes P#01',
-    description: 'Parlantes compactos que ofrecen un sonido potente, perfectos para cualquier configuración de escritorio.',
-    price: 12.00,
-    image: '/img/Parlantes.jpg',
-    data_ai_hint: 'speakers',
-    rating: 4,
-    category: 'Parlantes',
-    reviews: 98
-  },
-  {
-    id: '5',
-    name: 'Mouse Mouse#01',
-    description: 'Mouse ergonómico y preciso, diseñado para la comodidad y la productividad.',
-    price: 46.00,
-    image: '/img/mouselogi.jpg',
-    data_ai_hint: 'computer mouse',
-    rating: 5,
-    category: 'Mouse',
-    reviews: 210
-  },
-  {
-    id: '6',
-    name: 'Cámara Web C#01',
-    description: 'Cámara web HD para videollamadas y streaming nítidos, con fácil configuración plug-and-play.',
-    price: 11.00,
-    image: '/img/camarawb.jpg',
-    data_ai_hint: 'webcam',
-    rating: 4,
-    category: 'Cámaras Web',
-    reviews: 176
-  },
-  {
-    id: '7',
-    name: 'Mouse Mouse#02',
-    description: 'Un mouse elegante y sensible, perfecto para juegos y uso profesional.',
-    price: 22.00,
-    image: '/img/Razer.jpg',
-    data_ai_hint: 'gaming mouse',
-    rating: 4,
-    category: 'Mouse',
-    reviews: 135
-  },
-  {
-    id: '8',
-    name: 'Micrófono Microfono#01',
-    description: 'Micrófono con calidad de estudio para una grabación de audio clara, ideal para podcasting y streaming.',
-    price: 12.00,
-    image: '/img/razerseiren.jpg',
-    data_ai_hint: 'microphone',
-    rating: 5,
-    category: 'Microfonos',
-    reviews: 198
+function mapProduct(productData: ListProductsResponse['productss'][0] | (GetProductByIdResponse['products'] extends { nodes: Array<any> } ? GetProductByIdResponse['products']['nodes'][0] : never)): Product {
+  if (!productData) {
+    throw new Error("Product data is null or undefined");
   }
-];
 
-export const getProducts = (): Product[] => products;
+  const p = productData;
 
-export const getProductById = (id: string): Product | undefined => products.find(p => p.id === id);
+  return {
+    id: p.id,
+    name: p.name,
+    description: p.description || `Descripción para ${p.name}.`,
+    price: p.price,
+    image: `/${p.image}`,
+    category: p.category,
+    rating: 4, // Default value
+    reviews: 0, // Default value
+    data_ai_hint: p.category.toLowerCase(),
+  };
+}
 
-export const getProductCategories = (): string[] => [...new Set(products.map(p => p.category))];
+
+export const getProducts = async (): Promise<Product[]> => {
+  const connector = getConnector();
+  const { data } = await connector.ListProducts();
+  if (!data.productss) {
+    return [];
+  }
+  return data.productss.map(p => mapProduct(p));
+};
+
+export const getProductById = async (id: string): Promise<Product | undefined> => {
+  const connector = getConnector();
+  const { data } = await connector.GetProductById({ id });
+
+  if (data.products?.nodes?.length > 0) {
+    return mapProduct(data.products.nodes[0]);
+  }
+  return undefined;
+};
+
+export const getProductCategories = async (): Promise<string[]> => {
+  const products = await getProducts();
+  return [...new Set(products.map(p => p.category))];
+};

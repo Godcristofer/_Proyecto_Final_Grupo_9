@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from 'react';
 import type { Product } from '@/lib/types';
-import { getProductCategories } from '@/lib/products';
 import ProductCard from '@/components/product-card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
@@ -10,13 +9,14 @@ import { Label } from '@/components/ui/label';
 
 interface ProductCatalogProps {
   products: Product[];
+  categories: string[];
 }
 
-const allCategories = ["Todos", ...getProductCategories()];
-
-export default function ProductCatalog({ products }: ProductCatalogProps) {
+export default function ProductCatalog({ products, categories }: ProductCatalogProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
-  const [priceRange, setPriceRange] = useState([1000]);
+  const [priceRange, setPriceRange] = useState([2000]);
+
+  const allCategories = useMemo(() => ["Todos", ...categories], [categories]);
 
   const filteredProducts = useMemo(() => {
     return products.filter(p => {
@@ -32,10 +32,9 @@ export default function ProductCatalog({ products }: ProductCatalogProps) {
         <aside className="lg:col-span-1">
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold mb-2">Categorías</h3>
-                <Label htmlFor="category-select" className="text-sm font-normal text-muted-foreground">Elija una categoría:</Label>
+                <Label htmlFor="category-select" className="text-lg font-semibold">Categorías</Label>
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger id="category-select" className="w-full mt-1">
+                  <SelectTrigger id="category-select" className="w-full mt-2">
                     <SelectValue placeholder="Seleccione..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -47,15 +46,18 @@ export default function ProductCatalog({ products }: ProductCatalogProps) {
               </div>
 
               <div>
-                <h4 className="text-lg font-semibold mb-3">Filtrar Por Precio</h4>
+                <Label htmlFor="price-slider" className="text-lg font-semibold">Filtrar Por Precio</Label>
                 <Slider
-                  defaultValue={[1000]}
+                  id="price-slider"
+                  className='mt-4'
+                  defaultValue={[2000]}
                   max={2000}
                   step={50}
                   onValueChange={(value) => setPriceRange(value)}
                 />
                 <div className="flex justify-between text-sm text-muted-foreground mt-2">
-                  <span>Precio: S/ {priceRange[0]}</span>
+                  <span>S/0</span>
+                  <span>S/{priceRange[0]}</span>
                 </div>
               </div>
             </div>
@@ -63,9 +65,15 @@ export default function ProductCatalog({ products }: ProductCatalogProps) {
 
         <main className="lg:col-span-3">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {filteredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            ) : (
+               <div className="col-span-full text-center py-12">
+                  <p className="text-muted-foreground">No se encontraron productos que coincidan con los filtros seleccionados.</p>
+                </div>
+            )}
           </div>
         </main>
       </div>

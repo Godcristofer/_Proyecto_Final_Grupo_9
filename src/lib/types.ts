@@ -4,9 +4,9 @@ export interface Product {
   description: string;
   price: number;
   image: string;
-  rating: number;
+  rating?: number;
   category: string;
-  reviews: number;
+  reviews?: number;
   data_ai_hint?: string;
 }
 

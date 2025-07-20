@@ -1,7 +1,9 @@
 import ProductCatalog from '@/components/product-catalog';
-import { getProducts } from '@/lib/products';
+import { getProducts, getProductCategories } from '@/lib/products';
 
-export default function ProductosPage() {
-  const products = getProducts();
-  return <ProductCatalog products={products} />;
+export default async function ProductosPage() {
+  const products = await getProducts();
+  const categories = await getProductCategories();
+  
+  return <ProductCatalog products={products} categories={categories} />;
 }

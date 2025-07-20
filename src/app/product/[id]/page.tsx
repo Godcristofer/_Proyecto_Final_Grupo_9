@@ -5,14 +5,14 @@ import { Star } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { AddToCartSection } from './_components/add-to-cart-section';
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  const product = getProductById(params.id);
+export default async function ProductDetailPage({ params }: { params: { id: string } }) {
+  const product = await getProductById(params.id);
 
   if (!product) {
     notFound();
   }
   
-  const renderStars = (rating: number) => {
+  const renderStars = (rating: number = 0) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}

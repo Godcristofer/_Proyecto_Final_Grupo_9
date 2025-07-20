@@ -7,8 +7,6 @@ query AllProducts {
     price
     category
     image
-    rating
-    reviews
   }
 }
 
