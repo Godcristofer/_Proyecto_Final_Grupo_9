@@ -8,7 +8,8 @@ schema:
       database: "comcorp-store-database"
       cloudSql:
         instanceId: "comcorp-store-instance"
-      # schemaValidation: "COMPATIBLE"
 mutations:
   source: "./mutations"
+queries:
+  source: "./queries"
 connectorDirs: ["./connector"]

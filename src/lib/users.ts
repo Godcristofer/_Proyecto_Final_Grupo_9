@@ -1,7 +1,8 @@
 
 'use server';
 
-// import { CreateUser } from '@/dataconnect/sdk';
+import { connectorConfig, listUsers } from '@/dataconnect/sdk';
+import { getDataConnect } from 'firebase/data-connect';
 
 interface CreateUserInput {
     id: string;
@@ -11,28 +12,26 @@ interface CreateUserInput {
 
 export const createUser = async (userData: CreateUserInput) => {
     try {
-        // The Data Connect mutation is temporarily commented out to resolve build issues.
-        // User creation in Firebase Auth will still work.
-        /*
-        const { data, error } = await CreateUser({
-            id: userData.id,
-            email: userData.email,
-            name: userData.name
-        });
-
-        if (error) {
-            console.error('Error creating user in DB:', error);
-            throw new Error(error.message);
-        }
-
-        return data;
-        */
-
         console.log('User created in Firebase Auth, skipping Data Connect insert for now.', userData);
         return { success: true };
 
     } catch (err) {
         console.error('An unexpected error occurred while creating user:', err);
         throw err;
+    }
+};
+
+export const getUsers = async () => {
+    try {
+        if (!process.env.FIREBASE_PRIVATE_KEY) {
+            console.log("DataConnect SDK not initialized, returning empty array.");
+            return [];
+        }
+        const dc = getDataConnect(connectorConfig);
+        const { data } = await listUsers(dc);
+        return data.userss;
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        return [];
     }
 };
