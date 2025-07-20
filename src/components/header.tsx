@@ -1,16 +1,8 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, User, Menu, Search } from 'lucide-react';
+import { ShoppingCart, Menu, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useCart } from '@/hooks/use-cart';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -22,14 +14,14 @@ export default function Header() {
 
   const navLinks = [
     { href: '/', label: 'Inicio' },
-    { href: '/', label: 'Productos' },
+    { href: '/productos', label: 'Productos' },
     { href: '#', label: 'Contactanos' },
   ];
 
   const DesktopNav = () => (
      <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
       {navLinks.map((link) => (
-        <Link key={`${link.href}-${link.label}`} href={link.href} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+        <Link key={`${link.href}-${link.label}`} href={link.href} className="text-foreground/80 hover:text-foreground transition-colors">
           {link.label}
         </Link>
       ))}
@@ -39,7 +31,7 @@ export default function Header() {
   const MobileNav = () => (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden text-primary-foreground hover:text-primary-foreground hover:bg-white/10">
+        <Button variant="ghost" size="icon" className="md:hidden text-foreground hover:text-foreground hover:bg-background/10">
           <Menu />
           <span className="sr-only">Toggle navigation menu</span>
         </Button>
@@ -62,39 +54,46 @@ export default function Header() {
   );
   
   const SearchBar = () => (
-    <div className="hidden sm:flex items-center gap-2 w-full max-w-sm">
-        <Input type="search" placeholder="Buscar productos..." className="bg-background/80 border-none focus-visible:ring-0" />
-        <Button className="bg-background text-primary-foreground hover:bg-background/90">Buscar</Button>
+    <div className="relative w-full max-w-md">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <Input type="search" placeholder="Buscar productos..." className="w-full rounded-full bg-background pl-10 pr-4 py-2 text-sm" />
     </div>
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-primary text-primary-foreground">
+    <header className="sticky top-0 z-50 w-full border-b bg-card text-card-foreground shadow-sm">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 gap-4">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-2">
           {isMobile && <MobileNav />}
-          <Link href="/" className="text-2xl font-bold text-primary-foreground">
+          <Link href="/" className="text-2xl font-bold text-primary">
             ComCorp
           </Link>
         </div>
         
         {!isMobile && <DesktopNav />}
 
-        {!isMobile && <div className="flex-1 flex justify-center px-4"><SearchBar /></div>}
+        <div className="flex-1 flex justify-center px-4">
+          <SearchBar />
+        </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-white/10 hover:text-primary-foreground" asChild>
+          <Button variant="ghost" size="icon" asChild>
             <Link href="/cart">
-              <ShoppingCart className="h-4 w-4 mr-2" />
-              Carrito ({cartCount})
+              <ShoppingCart className="h-6 w-6" />
+              {cartCount > 0 && (
+                <span className="absolute top-0 right-0 -mt-1 -mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                  {cartCount}
+                </span>
+              )}
+              <span className="sr-only">Carrito de compras</span>
             </Link>
           </Button>
-          <Button variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-white/10 hover:text-primary-foreground" asChild>
+          <Button asChild>
             <Link href="/login">INICIAR SESIÓN</Link>
           </Button>
         </div>
       </div>
-       {isMobile && <div className="container mx-auto max-w-7xl px-4 pb-4 sm:px-6 lg:px-8"><SearchBar /></div>}
+       {isMobile && <div className="container mx-auto max-w-7xl px-4 pb-4 sm:px-6 lg:px-8 border-t"><SearchBar /></div>}
     </header>
   );
 }
