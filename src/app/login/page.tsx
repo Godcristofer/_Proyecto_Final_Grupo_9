@@ -103,7 +103,7 @@ export default function LoginPage() {
                   <FormItem>
                     <FormLabel>Correo Electrónico</FormLabel>
                     <FormControl>
-                      <Input placeholder="nombre@ejemplo.com" {...field} disabled={loading} />
+                      <Input placeholder="nombre@ejemplo.com" {...field} disabled={loading} autoComplete="email" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -116,7 +116,7 @@ export default function LoginPage() {
                   <FormItem>
                     <FormLabel>Contraseña</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} disabled={loading} />
+                      <Input type="password" placeholder="••••••••" {...field} disabled={loading} autoComplete="current-password" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
