@@ -23,17 +23,23 @@ const getProducts = async (): Promise<Product[]> => {
       return [];
     }
 
-    return data.productss.map((p) => ({
-      id: p.id,
-      name: p.name,
-      description: p.description || '',
-      price: p.price,
-      image: p.image ? p.image : 'https://placehold.co/600x400.png',
-      data_ai_hint: p.name.split(' ').slice(0, 2).join(' ').toLowerCase() || 'product',
-      category: p.category || 'Sin categoría',
-      rating: 4, // Placeholder
-      reviews: 0, // Placeholder
-    }));
+    return data.productss.map((p) => {
+      let imagePath = p.image;
+      if (imagePath && !imagePath.startsWith('http') && !imagePath.startsWith('/')) {
+        imagePath = `/${imagePath}`;
+      }
+      return {
+        id: p.id,
+        name: p.name,
+        description: p.description || '',
+        price: p.price,
+        image: imagePath || 'https://placehold.co/600x400.png',
+        data_ai_hint: p.name.split(' ').slice(0, 2).join(' ').toLowerCase() || 'product',
+        category: p.category || 'Sin categoría',
+        rating: 4, // Placeholder
+        reviews: 0, // Placeholder
+      };
+    });
   } catch (error) {
     console.error('Error fetching products from Data Connect:', error);
     return [];
