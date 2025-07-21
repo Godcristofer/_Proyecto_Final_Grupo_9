@@ -19,7 +19,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     <Card className="flex flex-col overflow-hidden rounded-lg border shadow-sm transition-shadow hover:shadow-lg">
       <Link href={`/product/${product.id}`} className="block relative h-60 w-full bg-white p-4">
         <Image
-          src={product.image}
+          src={product.image || 'https://placehold.co/600x400.png'}
           alt={product.name}
           fill
           className="object-contain"
