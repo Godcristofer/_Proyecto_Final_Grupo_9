@@ -11,7 +11,7 @@ import { getDataConnect } from 'firebase/data-connect';
 import {
   connectorConfig,
   listProducts,
-} from '@/dataconnect/sdk';
+} from '@firebasegen/default-2-connector';
 
 const getProducts = async (): Promise<Product[]> => {
   try {

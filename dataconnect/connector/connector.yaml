@@ -1,6 +1,7 @@
-connectorId: "default-2"
-# The javascriptSdk generation is removed to prevent build issues.
-# generate:
-#   javascriptSdk:
-#     outputDir: "src/dataconnect/sdk"
-#     package: "@firebasegen/default-connector"
+connectorId: default-2
+generate:
+  javascriptSdk:
+    outputDir: ../../dataconnect-generated/js/default-2-connector
+    package: "@firebasegen/default-2-connector"
+    packageJsonDir: ../..
+    react: true

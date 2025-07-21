@@ -1,0 +1,68 @@
+const { queryRef, executeQuery, mutationRef, executeMutation, validateArgs } = require('firebase/data-connect');
+
+const connectorConfig = {
+  connector: 'default-2',
+  service: 'comcorp-store-service',
+  location: 'us-central1'
+};
+exports.connectorConfig = connectorConfig;
+
+const listProductsRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListProducts');
+}
+listProductsRef.operationName = 'ListProducts';
+exports.listProductsRef = listProductsRef;
+
+exports.listProducts = function listProducts(dc) {
+  return executeQuery(listProductsRef(dc));
+};
+
+const getProductRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'GetProduct');
+}
+getProductRef.operationName = 'GetProduct';
+exports.getProductRef = getProductRef;
+
+exports.getProduct = function getProduct(dc) {
+  return executeQuery(getProductRef(dc));
+};
+
+const listProductsByCategoryRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListProductsByCategory');
+}
+listProductsByCategoryRef.operationName = 'ListProductsByCategory';
+exports.listProductsByCategoryRef = listProductsByCategoryRef;
+
+exports.listProductsByCategory = function listProductsByCategory(dc) {
+  return executeQuery(listProductsByCategoryRef(dc));
+};
+
+const listUsersRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListUsers');
+}
+listUsersRef.operationName = 'ListUsers';
+exports.listUsersRef = listUsersRef;
+
+exports.listUsers = function listUsers(dc) {
+  return executeQuery(listUsersRef(dc));
+};
+
+const createUserRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateUser', inputVars);
+}
+createUserRef.operationName = 'CreateUser';
+exports.createUserRef = createUserRef;
+
+exports.createUser = function createUser(dcOrVars, vars) {
+  return executeMutation(createUserRef(dcOrVars, vars));
+};
