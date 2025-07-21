@@ -1,3 +1,4 @@
+
 specVersion: "v1"
 serviceId: "comcorp-store-service"
 location: "us-central1"
@@ -11,5 +12,5 @@ schema:
 mutations:
   source: "./mutations"
 queries:
-  source: "./queries"
+  source: ["./queries", "./queries/products.gql"]
 connectorDirs: ["./connector"]
