@@ -10,14 +10,30 @@ export type DateString = string;
 
 
 
-export interface CreateUserData {
-  users_insert: Users_Key;
+export interface AddItemToCartData {
+  shoppingCartItems_insert: ShoppingCartItems_Key;
 }
 
-export interface CreateUserVariables {
-  id: UUIDString;
-  email: string;
-  name?: string | null;
+export interface AddItemToCartVariables {
+  cartId: UUIDString;
+  productId: UUIDString;
+  quantity: number;
+}
+
+export interface CreateCartData {
+  shoppingCarts_insert: ShoppingCarts_Key;
+}
+
+export interface CreateCartVariables {
+  userId: UUIDString;
+}
+
+export interface DeleteCartItemData {
+  shoppingCartItems_delete?: ShoppingCartItems_Key | null;
+}
+
+export interface DeleteCartItemVariables {
+  itemId: UUIDString;
 }
 
 export interface GetProductData {
@@ -67,10 +83,77 @@ export interface Products_Key {
   __typename?: 'Products_Key';
 }
 
+export interface ShoppingCartItems_Key {
+  id: UUIDString;
+  __typename?: 'ShoppingCartItems_Key';
+}
+
+export interface ShoppingCarts_Key {
+  id: UUIDString;
+  __typename?: 'ShoppingCarts_Key';
+}
+
+export interface UpdateCartItemQuantityData {
+  shoppingCartItems_update?: ShoppingCartItems_Key | null;
+}
+
+export interface UpdateCartItemQuantityVariables {
+  itemId: UUIDString;
+  quantity: number;
+}
+
 export interface Users_Key {
   id: UUIDString;
   __typename?: 'Users_Key';
 }
+
+interface CreateCartRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateCartVariables): MutationRef<CreateCartData, CreateCartVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateCartVariables): MutationRef<CreateCartData, CreateCartVariables>;
+  operationName: string;
+}
+export const createCartRef: CreateCartRef;
+
+export function createCart(vars: CreateCartVariables): MutationPromise<CreateCartData, CreateCartVariables>;
+export function createCart(dc: DataConnect, vars: CreateCartVariables): MutationPromise<CreateCartData, CreateCartVariables>;
+
+interface AddItemToCartRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: AddItemToCartVariables): MutationRef<AddItemToCartData, AddItemToCartVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: AddItemToCartVariables): MutationRef<AddItemToCartData, AddItemToCartVariables>;
+  operationName: string;
+}
+export const addItemToCartRef: AddItemToCartRef;
+
+export function addItemToCart(vars: AddItemToCartVariables): MutationPromise<AddItemToCartData, AddItemToCartVariables>;
+export function addItemToCart(dc: DataConnect, vars: AddItemToCartVariables): MutationPromise<AddItemToCartData, AddItemToCartVariables>;
+
+interface UpdateCartItemQuantityRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateCartItemQuantityVariables): MutationRef<UpdateCartItemQuantityData, UpdateCartItemQuantityVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateCartItemQuantityVariables): MutationRef<UpdateCartItemQuantityData, UpdateCartItemQuantityVariables>;
+  operationName: string;
+}
+export const updateCartItemQuantityRef: UpdateCartItemQuantityRef;
+
+export function updateCartItemQuantity(vars: UpdateCartItemQuantityVariables): MutationPromise<UpdateCartItemQuantityData, UpdateCartItemQuantityVariables>;
+export function updateCartItemQuantity(dc: DataConnect, vars: UpdateCartItemQuantityVariables): MutationPromise<UpdateCartItemQuantityData, UpdateCartItemQuantityVariables>;
+
+interface DeleteCartItemRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: DeleteCartItemVariables): MutationRef<DeleteCartItemData, DeleteCartItemVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: DeleteCartItemVariables): MutationRef<DeleteCartItemData, DeleteCartItemVariables>;
+  operationName: string;
+}
+export const deleteCartItemRef: DeleteCartItemRef;
+
+export function deleteCartItem(vars: DeleteCartItemVariables): MutationPromise<DeleteCartItemData, DeleteCartItemVariables>;
+export function deleteCartItem(dc: DataConnect, vars: DeleteCartItemVariables): MutationPromise<DeleteCartItemData, DeleteCartItemVariables>;
 
 interface ListProductsRef {
   /* Allow users to create refs without passing in DataConnect */
@@ -119,16 +202,4 @@ export const listUsersRef: ListUsersRef;
 
 export function listUsers(): QueryPromise<ListUsersData, undefined>;
 export function listUsers(dc: DataConnect): QueryPromise<ListUsersData, undefined>;
-
-interface CreateUserRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
-  operationName: string;
-}
-export const createUserRef: CreateUserRef;
-
-export function createUser(vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
-export function createUser(dc: DataConnect, vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
 

@@ -55,72 +55,75 @@ export default function CartPage() {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <Card>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Producto</TableHead>
-                  <TableHead></TableHead>
-                  <TableHead>Precio</TableHead>
-                  <TableHead>Cantidad</TableHead>
-                  <TableHead className="text-right">Total</TableHead>
-                  <TableHead></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {cartItems.map(({ id, product, quantity }) => (
-                  <TableRow key={id}>
-                    <TableCell>
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        width={80}
-                        height={80}
-                        className="rounded-md object-cover"
-                        data-ai-hint={product.data_ai_hint}
-                      />
-                    </TableCell>
-                    <TableCell className="font-medium">
-                      <Link href={`/product/${product.id}`} className="hover:text-primary">{product.name}</Link>
-                    </TableCell>
-                    <TableCell>S/ {product.price.toFixed(2)}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-8 w-8"
-                          onClick={() => updateQuantity(id!, quantity - 1)}
-                        >
-                          <Minus className="h-4 w-4" />
-                        </Button>
-                        <Input
-                          type="number"
-                          className="h-8 w-12 text-center"
-                          value={quantity}
-                          readOnly
-                        />
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-8 w-8"
-                          onClick={() => updateQuantity(id!, quantity + 1)}
-                        >
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right font-medium">
-                      S/ {(product.price * quantity).toFixed(2)}
-                    </TableCell>
-                    <TableCell className="text-right">
-                       <Button variant="ghost" size="icon" onClick={() => removeFromCart(id!)}>
-                         <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive"/>
-                       </Button>
-                    </TableCell>
+             <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">Producto</TableHead>
+                    <TableHead></TableHead>
+                    <TableHead>Precio</TableHead>
+                    <TableHead>Cantidad</TableHead>
+                    <TableHead className="text-right">Total</TableHead>
+                    <TableHead></TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {cartItems.map(({ id, product, quantity }) => (
+                    <TableRow key={id}>
+                      <TableCell>
+                         <Image
+                          src={product.image || 'https://placehold.co/600x400.png'}
+                          alt={product.name}
+                          width={80}
+                          height={80}
+                          className="rounded-md object-cover"
+                          data-ai-hint={product.data_ai_hint}
+                        />
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        <Link href={`/product/${product.id}`} className="hover:text-primary">{product.name}</Link>
+                      </TableCell>
+                      <TableCell>S/ {product.price.toFixed(2)}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() => updateQuantity(id!, quantity - 1)}
+                            disabled={quantity <= 1}
+                          >
+                            <Minus className="h-4 w-4" />
+                          </Button>
+                          <Input
+                            type="number"
+                            className="h-8 w-12 text-center"
+                            value={quantity}
+                            readOnly
+                          />
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() => updateQuantity(id!, quantity + 1)}
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right font-medium">
+                        S/ {(product.price * quantity).toFixed(2)}
+                      </TableCell>
+                      <TableCell className="text-right">
+                         <Button variant="ghost" size="icon" onClick={() => removeFromCart(id!)}>
+                           <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive"/>
+                         </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+             </CardContent>
           </Card>
         </div>
 
@@ -129,18 +132,20 @@ export default function CartPage() {
             <CardHeader>
               <CardTitle>Resumen del Pedido</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between">
-                <span>Subtotal</span>
-                <span>S/ {cartTotal.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Envío</span>
-                <span>Gratis</span>
-              </div>
-              <div className="flex justify-between font-bold text-lg">
-                <span>Total</span>
-                <span>S/ {cartTotal.toFixed(2)}</span>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex justify-between">
+                  <span>Subtotal</span>
+                  <span>S/ {cartTotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Envío</span>
+                  <span>Gratis</span>
+                </div>
+                <div className="flex justify-between font-bold text-lg">
+                  <span>Total</span>
+                  <span>S/ {cartTotal.toFixed(2)}</span>
+                </div>
               </div>
             </CardContent>
             <CardFooter>
@@ -152,3 +157,4 @@ export default function CartPage() {
     </div>
   );
 }
+

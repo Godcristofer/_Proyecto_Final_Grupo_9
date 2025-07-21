@@ -3,14 +3,14 @@ specVersion: "v1"
 serviceId: "comcorp-store-service"
 location: "us-central1"
 schema:
-  source: ["./schema", "./schema/cart.gql"]
+  source: "./schema"
   datasource:
     postgresql:
       database: "comcorp-store-database"
       cloudSql:
         instanceId: "comcorp-store-instance"
 mutations:
-  source: ["./mutations", "./queries/cart.gql"]
+  source: "./mutations"
 queries:
-  source: ["./queries", "./queries/products.gql", "./queries/cart.gql"]
+  source: "./queries"
 connectorDirs: ["./connector"]

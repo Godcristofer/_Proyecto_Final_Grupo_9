@@ -7,6 +7,54 @@ const connectorConfig = {
 };
 exports.connectorConfig = connectorConfig;
 
+const createCartRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateCart', inputVars);
+}
+createCartRef.operationName = 'CreateCart';
+exports.createCartRef = createCartRef;
+
+exports.createCart = function createCart(dcOrVars, vars) {
+  return executeMutation(createCartRef(dcOrVars, vars));
+};
+
+const addItemToCartRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'AddItemToCart', inputVars);
+}
+addItemToCartRef.operationName = 'AddItemToCart';
+exports.addItemToCartRef = addItemToCartRef;
+
+exports.addItemToCart = function addItemToCart(dcOrVars, vars) {
+  return executeMutation(addItemToCartRef(dcOrVars, vars));
+};
+
+const updateCartItemQuantityRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'UpdateCartItemQuantity', inputVars);
+}
+updateCartItemQuantityRef.operationName = 'UpdateCartItemQuantity';
+exports.updateCartItemQuantityRef = updateCartItemQuantityRef;
+
+exports.updateCartItemQuantity = function updateCartItemQuantity(dcOrVars, vars) {
+  return executeMutation(updateCartItemQuantityRef(dcOrVars, vars));
+};
+
+const deleteCartItemRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'DeleteCartItem', inputVars);
+}
+deleteCartItemRef.operationName = 'DeleteCartItem';
+exports.deleteCartItemRef = deleteCartItemRef;
+
+exports.deleteCartItem = function deleteCartItem(dcOrVars, vars) {
+  return executeMutation(deleteCartItemRef(dcOrVars, vars));
+};
+
 const listProductsRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
@@ -53,16 +101,4 @@ exports.listUsersRef = listUsersRef;
 
 exports.listUsers = function listUsers(dc) {
   return executeQuery(listUsersRef(dc));
-};
-
-const createUserRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'CreateUser', inputVars);
-}
-createUserRef.operationName = 'CreateUser';
-exports.createUserRef = createUserRef;
-
-exports.createUser = function createUser(dcOrVars, vars) {
-  return executeMutation(createUserRef(dcOrVars, vars));
 };

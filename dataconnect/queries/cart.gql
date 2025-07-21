@@ -1,46 +1,24 @@
-
-query GetCartByUserId($userId: ID!) {
-  shopping_carts(filter: { user_id: { eq: $userId } }) {
-    id
-    shopping_cart_itemsCollection {
-      id
-      quantity
-      product {
+query GetCartByUserId($userId: UUID!) @auth(level: USER) {
+    shoppingCartsCollection(
+        filter: {
+            userid: {
+                _eq: $userId
+            }
+        },
+        first: 1
+    ) {
         id
-        name
-        price
-        image
-        description
-        category
-      }
-    }
-  }
-}
-
-mutation AddOrUpdateCartItem($cart_id: ID!, $product_id: ID!, $quantity: Int!) {
-  shopping_cart_items_insert(
-    value: {
-      cart_id: $cart_id,
-      product_id: $product_id,
-      quantity: $quantity
-    }
-  ) {
-    id
-  }
-}
-
-mutation RemoveCartItem($itemId: ID!) {
-  shopping_cart_items_delete(
-    filter: {
-      id: { eq: $itemId }
-    }
-  ) {
-    id
-  }
-}
-
-mutation CreateCartForUser($userId: ID!) {
-    shopping_carts_insert(value: { user_id: $userId }) {
-        id
+        items {
+            id
+            quantity
+            product {
+                id
+                name
+                price
+                image
+                description
+                category
+            }
+        }
     }
 }

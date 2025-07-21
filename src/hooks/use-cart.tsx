@@ -10,9 +10,10 @@ import type { Product, CartItem } from '@/lib/types';
 // DataConnect generated hooks
 import {
     useGetCartByUserId,
-    useAddOrUpdateCartItem,
-    useRemoveCartItem,
-    useCreateCartForUser,
+    useAddItemToCart,
+    useUpdateCartItemQuantity,
+    useDeleteCartItem,
+    useCreateCart,
 } from '@firebasegen/default-2-connector/react';
 import { Loader2 } from 'lucide-react';
 
@@ -38,36 +39,45 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     { enabled: !!user }
   );
 
-  const { mutate: addOrUpdateItem } = useAddOrUpdateCartItem({
+  const { mutate: addItem } = useAddItemToCart({
       onSuccess: () => refetchCart(),
-      onError: (error) => toast({ variant: 'destructive', title: 'Error', description: error.message }),
+      onError: (error) => toast({ variant: 'destructive', title: 'Error al añadir item', description: error.message }),
   });
   
-  const { mutate: removeItem } = useRemoveCartItem({
-      onSuccess: () => refetchCart(),
-      onError: (error) => toast({ variant: 'destructive', title: 'Error', description: error.message }),
+  const { mutate: updateItem } = useUpdateCartItemQuantity({
+    onSuccess: () => refetchCart(),
+    onError: (error) => toast({ variant: 'destructive', title: 'Error al actualizar item', description: error.message }),
   });
 
-  const { mutate: createCart } = useCreateCartForUser({
+  const { mutate: removeItem } = useDeleteCartItem({
       onSuccess: () => refetchCart(),
-      onError: (error) => toast({ variant: 'destructive', title: 'Error', description: error.message }),
+      onError: (error) => toast({ variant: 'destructive', title: 'Error al eliminar item', description: error.message }),
+  });
+
+  const { mutate: createCart } = useCreateCart({
+      onSuccess: () => refetchCart(),
+      onError: (error) => toast({ variant: 'destructive', title: 'Error al crear carrito', description: error.message }),
   });
 
   const cart = useMemo(() => {
-    if (!cartData?.shopping_carts || cartData.shopping_carts.length === 0) {
+    if (!cartData?.shoppingCartsCollection || cartData.shoppingCartsCollection.length === 0) {
       return null;
     }
-    return cartData.shopping_carts[0];
+    return cartData.shoppingCartsCollection[0];
   }, [cartData]);
 
   const cartItems = useMemo((): CartItem[] => {
-    if (!cart?.shopping_cart_itemsCollection) return [];
-    return cart.shopping_cart_itemsCollection.map(item => ({
+    if (!cart?.items) return [];
+    
+    // The schema implies 'items' might not be an array, but the SDK often returns collections.
+    const itemsArray = Array.isArray(cart.items) ? cart.items : [cart.items];
+
+    return itemsArray.map((item: any) => ({
         id: item.id,
         product: {
             ...item.product,
             description: item.product.description || '',
-            image: item.product.image || 'https://placehold.co/600x400.png',
+            image: item.product.image && !item.product.image.startsWith('/') && !item.product.image.startsWith('http') ? `/${item.product.image}` : (item.product.image || 'https://placehold.co/600x400.png'),
             category: item.product.category || 'Sin categoría',
             data_ai_hint: item.product.name.split(' ').slice(0, 2).join(' ').toLowerCase() || 'product',
         },
@@ -82,24 +92,34 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
+    const actionAfterCartExists = (cartId: string) => {
+        const existingItem = cartItems.find(item => item.product.id === product.id);
+        if (existingItem) {
+            // If item exists, update quantity
+            updateItem({
+                itemId: existingItem.id!,
+                quantity: existingItem.quantity + quantity
+            });
+        } else {
+            // If item doesn't exist, add it
+            addItem({ cartId: cartId, productId: product.id, quantity });
+        }
+        toast({ title: "Actualizado", description: `${product.name} ha sido agregado/actualizado en tu carrito.` });
+    };
+
     if (!cart) {
         createCart({ userId: user.uid }, {
             onSuccess: (data) => {
-                const newCartId = data?.shopping_carts_insert?.id;
+                const newCartId = data?.shoppingCarts_insert?.id;
                 if (newCartId) {
-                    addOrUpdateItem({ cart_id: newCartId, product_id: product.id, quantity });
-                    toast({ title: "Agregado al carrito", description: `${product.name} ha sido agregado a tu carrito.` });
+                    actionAfterCartExists(newCartId);
+                } else {
+                    toast({ variant: 'destructive', title: 'Error', description: 'No se pudo crear el carrito.' });
                 }
             }
         });
     } else {
-        const existingItem = cartItems.find(item => item.product.id === product.id);
-        addOrUpdateItem({
-            cart_id: cart.id,
-            product_id: product.id,
-            quantity: existingItem ? existingItem.quantity + quantity : quantity,
-        });
-        toast({ title: "Agregado al carrito", description: `${product.name} ha sido agregado a tu carrito.` });
+        actionAfterCartExists(cart.id);
     }
   };
 
@@ -114,14 +134,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     if (quantity <= 0) {
       removeFromCart(itemId);
     } else {
-      const itemToUpdate = cartItems.find(item => item.id === itemId);
-      if (itemToUpdate) {
-        addOrUpdateItem({
-          cart_id: cart.id,
-          product_id: itemToUpdate.product.id,
-          quantity: quantity,
-        });
-      }
+      updateItem({ itemId, quantity });
     }
   };
   
@@ -134,17 +147,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const cartTotal = useMemo(() => cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0), [cartItems]);
 
   const isLoading = authLoading || (!!user && cartLoading);
-
-  if (isLoading) {
-    return (
-        <div className="flex h-screen items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-    )
-  }
-
+  
   return (
     <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, cartCount, cartTotal, isLoading }}>
+      {isLoading && (
+         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-background/80 backdrop-blur-sm">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+         </div>
+      )}
       {children}
     </CartContext.Provider>
   );

@@ -3,13 +3,15 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Loader2 } from 'lucide-react';
 import type { Product } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useCart } from '@/hooks/use-cart';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 interface ProductCardProps {
   product: Product;
@@ -19,17 +21,31 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
   const { user } = useAuth();
   const { toast } = useToast();
+  const router = useRouter();
+  const [isAdding, setIsAdding] = useState(false);
 
-  const handleAddToCart = () => {
+
+  const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (!user) {
       toast({
         title: 'Inicia Sesión',
         description: 'Debes iniciar sesión para agregar productos al carrito.',
         variant: 'destructive',
+        action: (
+            <Button onClick={() => router.push('/login')}>Iniciar Sesión</Button>
+        )
       });
       return;
     }
-    addToCart(product);
+    setIsAdding(true);
+    try {
+        await addToCart(product);
+    } catch(err) {
+        console.error(err);
+    } finally {
+        setIsAdding(false);
+    }
   }
 
   return (
@@ -46,16 +62,17 @@ export default function ProductCard({ product }: ProductCardProps) {
       </Link>
       <CardContent className="flex flex-grow flex-col p-4 bg-white">
         <div className="flex-grow">
-          <h3 className="text-lg font-semibold">{product.name}</h3>
+          <Link href={`/product/${product.id}`}><h3 className="text-lg font-semibold hover:text-primary">{product.name}</h3></Link>
           <p className="mt-1 text-sm text-muted-foreground">{product.category}</p>
           <p className="mt-2 text-lg font-bold">S/ {product.price.toFixed(2)}</p>
         </div>
         <Button 
           className="mt-4 w-full" 
           onClick={handleAddToCart} 
+          disabled={isAdding}
           aria-label={`Agregar ${product.name} al carrito`}>
-          <ShoppingCart className="mr-2 h-4 w-4" />
-          Agregar al carrito
+          {isAdding ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShoppingCart className="mr-2 h-4 w-4" />}
+          {isAdding ? 'Agregando...' : 'Agregar al carrito'}
         </Button>
       </CardContent>
     </Card>

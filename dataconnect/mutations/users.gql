@@ -1,5 +1,0 @@
-mutation CreateUser($id: UUID!, $email: String!, $name: String) @auth(level: PUBLIC) {
-  users_insert(
-    data: {id: $id, email: $email, name: $name, createdAt_expr: "request.time"}
-  )
-}

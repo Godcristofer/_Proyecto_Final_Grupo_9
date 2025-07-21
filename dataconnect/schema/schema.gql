@@ -13,3 +13,20 @@ type Users @table {
   email: String! @unique
   createdAt: Timestamp!
 }
+
+type ShoppingCarts @table(name: "shopping_carts") {
+  id: UUID!
+  userid: UUID! @col(name: "user_id")
+  createdAt: Timestamp! @col(name: "created_at")
+  updatedAt: Timestamp! @col(name: "updated_at")
+  items: ShoppingCartItems! @ref(references: "cartid")
+}
+
+type ShoppingCartItems @table(name: "shopping_cart_items") {
+    id: UUID!
+    cartid: UUID! @unique
+    quantity: Int! @col(name: "quantity")
+    addedAt: Timestamp! @col(name: "added_at")
+    cart: ShoppingCarts! @ref(references: "id")
+    product: Products! @ref(references: "id")
+}
