@@ -28,7 +28,7 @@ const getProducts = async (): Promise<Product[]> => {
       name: p.name,
       description: p.description || '',
       price: p.price,
-      image: p.image || 'https://placehold.co/600x400.png',
+      image: p.image ? p.image : 'https://placehold.co/600x400.png',
       data_ai_hint: p.name.split(' ').slice(0, 2).join(' ').toLowerCase() || 'product',
       category: p.category || 'Sin categoría',
       rating: 4, // Placeholder
