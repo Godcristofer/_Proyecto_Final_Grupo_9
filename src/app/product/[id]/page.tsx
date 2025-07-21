@@ -5,7 +5,7 @@ import { Star } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { AddToCartSection } from './_components/add-to-cart-section';
 import type { Product } from '@/lib/types';
-
+import { getFirebaseApp } from '@/lib/firebase';
 import { getDataConnect } from 'firebase/data-connect';
 import {
   connectorConfig,
@@ -14,7 +14,8 @@ import {
 
 const getProducts = async (): Promise<Product[]> => {
   try {
-    const dataConnect = getDataConnect(connectorConfig);
+    const app = getFirebaseApp();
+    const dataConnect = getDataConnect(connectorConfig, { app });
     const { data } = await listProducts(dataConnect);
 
     if (!data || !data.productss) {

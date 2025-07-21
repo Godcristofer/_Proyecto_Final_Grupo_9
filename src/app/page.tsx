@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import ProductCard from '@/components/product-card';
 import { Monitor } from 'lucide-react';
 import type { Product } from '@/lib/types';
-
+import { getFirebaseApp } from '@/lib/firebase';
 import { getDataConnect } from 'firebase/data-connect';
 import {
   connectorConfig,
@@ -15,7 +15,8 @@ import {
 
 const getProducts = async (): Promise<Product[]> => {
   try {
-    const dataConnect = getDataConnect(connectorConfig);
+    const app = getFirebaseApp();
+    const dataConnect = getDataConnect(connectorConfig, { app });
     const { data } = await listProducts(dataConnect);
 
     if (!data || !data.productss) {

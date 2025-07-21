@@ -1,6 +1,6 @@
 
 import { initializeApp, getApp, getApps, type FirebaseApp } from "firebase/app";
-import { getAuth, connectAuthEmulator, type Auth } from "firebase/auth";
+import { getAuth, type Auth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,36 +11,16 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-let app: FirebaseApp | null = null;
-let auth: Auth | null = null;
-
-function initializeFirebase() {
-  if (typeof window !== "undefined") {
-    if (getApps().length === 0) {
-      if (firebaseConfig.apiKey) {
-        app = initializeApp(firebaseConfig);
-      } else {
-        console.error("Firebase API key is missing. Please set NEXT_PUBLIC_FIREBASE_API_KEY in your .env.local file.");
-      }
-    } else {
-      app = getApp();
-    }
-
-    if (app) {
-      auth = getAuth(app);
-    }
+function getFirebaseApp(): FirebaseApp {
+  if (!firebaseConfig.apiKey) {
+    throw new Error("Firebase API key is missing. Please set NEXT_PUBLIC_FIREBASE_API_KEY in your .env.local file.");
   }
+  return getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 }
 
-initializeFirebase();
-
-function getFirebaseAuth(): Auth | null {
-    if (!auth) {
-        initializeFirebase();
-    }
-    return auth;
+function getFirebaseAuth(): Auth {
+  const app = getFirebaseApp();
+  return getAuth(app);
 }
 
-
-export { app, getFirebaseAuth };
-
+export { getFirebaseApp, getFirebaseAuth };
