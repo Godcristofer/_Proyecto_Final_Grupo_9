@@ -47,19 +47,19 @@ export default async function HomePage() {
     {
       name: 'Mouses',
       description: 'descripcion del articulo',
-      image: '/img/mouselogi.jpg',
+      image: 'https://placehold.co/600x400.png',
       data_ai_hint: 'computer mouse'
     },
     {
       name: 'Monitores',
       description: 'descripcion del articulo',
-      image: '/img/MONITOR01.jpg',
+      image: 'https://placehold.co/600x400.png',
       data_ai_hint: 'samsung monitor'
     },
     {
       name: 'Teclados',
       description: 'descripcion del articulo',
-      image: '/img/teclado01.jpg',
+      image: 'https://placehold.co/600x400.png',
       data_ai_hint: 'keyboard'
     }
   ];
