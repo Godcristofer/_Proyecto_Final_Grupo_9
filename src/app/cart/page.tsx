@@ -14,22 +14,26 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Plus, Minus, Trash2, ShoppingCart, Loader2 } from "lucide-react";
 
 export default function CartPage() {
-  const { cartItems, updateQuantity, removeFromCart, cartTotal, cartCount } = useCart();
-  const { user, loading } = useAuth();
+  const { cartItems, updateQuantity, removeFromCart, cartTotal, cartCount, isLoading } = useCart();
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!authLoading && !user) {
       router.push('/login');
     }
-  }, [user, loading, router]);
+  }, [user, authLoading, router]);
 
-  if (loading || !user) {
+  if (authLoading || isLoading) {
     return (
       <div className="container mx-auto flex min-h-[calc(100vh-14rem)] items-center justify-center py-12">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
+  }
+
+  if (!user) {
+    return null; 
   }
 
   if (cartCount === 0) {
@@ -63,8 +67,8 @@ export default function CartPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {cartItems.map(({ product, quantity }) => (
-                  <TableRow key={product.id}>
+                {cartItems.map(({ id, product, quantity }) => (
+                  <TableRow key={id}>
                     <TableCell>
                       <Image
                         src={product.image}
@@ -85,7 +89,7 @@ export default function CartPage() {
                           variant="outline"
                           size="icon"
                           className="h-8 w-8"
-                          onClick={() => updateQuantity(product.id, quantity - 1)}
+                          onClick={() => updateQuantity(id!, quantity - 1)}
                         >
                           <Minus className="h-4 w-4" />
                         </Button>
@@ -99,7 +103,7 @@ export default function CartPage() {
                           variant="outline"
                           size="icon"
                           className="h-8 w-8"
-                          onClick={() => updateQuantity(product.id, quantity + 1)}
+                          onClick={() => updateQuantity(id!, quantity + 1)}
                         >
                           <Plus className="h-4 w-4" />
                         </Button>
@@ -109,7 +113,7 @@ export default function CartPage() {
                       S/ {(product.price * quantity).toFixed(2)}
                     </TableCell>
                     <TableCell className="text-right">
-                       <Button variant="ghost" size="icon" onClick={() => removeFromCart(product.id)}>
+                       <Button variant="ghost" size="icon" onClick={() => removeFromCart(id!)}>
                          <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive"/>
                        </Button>
                     </TableCell>

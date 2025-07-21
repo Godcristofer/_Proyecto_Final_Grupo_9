@@ -1,20 +1,31 @@
+
 "use client";
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/hooks/use-cart';
+import { useAuth } from '@/hooks/use-auth';
+import { useToast } from '@/hooks/use-toast';
 import type { Product } from '@/lib/types';
 import { Plus, Minus, ShoppingCart } from 'lucide-react';
 
 export function AddToCartSection({ product }: { product: Product }) {
   const { addToCart } = useCart();
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(product);
+    if (!user) {
+      toast({
+        title: 'Inicia Sesión',
+        description: 'Debes iniciar sesión para agregar productos al carrito.',
+        variant: 'destructive',
+      });
+      return;
     }
+    addToCart(product, quantity);
   };
 
   return (

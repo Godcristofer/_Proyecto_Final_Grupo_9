@@ -1,0 +1,21 @@
+
+"""
+Shopping cart table to associate a cart with a user.
+"""
+type shopping_carts @table(name: "shopping_carts") {
+  id: ID! @pk
+  user_id: ID! @col(name: "user_id")
+  created_at: Timestamp! @col(name: "created_at", default: "now()")
+  updated_at: Timestamp! @col(name: "updated_at", default: "now()")
+}
+
+"""
+Shopping cart items table to store products in a cart.
+"""
+type shopping_cart_items @table(name: "shopping_cart_items") {
+    id: ID! @pk
+    cart_id: ID! @col(name: "cart_id")
+    product_id: ID! @col(name: "product_id")
+    quantity: Int! @col(name: "quantity")
+    added_at: Timestamp! @col(name: "added_at", default: "now()")
+}

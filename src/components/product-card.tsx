@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -7,6 +8,8 @@ import type { Product } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useCart } from '@/hooks/use-cart';
+import { useAuth } from '@/hooks/use-auth';
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +17,20 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
+  const { user } = useAuth();
+  const { toast } = useToast();
+
+  const handleAddToCart = () => {
+    if (!user) {
+      toast({
+        title: 'Inicia Sesión',
+        description: 'Debes iniciar sesión para agregar productos al carrito.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    addToCart(product);
+  }
 
   return (
     <Card className="flex flex-col overflow-hidden rounded-lg border shadow-sm transition-shadow hover:shadow-lg">
@@ -35,7 +52,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
         <Button 
           className="mt-4 w-full" 
-          onClick={() => addToCart(product)} 
+          onClick={handleAddToCart} 
           aria-label={`Agregar ${product.name} al carrito`}>
           <ShoppingCart className="mr-2 h-4 w-4" />
           Agregar al carrito
