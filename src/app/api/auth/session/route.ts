@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 
     try {
       const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
-      cookies().set('session', sessionCookie, { maxAge: expiresIn, httpOnly: true, secure: true });
+      cookies().set('session', sessionCookie, { maxAge: expiresIn, httpOnly: true, secure: true, path: '/' });
       return NextResponse.json({ status: 'success' });
     } catch (error) {
       console.error('Error creating session cookie:', error);
@@ -26,4 +26,14 @@ export async function POST(request: Request) {
     }
   }
   return new Response('Unauthorized', { status: 401 });
+}
+
+export async function DELETE() {
+  try {
+    cookies().delete('session');
+    return NextResponse.json({ status: 'success' });
+  } catch (error) {
+    console.error('Error deleting session cookie:', error);
+    return new Response('Internal Server Error', { status: 500 });
+  }
 }

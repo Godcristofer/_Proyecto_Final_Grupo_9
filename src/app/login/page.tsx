@@ -63,28 +63,13 @@ export default function LoginPage() {
       if (!auth) {
         throw new Error("La configuración de Firebase no está disponible.");
       }
-      const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+      await signInWithEmailAndPassword(auth, values.email, values.password);
       
-      const idToken = await userCredential.user.getIdToken();
-
-      const response = await fetch('/api/auth/session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${idToken}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('No se pudo crear la sesión.');
-      }
-
       toast({
         title: "¡Bienvenido de nuevo!",
         description: "Has iniciado sesión correctamente.",
       });
       router.push("/");
-      router.refresh(); 
 
     } catch (error: any) {
       console.error("Error al iniciar sesión:", error);

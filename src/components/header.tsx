@@ -32,12 +32,7 @@ export default function Header() {
     const auth = getFirebaseAuth();
     if (auth) {
       await signOut(auth);
-      // Clear session cookie by calling the API
-      await fetch('/api/auth/session', {
-          method: 'DELETE',
-      });
       router.push('/');
-      router.refresh();
     }
   };
 

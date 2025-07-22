@@ -29,10 +29,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const unsubscribe = onIdTokenChanged(auth, async (user) => {
       setUser(user);
       if (user) {
-        const dbUser = await getUserById(user.uid);
+        const dbUserPromise = getUserById(user.uid);
+        const idToken = await user.getIdToken();
+
+        fetch('/api/auth/session', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${idToken}`,
+            },
+        });
+        
+        const dbUser = await dbUserPromise;
         setIsAdmin(dbUser?.role === 'admin');
+
       } else {
         setIsAdmin(false);
+         fetch('/api/auth/session', {
+            method: 'DELETE',
+        });
       }
       setLoading(false);
     });
