@@ -69,10 +69,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const cartItems = useMemo((): CartItem[] => {
     if (!cart?.items) return [];
     
-    // The schema implies 'items' might not be an array, but the SDK often returns collections.
-    const itemsArray = Array.isArray(cart.items) ? cart.items : [cart.items];
-
-    return itemsArray.map((item: any) => ({
+    return cart.items.map((item: any) => ({
         id: item.id,
         product: {
             ...item.product,
@@ -95,13 +92,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const actionAfterCartExists = (cartId: string) => {
         const existingItem = cartItems.find(item => item.product.id === product.id);
         if (existingItem) {
-            // If item exists, update quantity
             updateItem({
                 itemId: existingItem.id!,
                 quantity: existingItem.quantity + quantity
             });
         } else {
-            // If item doesn't exist, add it
             addItem({ cartId: cartId, productId: product.id, quantity });
         }
         toast({ title: "Actualizado", description: `${product.name} ha sido agregado/actualizado en tu carrito.` });
@@ -150,7 +145,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   
   return (
     <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, cartCount, cartTotal, isLoading }}>
-      {isLoading && (
+      {isLoading && !authLoading && ( // Only show spinner if auth is done but cart is loading
          <div className="fixed inset-0 z-[200] flex items-center justify-center bg-background/80 backdrop-blur-sm">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
          </div>

@@ -1,0 +1,23 @@
+query GetCartByUserId($userId: UUID!) {
+  shoppingCartsCollection(
+    filter: {
+      userId: { eq: $userId }
+    },
+    first: 1
+  ) {
+    id
+    userId
+    items {
+      id
+      quantity
+      product {
+        id
+        name
+        description
+        price
+        image
+        category
+      }
+    }
+  }
+}
