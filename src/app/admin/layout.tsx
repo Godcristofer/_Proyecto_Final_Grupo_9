@@ -5,7 +5,10 @@ import { getUserById } from "@/lib/users";
 import { getFirebaseAuth } from "next-firebase-auth-edge/lib/auth";
 import { firebaseAdminConfig } from "@/lib/firebase-admin-config";
 
-const auth = getFirebaseAuth(firebaseAdminConfig);
+const auth = getFirebaseAuth({
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
+    ...firebaseAdminConfig
+});
 
 async function AdminLayout({ children }: { children: React.ReactNode }) {
     
