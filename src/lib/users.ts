@@ -1,7 +1,7 @@
 
 'use server';
 
-import { connectorConfig, CreateUser } from '@firebasegen/default-2-connector';
+import { connectorConfig, createUser as createUserMutation } from '@firebasegen/default-2-connector';
 import { getDataConnect } from 'firebase/data-connect';
 
 
@@ -16,7 +16,7 @@ interface CreateUserInput {
 export const createUser = async (userData: CreateUserInput) => {
     try {
         const dataConnect = getDataConnect(connectorConfig);
-        await CreateUser(dataConnect, { 
+        await createUserMutation({ 
             id: userData.id,
             email: userData.email,
             name: userData.name,

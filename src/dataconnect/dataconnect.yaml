@@ -1,0 +1,16 @@
+
+specVersion: "v1"
+serviceId: "comcorp-store-service"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "comcorp-store-database"
+      cloudSql:
+        instanceId: "comcorp-store-instance"
+mutations:
+  source: "./mutations"
+queries:
+  source: "./queries"
+connectorDirs: ["./connector"]
