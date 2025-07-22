@@ -31,6 +31,42 @@ exports.updateUserRole = function updateUserRole(dcOrVars, vars) {
   return executeMutation(updateUserRoleRef(dcOrVars, vars));
 };
 
+const createSaleRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateSale', inputVars);
+}
+createSaleRef.operationName = 'CreateSale';
+exports.createSaleRef = createSaleRef;
+
+exports.createSale = function createSale(dcOrVars, vars) {
+  return executeMutation(createSaleRef(dcOrVars, vars));
+};
+
+const createSaleDetailRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateSaleDetail', inputVars);
+}
+createSaleDetailRef.operationName = 'CreateSaleDetail';
+exports.createSaleDetailRef = createSaleDetailRef;
+
+exports.createSaleDetail = function createSaleDetail(dcOrVars, vars) {
+  return executeMutation(createSaleDetailRef(dcOrVars, vars));
+};
+
+const createShipmentRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateShipment', inputVars);
+}
+createShipmentRef.operationName = 'CreateShipment';
+exports.createShipmentRef = createShipmentRef;
+
+exports.createShipment = function createShipment(dcOrVars, vars) {
+  return executeMutation(createShipmentRef(dcOrVars, vars));
+};
+
 const listProductsRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();

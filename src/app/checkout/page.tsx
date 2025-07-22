@@ -18,7 +18,7 @@ import { Loader2 } from 'lucide-react';
 
 import { getFirebaseApp } from '@/lib/firebase';
 import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, createSale } from '@firebasegen/default-2-connector';
+import { connectorConfig, createSale, createSaleDetail, createShipment } from '@firebasegen/default-2-connector';
 
 const formSchema = z.object({
   address: z.string().min(5, { message: "La dirección debe tener al menos 5 caracteres." }),
@@ -54,36 +54,31 @@ export default function CheckoutPage() {
       const app = getFirebaseApp();
       const dataConnect = getDataConnect(connectorConfig, { app });
       
-      const saleId = crypto.randomUUID();
-      const shipmentId = crypto.randomUUID();
-
-      const saleData = {
-        id: saleId,
+      const saleResponse = await createSale(dataConnect, {
         userId: user.uid,
-        saleDate: new Date().toISOString(),
+        saleDate: new Date().toISOString().split('T')[0],
         total: cartTotal,
-      };
+      });
 
-      const saleDetailsData = cartItems.map(item => ({
-        id: crypto.randomUUID(),
-        saleId: saleId,
-        productId: item.product.id,
-        quantity: item.quantity,
-        subtotal: item.product.price * item.quantity,
-      }));
+      const saleId = saleResponse.data?.sales_insert?.id;
 
-      const shipmentData = {
-        id: shipmentId,
+      if (!saleId) {
+        throw new Error("No se pudo obtener el ID de la venta.");
+      }
+
+      for (const item of cartItems) {
+        await createSaleDetail(dataConnect, {
+          saleId: saleId,
+          productId: item.product.id,
+          quantity: item.quantity,
+          subtotal: item.product.price * item.quantity,
+        });
+      }
+
+      await createShipment(dataConnect, {
         saleId: saleId,
         address: values.address,
         city: values.city,
-        status: 'pending',
-      };
-      
-      await createSale(dataConnect, {
-          sale: saleData,
-          details: saleDetailsData,
-          shipment: shipmentData
       });
 
       clearCart();

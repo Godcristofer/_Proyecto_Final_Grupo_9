@@ -1,4 +1,4 @@
-import { CreateUserData, CreateUserVariables, UpdateUserRoleData, UpdateUserRoleVariables, ListProductsData, GetProductData, ListProductsByCategoryData, ListUsersData, GetUserByIdData, GetUserByIdVariables } from '../';
+import { CreateUserData, CreateUserVariables, UpdateUserRoleData, UpdateUserRoleVariables, CreateSaleData, CreateSaleVariables, CreateSaleDetailData, CreateSaleDetailVariables, CreateShipmentData, CreateShipmentVariables, ListProductsData, GetProductData, ListProductsByCategoryData, ListUsersData, GetUserByIdData, GetUserByIdVariables } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -10,6 +10,15 @@ export function useCreateUser(dc: DataConnect, options?: useDataConnectMutationO
 
 export function useUpdateUserRole(options?: useDataConnectMutationOptions<UpdateUserRoleData, FirebaseError, UpdateUserRoleVariables>): UseDataConnectMutationResult<UpdateUserRoleData, UpdateUserRoleVariables>;
 export function useUpdateUserRole(dc: DataConnect, options?: useDataConnectMutationOptions<UpdateUserRoleData, FirebaseError, UpdateUserRoleVariables>): UseDataConnectMutationResult<UpdateUserRoleData, UpdateUserRoleVariables>;
+
+export function useCreateSale(options?: useDataConnectMutationOptions<CreateSaleData, FirebaseError, CreateSaleVariables>): UseDataConnectMutationResult<CreateSaleData, CreateSaleVariables>;
+export function useCreateSale(dc: DataConnect, options?: useDataConnectMutationOptions<CreateSaleData, FirebaseError, CreateSaleVariables>): UseDataConnectMutationResult<CreateSaleData, CreateSaleVariables>;
+
+export function useCreateSaleDetail(options?: useDataConnectMutationOptions<CreateSaleDetailData, FirebaseError, CreateSaleDetailVariables>): UseDataConnectMutationResult<CreateSaleDetailData, CreateSaleDetailVariables>;
+export function useCreateSaleDetail(dc: DataConnect, options?: useDataConnectMutationOptions<CreateSaleDetailData, FirebaseError, CreateSaleDetailVariables>): UseDataConnectMutationResult<CreateSaleDetailData, CreateSaleDetailVariables>;
+
+export function useCreateShipment(options?: useDataConnectMutationOptions<CreateShipmentData, FirebaseError, CreateShipmentVariables>): UseDataConnectMutationResult<CreateShipmentData, CreateShipmentVariables>;
+export function useCreateShipment(dc: DataConnect, options?: useDataConnectMutationOptions<CreateShipmentData, FirebaseError, CreateShipmentVariables>): UseDataConnectMutationResult<CreateShipmentData, CreateShipmentVariables>;
 
 export function useListProducts(options?: useDataConnectQueryOptions<ListProductsData>): UseDataConnectQueryResult<ListProductsData, undefined>;
 export function useListProducts(dc: DataConnect, options?: useDataConnectQueryOptions<ListProductsData>): UseDataConnectQueryResult<ListProductsData, undefined>;

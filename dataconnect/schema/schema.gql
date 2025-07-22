@@ -19,7 +19,7 @@ type Users @table(name: "users") {
 }
 
 type Sales @table(name: "sales") {
-  id: String! @default(expr: "uuidV4()")
+  id: UUID! @default(expr: "uuidV4()")
   userId: String! @col(name: "user_id")
   user: Users! @ref(fields: "userId", references: "id")
   saleDate: Date! @col(name: "sale_date") @default(expr: "request.time")
@@ -27,8 +27,8 @@ type Sales @table(name: "sales") {
 }
 
 type SaleDetails @table(name: "sale_details") {
-  id: String! @default(expr: "uuidV4()")
-  saleId: String! @col(name: "sale_id")
+  id: UUID! @default(expr: "uuidV4()")
+  saleId: UUID! @col(name: "sale_id")
   sale: Sales! @ref(fields: "saleId", references: "id")
   productId: UUID! @col(name: "product_id")
   product: Products! @ref(fields: "productId", references: "id")
@@ -37,8 +37,8 @@ type SaleDetails @table(name: "sale_details") {
 }
 
 type Shipments @table(name: "shipments") {
-  id: String! @default(expr: "uuidV4()")
-  saleId: String! @col(name: "sale_id") @unique
+  id: UUID! @default(expr: "uuidV4()")
+  saleId: UUID! @col(name: "sale_id") @unique
   sale: Sales! @ref(fields: "saleId", references: "id")
   address: String!
   city: String!

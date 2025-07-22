@@ -18,6 +18,9 @@ This README will guide you through the process of using the generated JavaScript
 - [**Mutations**](#mutations)
   - [*CreateUser*](#createuser)
   - [*updateUserRole*](#updateuserrole)
+  - [*CreateSale*](#createsale)
+  - [*CreateSaleDetail*](#createsaledetail)
+  - [*CreateShipment*](#createshipment)
 
 # Accessing the connector
 A connector is a collection of Queries and Mutations. One SDK is generated for each connector - this SDK is generated for the connector `default-2`. You can find more information about connectors in the [Data Connect documentation](https://firebase.google.com/docs/data-connect#how-does).
@@ -821,6 +824,354 @@ console.log(data.users_update);
 executeMutation(ref).then((response) => {
   const data = response.data;
   console.log(data.users_update);
+});
+```
+
+## CreateSale
+You can execute the `CreateSale` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
+```typescript
+createSale(vars: CreateSaleVariables): MutationPromise<CreateSaleData, CreateSaleVariables>;
+
+interface CreateSaleRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateSaleVariables): MutationRef<CreateSaleData, CreateSaleVariables>;
+}
+export const createSaleRef: CreateSaleRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+createSale(dc: DataConnect, vars: CreateSaleVariables): MutationPromise<CreateSaleData, CreateSaleVariables>;
+
+interface CreateSaleRef {
+  ...
+  (dc: DataConnect, vars: CreateSaleVariables): MutationRef<CreateSaleData, CreateSaleVariables>;
+}
+export const createSaleRef: CreateSaleRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the createSaleRef:
+```typescript
+const name = createSaleRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `CreateSale` mutation requires an argument of type `CreateSaleVariables`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface CreateSaleVariables {
+  userId: string;
+  saleDate: DateString;
+  total: number;
+}
+```
+### Return Type
+Recall that executing the `CreateSale` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `CreateSaleData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface CreateSaleData {
+  sales_insert: Sales_Key;
+}
+```
+### Using `CreateSale`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, createSale, CreateSaleVariables } from '@firebasegen/default-2-connector';
+
+// The `CreateSale` mutation requires an argument of type `CreateSaleVariables`:
+const createSaleVars: CreateSaleVariables = {
+  userId: ..., 
+  saleDate: ..., 
+  total: ..., 
+};
+
+// Call the `createSale()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await createSale(createSaleVars);
+// Variables can be defined inline as well.
+const { data } = await createSale({ userId: ..., saleDate: ..., total: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await createSale(dataConnect, createSaleVars);
+
+console.log(data.sales_insert);
+
+// Or, you can use the `Promise` API.
+createSale(createSaleVars).then((response) => {
+  const data = response.data;
+  console.log(data.sales_insert);
+});
+```
+
+### Using `CreateSale`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, createSaleRef, CreateSaleVariables } from '@firebasegen/default-2-connector';
+
+// The `CreateSale` mutation requires an argument of type `CreateSaleVariables`:
+const createSaleVars: CreateSaleVariables = {
+  userId: ..., 
+  saleDate: ..., 
+  total: ..., 
+};
+
+// Call the `createSaleRef()` function to get a reference to the mutation.
+const ref = createSaleRef(createSaleVars);
+// Variables can be defined inline as well.
+const ref = createSaleRef({ userId: ..., saleDate: ..., total: ..., });
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = createSaleRef(dataConnect, createSaleVars);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.sales_insert);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.sales_insert);
+});
+```
+
+## CreateSaleDetail
+You can execute the `CreateSaleDetail` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
+```typescript
+createSaleDetail(vars: CreateSaleDetailVariables): MutationPromise<CreateSaleDetailData, CreateSaleDetailVariables>;
+
+interface CreateSaleDetailRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateSaleDetailVariables): MutationRef<CreateSaleDetailData, CreateSaleDetailVariables>;
+}
+export const createSaleDetailRef: CreateSaleDetailRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+createSaleDetail(dc: DataConnect, vars: CreateSaleDetailVariables): MutationPromise<CreateSaleDetailData, CreateSaleDetailVariables>;
+
+interface CreateSaleDetailRef {
+  ...
+  (dc: DataConnect, vars: CreateSaleDetailVariables): MutationRef<CreateSaleDetailData, CreateSaleDetailVariables>;
+}
+export const createSaleDetailRef: CreateSaleDetailRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the createSaleDetailRef:
+```typescript
+const name = createSaleDetailRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `CreateSaleDetail` mutation requires an argument of type `CreateSaleDetailVariables`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface CreateSaleDetailVariables {
+  saleId: UUIDString;
+  productId: UUIDString;
+  quantity: number;
+  subtotal: number;
+}
+```
+### Return Type
+Recall that executing the `CreateSaleDetail` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `CreateSaleDetailData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface CreateSaleDetailData {
+  saleDetails_insert: SaleDetails_Key;
+}
+```
+### Using `CreateSaleDetail`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, createSaleDetail, CreateSaleDetailVariables } from '@firebasegen/default-2-connector';
+
+// The `CreateSaleDetail` mutation requires an argument of type `CreateSaleDetailVariables`:
+const createSaleDetailVars: CreateSaleDetailVariables = {
+  saleId: ..., 
+  productId: ..., 
+  quantity: ..., 
+  subtotal: ..., 
+};
+
+// Call the `createSaleDetail()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await createSaleDetail(createSaleDetailVars);
+// Variables can be defined inline as well.
+const { data } = await createSaleDetail({ saleId: ..., productId: ..., quantity: ..., subtotal: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await createSaleDetail(dataConnect, createSaleDetailVars);
+
+console.log(data.saleDetails_insert);
+
+// Or, you can use the `Promise` API.
+createSaleDetail(createSaleDetailVars).then((response) => {
+  const data = response.data;
+  console.log(data.saleDetails_insert);
+});
+```
+
+### Using `CreateSaleDetail`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, createSaleDetailRef, CreateSaleDetailVariables } from '@firebasegen/default-2-connector';
+
+// The `CreateSaleDetail` mutation requires an argument of type `CreateSaleDetailVariables`:
+const createSaleDetailVars: CreateSaleDetailVariables = {
+  saleId: ..., 
+  productId: ..., 
+  quantity: ..., 
+  subtotal: ..., 
+};
+
+// Call the `createSaleDetailRef()` function to get a reference to the mutation.
+const ref = createSaleDetailRef(createSaleDetailVars);
+// Variables can be defined inline as well.
+const ref = createSaleDetailRef({ saleId: ..., productId: ..., quantity: ..., subtotal: ..., });
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = createSaleDetailRef(dataConnect, createSaleDetailVars);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.saleDetails_insert);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.saleDetails_insert);
+});
+```
+
+## CreateShipment
+You can execute the `CreateShipment` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
+```typescript
+createShipment(vars: CreateShipmentVariables): MutationPromise<CreateShipmentData, CreateShipmentVariables>;
+
+interface CreateShipmentRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateShipmentVariables): MutationRef<CreateShipmentData, CreateShipmentVariables>;
+}
+export const createShipmentRef: CreateShipmentRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+createShipment(dc: DataConnect, vars: CreateShipmentVariables): MutationPromise<CreateShipmentData, CreateShipmentVariables>;
+
+interface CreateShipmentRef {
+  ...
+  (dc: DataConnect, vars: CreateShipmentVariables): MutationRef<CreateShipmentData, CreateShipmentVariables>;
+}
+export const createShipmentRef: CreateShipmentRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the createShipmentRef:
+```typescript
+const name = createShipmentRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `CreateShipment` mutation requires an argument of type `CreateShipmentVariables`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface CreateShipmentVariables {
+  saleId: UUIDString;
+  address: string;
+  city: string;
+}
+```
+### Return Type
+Recall that executing the `CreateShipment` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `CreateShipmentData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface CreateShipmentData {
+  shipments_insert: Shipments_Key;
+}
+```
+### Using `CreateShipment`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, createShipment, CreateShipmentVariables } from '@firebasegen/default-2-connector';
+
+// The `CreateShipment` mutation requires an argument of type `CreateShipmentVariables`:
+const createShipmentVars: CreateShipmentVariables = {
+  saleId: ..., 
+  address: ..., 
+  city: ..., 
+};
+
+// Call the `createShipment()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await createShipment(createShipmentVars);
+// Variables can be defined inline as well.
+const { data } = await createShipment({ saleId: ..., address: ..., city: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await createShipment(dataConnect, createShipmentVars);
+
+console.log(data.shipments_insert);
+
+// Or, you can use the `Promise` API.
+createShipment(createShipmentVars).then((response) => {
+  const data = response.data;
+  console.log(data.shipments_insert);
+});
+```
+
+### Using `CreateShipment`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, createShipmentRef, CreateShipmentVariables } from '@firebasegen/default-2-connector';
+
+// The `CreateShipment` mutation requires an argument of type `CreateShipmentVariables`:
+const createShipmentVars: CreateShipmentVariables = {
+  saleId: ..., 
+  address: ..., 
+  city: ..., 
+};
+
+// Call the `createShipmentRef()` function to get a reference to the mutation.
+const ref = createShipmentRef(createShipmentVars);
+// Variables can be defined inline as well.
+const ref = createShipmentRef({ saleId: ..., address: ..., city: ..., });
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = createShipmentRef(dataConnect, createShipmentVars);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.shipments_insert);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.shipments_insert);
 });
 ```
 

@@ -17,4 +17,41 @@ mutation updateUserRole(
   users_update(id: $id, data: {role: $role})
 }
 
+mutation CreateSale($userId: String!, $saleDate: Date!, $total: Float!) @auth(level: PUBLIC) {
+  sales_insert(data: {
+    userId: $userId
+    saleDate: $saleDate
+    total: $total
+  })
+}
+
+
+mutation CreateSaleDetail(
+  $saleId: UUID!
+  $productId: UUID!
+  $quantity: Int!
+  $subtotal: Float!
+) @auth(level: PUBLIC) {
+  saleDetails_insert(data: {
+    saleId: $saleId
+    productId: $productId
+    quantity: $quantity
+    subtotal: $subtotal
+  })
+}
+
+
+mutation CreateShipment(
+  $saleId: UUID!
+  $address: String!
+  $city: String!
+) @auth(level: PUBLIC) {
+  shipments_insert(data: {
+    saleId: $saleId
+    address: $address
+    city: $city
+    status: "pending"
+  })
+}
+
 

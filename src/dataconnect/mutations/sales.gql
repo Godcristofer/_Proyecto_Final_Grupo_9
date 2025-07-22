@@ -1,6 +1,46 @@
+mutation CreateSale($userId: String!, $saleDate: Date!, $total: Float!) {
+  sales_insert(
+    value: {
+      userId: $userId
+      saleDate: $saleDate
+      total: $total
+    }
+  ) {
+    id
+  }
+}
 
-mutation createSale($sale: Sales_InsertInput!, $details: [SaleDetails_InsertInput!]!, $shipment: Shipments_InsertInput!) {
-    sales_insert(input: $sale) { id }
-    saleDetails_insert(input: $details) { id }
-    shipments_insert(input: $shipment) { id }
+mutation CreateSaleDetail(
+  $saleId: UUID!
+  $productId: UUID!
+  $quantity: Int!
+  $subtotal: Float!
+) {
+  saleDetails_insert(
+    value: {
+      saleId: $saleId
+      productId: $productId
+      quantity: $quantity
+      subtotal: $subtotal
+    }
+  ) {
+    id
+  }
+}
+
+mutation CreateShipment(
+  $saleId: UUID!
+  $address: String!
+  $city: String!
+) {
+  shipments_insert(
+    value: {
+      saleId: $saleId
+      address: $address
+      city: $city
+      status: "pending"
+    }
+  ) {
+    id
+  }
 }

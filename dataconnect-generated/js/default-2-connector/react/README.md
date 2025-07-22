@@ -25,6 +25,9 @@ You can also follow the instructions from the [Data Connect documentation](https
 - [**Mutations**](#mutations)
   - [*CreateUser*](#createuser)
   - [*updateUserRole*](#updateuserrole)
+  - [*CreateSale*](#createsale)
+  - [*CreateSaleDetail*](#createsaledetail)
+  - [*CreateShipment*](#createshipment)
 
 # TanStack Query Firebase & TanStack React Query
 This SDK provides [React](https://react.dev/) hooks generated specific to your application, for the operations found in the connector `default-2`. These hooks are generated using [TanStack Query Firebase](https://react-query-firebase.invertase.dev/) by our partners at Invertase, a library built on top of [TanStack React Query v5](https://tanstack.com/query/v5/docs/framework/react/overview).
@@ -730,6 +733,302 @@ export default function UpdateUserRoleComponent() {
   // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
   if (mutation.isSuccess) {
     console.log(mutation.data.users_update);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## CreateSale
+You can execute the `CreateSale` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [default-2-connector/react/index.d.ts](./index.d.ts)):
+```javascript
+useCreateSale(options?: useDataConnectMutationOptions<CreateSaleData, FirebaseError, CreateSaleVariables>): UseDataConnectMutationResult<CreateSaleData, CreateSaleVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useCreateSale(dc: DataConnect, options?: useDataConnectMutationOptions<CreateSaleData, FirebaseError, CreateSaleVariables>): UseDataConnectMutationResult<CreateSaleData, CreateSaleVariables>;
+```
+
+### Variables
+The `CreateSale` Mutation requires an argument of type `CreateSaleVariables`, which is defined in [default-2-connector/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface CreateSaleVariables {
+  userId: string;
+  saleDate: DateString;
+  total: number;
+}
+```
+### Return Type
+Recall that calling the `CreateSale` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `CreateSale` Mutation is of type `CreateSaleData`, which is defined in [default-2-connector/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface CreateSaleData {
+  sales_insert: Sales_Key;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `CreateSale`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, CreateSaleVariables } from '@firebasegen/default-2-connector';
+import { useCreateSale } from '@firebasegen/default-2-connector/react'
+
+export default function CreateSaleComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useCreateSale();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useCreateSale(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCreateSale(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCreateSale(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useCreateSale` Mutation requires an argument of type `CreateSaleVariables`:
+  const createSaleVars: CreateSaleVariables = {
+    userId: ..., 
+    saleDate: ..., 
+    total: ..., 
+  };
+  mutation.mutate(createSaleVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ userId: ..., saleDate: ..., total: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(createSaleVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.sales_insert);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## CreateSaleDetail
+You can execute the `CreateSaleDetail` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [default-2-connector/react/index.d.ts](./index.d.ts)):
+```javascript
+useCreateSaleDetail(options?: useDataConnectMutationOptions<CreateSaleDetailData, FirebaseError, CreateSaleDetailVariables>): UseDataConnectMutationResult<CreateSaleDetailData, CreateSaleDetailVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useCreateSaleDetail(dc: DataConnect, options?: useDataConnectMutationOptions<CreateSaleDetailData, FirebaseError, CreateSaleDetailVariables>): UseDataConnectMutationResult<CreateSaleDetailData, CreateSaleDetailVariables>;
+```
+
+### Variables
+The `CreateSaleDetail` Mutation requires an argument of type `CreateSaleDetailVariables`, which is defined in [default-2-connector/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface CreateSaleDetailVariables {
+  saleId: UUIDString;
+  productId: UUIDString;
+  quantity: number;
+  subtotal: number;
+}
+```
+### Return Type
+Recall that calling the `CreateSaleDetail` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `CreateSaleDetail` Mutation is of type `CreateSaleDetailData`, which is defined in [default-2-connector/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface CreateSaleDetailData {
+  saleDetails_insert: SaleDetails_Key;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `CreateSaleDetail`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, CreateSaleDetailVariables } from '@firebasegen/default-2-connector';
+import { useCreateSaleDetail } from '@firebasegen/default-2-connector/react'
+
+export default function CreateSaleDetailComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useCreateSaleDetail();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useCreateSaleDetail(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCreateSaleDetail(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCreateSaleDetail(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useCreateSaleDetail` Mutation requires an argument of type `CreateSaleDetailVariables`:
+  const createSaleDetailVars: CreateSaleDetailVariables = {
+    saleId: ..., 
+    productId: ..., 
+    quantity: ..., 
+    subtotal: ..., 
+  };
+  mutation.mutate(createSaleDetailVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ saleId: ..., productId: ..., quantity: ..., subtotal: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(createSaleDetailVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.saleDetails_insert);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## CreateShipment
+You can execute the `CreateShipment` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [default-2-connector/react/index.d.ts](./index.d.ts)):
+```javascript
+useCreateShipment(options?: useDataConnectMutationOptions<CreateShipmentData, FirebaseError, CreateShipmentVariables>): UseDataConnectMutationResult<CreateShipmentData, CreateShipmentVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useCreateShipment(dc: DataConnect, options?: useDataConnectMutationOptions<CreateShipmentData, FirebaseError, CreateShipmentVariables>): UseDataConnectMutationResult<CreateShipmentData, CreateShipmentVariables>;
+```
+
+### Variables
+The `CreateShipment` Mutation requires an argument of type `CreateShipmentVariables`, which is defined in [default-2-connector/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface CreateShipmentVariables {
+  saleId: UUIDString;
+  address: string;
+  city: string;
+}
+```
+### Return Type
+Recall that calling the `CreateShipment` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `CreateShipment` Mutation is of type `CreateShipmentData`, which is defined in [default-2-connector/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface CreateShipmentData {
+  shipments_insert: Shipments_Key;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `CreateShipment`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, CreateShipmentVariables } from '@firebasegen/default-2-connector';
+import { useCreateShipment } from '@firebasegen/default-2-connector/react'
+
+export default function CreateShipmentComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useCreateShipment();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useCreateShipment(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCreateShipment(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useCreateShipment(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useCreateShipment` Mutation requires an argument of type `CreateShipmentVariables`:
+  const createShipmentVars: CreateShipmentVariables = {
+    saleId: ..., 
+    address: ..., 
+    city: ..., 
+  };
+  mutation.mutate(createShipmentVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ saleId: ..., address: ..., city: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(createShipmentVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.shipments_insert);
   }
   return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
 }

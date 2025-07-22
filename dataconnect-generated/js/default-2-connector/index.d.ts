@@ -10,6 +10,37 @@ export type DateString = string;
 
 
 
+export interface CreateSaleData {
+  sales_insert: Sales_Key;
+}
+
+export interface CreateSaleDetailData {
+  saleDetails_insert: SaleDetails_Key;
+}
+
+export interface CreateSaleDetailVariables {
+  saleId: UUIDString;
+  productId: UUIDString;
+  quantity: number;
+  subtotal: number;
+}
+
+export interface CreateSaleVariables {
+  userId: string;
+  saleDate: DateString;
+  total: number;
+}
+
+export interface CreateShipmentData {
+  shipments_insert: Shipments_Key;
+}
+
+export interface CreateShipmentVariables {
+  saleId: UUIDString;
+  address: string;
+  city: string;
+}
+
 export interface CreateUserData {
   users_insert: Users_Key;
 }
@@ -140,6 +171,42 @@ export const updateUserRoleRef: UpdateUserRoleRef;
 
 export function updateUserRole(vars: UpdateUserRoleVariables): MutationPromise<UpdateUserRoleData, UpdateUserRoleVariables>;
 export function updateUserRole(dc: DataConnect, vars: UpdateUserRoleVariables): MutationPromise<UpdateUserRoleData, UpdateUserRoleVariables>;
+
+interface CreateSaleRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateSaleVariables): MutationRef<CreateSaleData, CreateSaleVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateSaleVariables): MutationRef<CreateSaleData, CreateSaleVariables>;
+  operationName: string;
+}
+export const createSaleRef: CreateSaleRef;
+
+export function createSale(vars: CreateSaleVariables): MutationPromise<CreateSaleData, CreateSaleVariables>;
+export function createSale(dc: DataConnect, vars: CreateSaleVariables): MutationPromise<CreateSaleData, CreateSaleVariables>;
+
+interface CreateSaleDetailRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateSaleDetailVariables): MutationRef<CreateSaleDetailData, CreateSaleDetailVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateSaleDetailVariables): MutationRef<CreateSaleDetailData, CreateSaleDetailVariables>;
+  operationName: string;
+}
+export const createSaleDetailRef: CreateSaleDetailRef;
+
+export function createSaleDetail(vars: CreateSaleDetailVariables): MutationPromise<CreateSaleDetailData, CreateSaleDetailVariables>;
+export function createSaleDetail(dc: DataConnect, vars: CreateSaleDetailVariables): MutationPromise<CreateSaleDetailData, CreateSaleDetailVariables>;
+
+interface CreateShipmentRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateShipmentVariables): MutationRef<CreateShipmentData, CreateShipmentVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateShipmentVariables): MutationRef<CreateShipmentData, CreateShipmentVariables>;
+  operationName: string;
+}
+export const createShipmentRef: CreateShipmentRef;
+
+export function createShipment(vars: CreateShipmentVariables): MutationPromise<CreateShipmentData, CreateShipmentVariables>;
+export function createShipment(dc: DataConnect, vars: CreateShipmentVariables): MutationPromise<CreateShipmentData, CreateShipmentVariables>;
 
 interface ListProductsRef {
   /* Allow users to create refs without passing in DataConnect */
