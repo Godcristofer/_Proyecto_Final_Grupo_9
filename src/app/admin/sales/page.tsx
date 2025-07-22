@@ -34,10 +34,10 @@ async function getSales() {
     const dataConnect = getDataConnect(connectorConfig, { app });
     const { data } = await listSales(dataConnect);
     
-    if (!data || !data.sales) {
+    if (!data || !data.saless) {
       return [];
     }
-    return data.sales;
+    return data.saless;
   } catch (error) {
     console.error("Error fetching sales:", error);
     return [];
@@ -88,7 +88,7 @@ export default async function SalesAdminPage() {
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {sale.details.map(detail => (
+                              {sale.saleDetailss_on_sale.map(detail => (
                                 <TableRow key={detail.id}>
                                   <TableCell>{detail.product.name}</TableCell>
                                   <TableCell>{detail.quantity}</TableCell>
@@ -101,10 +101,15 @@ export default async function SalesAdminPage() {
                          <div>
                           <h4 className="font-semibold mb-2">Envío</h4>
                            <div className="text-sm space-y-2">
-                              <p><span className="font-medium">Dirección: </span>{sale.shipment?.address || 'No especificada'}</p>
-                              <p><span className="font-medium">Ciudad: </span>{sale.shipment?.city || 'No especificada'}</p>
+                              <p><span className="font-medium">Dirección: </span>{sale.shipments_on_sale?.address || 'No especificada'}</p>
+                              <p><span className="font-medium">Ciudad: </span>{sale.shipments_on_sale?.city || 'No especificada'}</p>
                                <div className="pt-2">
-                                <UpdateStatusForm saleId={sale.id} currentStatus={sale.shipment?.status || 'pending'} />
+                                {sale.shipments_on_sale ? (
+                                    <UpdateStatusForm 
+                                        shipmentId={sale.shipments_on_sale.id} 
+                                        currentStatus={sale.shipments_on_sale.status} 
+                                    />
+                                 ) : <p>Sin información de envío.</p>}
                                </div>
                            </div>
                         </div>

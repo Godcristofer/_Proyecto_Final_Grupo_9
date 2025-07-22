@@ -1,12 +1,10 @@
-mutation updateShipmentStatus($saleId: UUID!, $status: String!) {
+mutation updateShipmentStatus($id: UUID!, $status: String!) @auth(level: PUBLIC) {
   shipments_update(
-    filter: {
-      saleId: {
-        eq: $saleId
-      }
-    },
+    where: { id: $id }
     data: {
       status: $status
     }
-  )
+  ) {
+    id
+  }
 }

@@ -67,6 +67,18 @@ exports.createShipment = function createShipment(dcOrVars, vars) {
   return executeMutation(createShipmentRef(dcOrVars, vars));
 };
 
+const updateShipmentStatusRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'updateShipmentStatus', inputVars);
+}
+updateShipmentStatusRef.operationName = 'updateShipmentStatus';
+exports.updateShipmentStatusRef = updateShipmentStatusRef;
+
+exports.updateShipmentStatus = function updateShipmentStatus(dcOrVars, vars) {
+  return executeMutation(updateShipmentStatusRef(dcOrVars, vars));
+};
+
 const listProductsRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();

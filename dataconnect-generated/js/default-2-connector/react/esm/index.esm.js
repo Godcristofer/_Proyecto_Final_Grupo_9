@@ -1,4 +1,4 @@
-import { createUserRef, updateUserRoleRef, createSaleRef, createSaleDetailRef, createShipmentRef, listProductsRef, getProductRef, listProductsByCategoryRef, listUsersRef, getUserByIdRef, listSalesRef, connectorConfig } from '../../esm/index.esm.js';
+import { createUserRef, updateUserRoleRef, createSaleRef, createSaleDetailRef, createShipmentRef, updateShipmentStatusRef, listProductsRef, getProductRef, listProductsByCategoryRef, listUsersRef, getUserByIdRef, listSalesRef, connectorConfig } from '../../esm/index.esm.js';
 import { validateArgs, CallerSdkTypeEnum } from 'firebase/data-connect';
 import { useDataConnectQuery, useDataConnectMutation, validateReactArgs } from '@tanstack-query-firebase/react/data-connect';
 
@@ -38,6 +38,14 @@ export function useCreateShipment(dcOrOptions, options) {
   const { dc: dcInstance, vars: inputOpts } = validateArgs(connectorConfig, dcOrOptions, options);
   function refFactory(vars) {
     return createShipmentRef(dcInstance, vars);
+  }
+  return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+export function useUpdateShipmentStatus(dcOrOptions, options) {
+  const { dc: dcInstance, vars: inputOpts } = validateArgs(connectorConfig, dcOrOptions, options);
+  function refFactory(vars) {
+    return updateShipmentStatusRef(dcInstance, vars);
   }
   return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }

@@ -1,24 +1,28 @@
-
-query listSales {
-  sales {
+query ListSales @auth(level: PUBLIC) {
+  saless {
     id
     saleDate
     total
     user {
       name
+      email
     }
-    details {
+    saleDetailss_on_sale {
       id
-      quantity
-      subtotal
       product {
         name
+        price
       }
+      quantity
+      subtotal
     }
-    shipment {
+    shipments_on_sale {
+      id
       address
       city
       status
+      shippedAt
+      deliveredAt
     }
   }
 }

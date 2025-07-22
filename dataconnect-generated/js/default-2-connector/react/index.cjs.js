@@ -1,4 +1,4 @@
-const { createUserRef, updateUserRoleRef, createSaleRef, createSaleDetailRef, createShipmentRef, listProductsRef, getProductRef, listProductsByCategoryRef, listUsersRef, getUserByIdRef, listSalesRef, connectorConfig } = require('../index.cjs.js');
+const { createUserRef, updateUserRoleRef, createSaleRef, createSaleDetailRef, createShipmentRef, updateShipmentStatusRef, listProductsRef, getProductRef, listProductsByCategoryRef, listUsersRef, getUserByIdRef, listSalesRef, connectorConfig } = require('../index.cjs.js');
 const { validateArgs, CallerSdkTypeEnum } = require('firebase/data-connect');
 const { useDataConnectQuery, useDataConnectMutation, validateReactArgs } = require('@tanstack-query-firebase/react/data-connect');
 
@@ -38,6 +38,14 @@ exports.useCreateShipment = function useCreateShipment(dcOrOptions, options) {
   const { dc: dcInstance, vars: inputOpts } = validateArgs(connectorConfig, dcOrOptions, options);
   function refFactory(vars) {
     return createShipmentRef(dcInstance, vars);
+  }
+  return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+exports.useUpdateShipmentStatus = function useUpdateShipmentStatus(dcOrOptions, options) {
+  const { dc: dcInstance, vars: inputOpts } = validateArgs(connectorConfig, dcOrOptions, options);
+  function refFactory(vars) {
+    return updateShipmentStatusRef(dcInstance, vars);
   }
   return useDataConnectMutation(refFactory, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }

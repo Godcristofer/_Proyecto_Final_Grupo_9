@@ -19,11 +19,11 @@ import { getDataConnect } from 'firebase/data-connect';
 import { connectorConfig, updateShipmentStatus } from '@firebasegen/default-2-connector';
 
 interface UpdateStatusFormProps {
-    saleId: string;
+    shipmentId: string;
     currentStatus: string;
 }
 
-export default function UpdateStatusForm({ saleId, currentStatus }: UpdateStatusFormProps) {
+export default function UpdateStatusForm({ shipmentId, currentStatus }: UpdateStatusFormProps) {
     const [status, setStatus] = useState(currentStatus);
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
@@ -36,7 +36,7 @@ export default function UpdateStatusForm({ saleId, currentStatus }: UpdateStatus
         try {
             const app = getFirebaseApp();
             const dataConnect = getDataConnect(connectorConfig, { app });
-            await updateShipmentStatus(dataConnect, { saleId, status });
+            await updateShipmentStatus(dataConnect, { id: shipmentId, status });
             
             toast({
                 title: "¡Éxito!",

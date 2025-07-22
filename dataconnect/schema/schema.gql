@@ -7,7 +7,7 @@ type Products @table {
   category: String
 }
 
-type Users @table(name: "users") {
+type Users @table(name: "users", key: "id") {
   id: String!
   name: String
   email: String! @unique
@@ -18,7 +18,7 @@ type Users @table(name: "users") {
   updatedAt: Timestamp! @col(name: "updated_at") @default(expr: "request.time")
 }
 
-type Sales @table(name: "sales") {
+type Sales @table(name: "sales", key: "id") {
   id: UUID! @default(expr: "uuidV4()")
   userId: String! @col(name: "user_id")
   user: Users! @ref(fields: "userId", references: "id")
@@ -26,7 +26,7 @@ type Sales @table(name: "sales") {
   total: Float!
 }
 
-type SaleDetails @table(name: "sale_details") {
+type SaleDetails @table(name: "sale_details", key: "id") {
   id: UUID! @default(expr: "uuidV4()")
   saleId: UUID! @col(name: "sale_id")
   sale: Sales! @ref(fields: "saleId", references: "id")
@@ -36,10 +36,8 @@ type SaleDetails @table(name: "sale_details") {
   subtotal: Float!
 }
 
-type Shipments @table(name: "shipments") {
-  id: UUID! @default(expr: "uuidV4()")
-  saleId: UUID! @col(name: "sale_id") @unique
-  sale: Sales! @ref(fields: "saleId", references: "id")
+type Shipments @table{
+  sale: Sales! @unique
   address: String!
   city: String!
   status: String! @default(value: "pending")

@@ -22,6 +22,7 @@ This README will guide you through the process of using the generated JavaScript
   - [*CreateSale*](#createsale)
   - [*CreateSaleDetail*](#createsaledetail)
   - [*CreateShipment*](#createshipment)
+  - [*updateShipmentStatus*](#updateshipmentstatus)
 
 # Accessing the connector
 A connector is a collection of Queries and Mutations. One SDK is generated for each connector - this SDK is generated for the connector `default-2`. You can find more information about connectors in the [Data Connect documentation](https://firebase.google.com/docs/data-connect#how-does).
@@ -1287,6 +1288,118 @@ console.log(data.shipments_insert);
 executeMutation(ref).then((response) => {
   const data = response.data;
   console.log(data.shipments_insert);
+});
+```
+
+## updateShipmentStatus
+You can execute the `updateShipmentStatus` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
+```typescript
+updateShipmentStatus(vars: UpdateShipmentStatusVariables): MutationPromise<UpdateShipmentStatusData, UpdateShipmentStatusVariables>;
+
+interface UpdateShipmentStatusRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateShipmentStatusVariables): MutationRef<UpdateShipmentStatusData, UpdateShipmentStatusVariables>;
+}
+export const updateShipmentStatusRef: UpdateShipmentStatusRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+updateShipmentStatus(dc: DataConnect, vars: UpdateShipmentStatusVariables): MutationPromise<UpdateShipmentStatusData, UpdateShipmentStatusVariables>;
+
+interface UpdateShipmentStatusRef {
+  ...
+  (dc: DataConnect, vars: UpdateShipmentStatusVariables): MutationRef<UpdateShipmentStatusData, UpdateShipmentStatusVariables>;
+}
+export const updateShipmentStatusRef: UpdateShipmentStatusRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the updateShipmentStatusRef:
+```typescript
+const name = updateShipmentStatusRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `updateShipmentStatus` mutation requires an argument of type `UpdateShipmentStatusVariables`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface UpdateShipmentStatusVariables {
+  saleId: UUIDString;
+  status: string;
+}
+```
+### Return Type
+Recall that executing the `updateShipmentStatus` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `UpdateShipmentStatusData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface UpdateShipmentStatusData {
+  shipments_upsert: Shipments_Key;
+}
+```
+### Using `updateShipmentStatus`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, updateShipmentStatus, UpdateShipmentStatusVariables } from '@firebasegen/default-2-connector';
+
+// The `updateShipmentStatus` mutation requires an argument of type `UpdateShipmentStatusVariables`:
+const updateShipmentStatusVars: UpdateShipmentStatusVariables = {
+  saleId: ..., 
+  status: ..., 
+};
+
+// Call the `updateShipmentStatus()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await updateShipmentStatus(updateShipmentStatusVars);
+// Variables can be defined inline as well.
+const { data } = await updateShipmentStatus({ saleId: ..., status: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await updateShipmentStatus(dataConnect, updateShipmentStatusVars);
+
+console.log(data.shipments_upsert);
+
+// Or, you can use the `Promise` API.
+updateShipmentStatus(updateShipmentStatusVars).then((response) => {
+  const data = response.data;
+  console.log(data.shipments_upsert);
+});
+```
+
+### Using `updateShipmentStatus`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, updateShipmentStatusRef, UpdateShipmentStatusVariables } from '@firebasegen/default-2-connector';
+
+// The `updateShipmentStatus` mutation requires an argument of type `UpdateShipmentStatusVariables`:
+const updateShipmentStatusVars: UpdateShipmentStatusVariables = {
+  saleId: ..., 
+  status: ..., 
+};
+
+// Call the `updateShipmentStatusRef()` function to get a reference to the mutation.
+const ref = updateShipmentStatusRef(updateShipmentStatusVars);
+// Variables can be defined inline as well.
+const ref = updateShipmentStatusRef({ saleId: ..., status: ..., });
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = updateShipmentStatusRef(dataConnect, updateShipmentStatusVars);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.shipments_upsert);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.shipments_upsert);
 });
 ```
 

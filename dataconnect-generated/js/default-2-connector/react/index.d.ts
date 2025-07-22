@@ -1,4 +1,4 @@
-import { CreateUserData, CreateUserVariables, UpdateUserRoleData, UpdateUserRoleVariables, CreateSaleData, CreateSaleVariables, CreateSaleDetailData, CreateSaleDetailVariables, CreateShipmentData, CreateShipmentVariables, ListProductsData, GetProductData, ListProductsByCategoryData, ListUsersData, GetUserByIdData, GetUserByIdVariables, ListSalesData } from '../';
+import { CreateUserData, CreateUserVariables, UpdateUserRoleData, UpdateUserRoleVariables, CreateSaleData, CreateSaleVariables, CreateSaleDetailData, CreateSaleDetailVariables, CreateShipmentData, CreateShipmentVariables, UpdateShipmentStatusData, UpdateShipmentStatusVariables, ListProductsData, GetProductData, ListProductsByCategoryData, ListUsersData, GetUserByIdData, GetUserByIdVariables, ListSalesData } from '../';
 import { UseDataConnectQueryResult, useDataConnectQueryOptions, UseDataConnectMutationResult, useDataConnectMutationOptions} from '@tanstack-query-firebase/react/data-connect';
 import { UseQueryResult, UseMutationResult} from '@tanstack/react-query';
 import { DataConnect } from 'firebase/data-connect';
@@ -19,6 +19,9 @@ export function useCreateSaleDetail(dc: DataConnect, options?: useDataConnectMut
 
 export function useCreateShipment(options?: useDataConnectMutationOptions<CreateShipmentData, FirebaseError, CreateShipmentVariables>): UseDataConnectMutationResult<CreateShipmentData, CreateShipmentVariables>;
 export function useCreateShipment(dc: DataConnect, options?: useDataConnectMutationOptions<CreateShipmentData, FirebaseError, CreateShipmentVariables>): UseDataConnectMutationResult<CreateShipmentData, CreateShipmentVariables>;
+
+export function useUpdateShipmentStatus(options?: useDataConnectMutationOptions<UpdateShipmentStatusData, FirebaseError, UpdateShipmentStatusVariables>): UseDataConnectMutationResult<UpdateShipmentStatusData, UpdateShipmentStatusVariables>;
+export function useUpdateShipmentStatus(dc: DataConnect, options?: useDataConnectMutationOptions<UpdateShipmentStatusData, FirebaseError, UpdateShipmentStatusVariables>): UseDataConnectMutationResult<UpdateShipmentStatusData, UpdateShipmentStatusVariables>;
 
 export function useListProducts(options?: useDataConnectQueryOptions<ListProductsData>): UseDataConnectQueryResult<ListProductsData, undefined>;
 export function useListProducts(dc: DataConnect, options?: useDataConnectQueryOptions<ListProductsData>): UseDataConnectQueryResult<ListProductsData, undefined>;

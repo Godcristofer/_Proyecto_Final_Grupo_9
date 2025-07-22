@@ -161,6 +161,15 @@ export interface Shipments_Key {
   __typename?: 'Shipments_Key';
 }
 
+export interface UpdateShipmentStatusData {
+  shipments_upsert: Shipments_Key;
+}
+
+export interface UpdateShipmentStatusVariables {
+  saleId: UUIDString;
+  status: string;
+}
+
 export interface UpdateUserRoleData {
   users_update?: Users_Key | null;
 }
@@ -234,6 +243,18 @@ export const createShipmentRef: CreateShipmentRef;
 
 export function createShipment(vars: CreateShipmentVariables): MutationPromise<CreateShipmentData, CreateShipmentVariables>;
 export function createShipment(dc: DataConnect, vars: CreateShipmentVariables): MutationPromise<CreateShipmentData, CreateShipmentVariables>;
+
+interface UpdateShipmentStatusRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateShipmentStatusVariables): MutationRef<UpdateShipmentStatusData, UpdateShipmentStatusVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateShipmentStatusVariables): MutationRef<UpdateShipmentStatusData, UpdateShipmentStatusVariables>;
+  operationName: string;
+}
+export const updateShipmentStatusRef: UpdateShipmentStatusRef;
+
+export function updateShipmentStatus(vars: UpdateShipmentStatusVariables): MutationPromise<UpdateShipmentStatusData, UpdateShipmentStatusVariables>;
+export function updateShipmentStatus(dc: DataConnect, vars: UpdateShipmentStatusVariables): MutationPromise<UpdateShipmentStatusData, UpdateShipmentStatusVariables>;
 
 interface ListProductsRef {
   /* Allow users to create refs without passing in DataConnect */
