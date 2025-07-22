@@ -12,26 +12,39 @@ if (!admin.apps.length) {
 }
 
 async function AdminLayout({ children }: { children: React.ReactNode }) {
+    console.log("--- AdminLayout: Verificación de acceso iniciada ---");
     
     const sessionCookie = cookies().get('session')?.value;
 
     if (!sessionCookie) {
+        console.log("AdminLayout: No se encontró la cookie de sesión. Redirigiendo a /login.");
         return redirect("/login");
     }
+    console.log("AdminLayout: Cookie de sesión encontrada.");
 
     try {
         const decodedClaims = await admin.auth().verifySessionCookie(sessionCookie, true);
-        const user = await getUserById(decodedClaims.uid);
+        console.log(`AdminLayout: Cookie verificada para UID: ${decodedClaims.uid}`);
         
-        if (!user || user.role !== 'admin') {
-            console.log(`User ${decodedClaims.uid} does not have admin role, redirecting to home. Role: ${user?.role}`);
+        const user = await getUserById(decodedClaims.uid);
+        console.log("AdminLayout: Datos del usuario obtenidos de la base de datos:", user);
+        
+        if (!user) {
+            console.log(`AdminLayout: No se encontró un usuario en la base de datos con el UID: ${decodedClaims.uid}. Redirigiendo a /.`);
             return redirect('/');
         }
 
+        if (user.role !== 'admin') {
+            console.log(`AdminLayout: El usuario ${decodedClaims.uid} no tiene el rol de 'admin'. Rol encontrado: '${user.role}'. Redirigiendo a /.`);
+            return redirect('/');
+        }
+
+        console.log(`AdminLayout: Acceso concedido al usuario ${decodedClaims.uid} con rol 'admin'.`);
         return <>{children}</>;
 
     } catch (error) {
-        console.error("Error verifying admin session cookie:", error);
+        console.error("AdminLayout: Error al verificar la cookie de sesión:", error);
+        console.log("AdminLayout: Redirigiendo a /login debido a un error en la verificación.");
         return redirect("/login");
     }
 }
