@@ -16,3 +16,5 @@ mutation updateUserRole(
 )  @auth(level: PUBLIC) {
   users_update(id: $id, data: {role: $role})
 }
+
+
