@@ -39,3 +39,14 @@ query ListUsers @auth(level: PUBLIC) {
   }
 }
 
+query getUserById($id: String!) @auth(level: PUBLIC) {
+  users(id: $id ) {
+    id
+    name
+    email
+    role
+    createdAt
+    dni
+    phone
+  }
+}

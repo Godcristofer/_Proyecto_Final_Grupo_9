@@ -33,6 +33,22 @@ export interface GetProductData {
   } & Products_Key;
 }
 
+export interface GetUserByIdData {
+  users?: {
+    id: string;
+    name?: string | null;
+    email: string;
+    role?: string | null;
+    createdAt: TimestampString;
+    dni?: string | null;
+    phone?: string | null;
+  } & Users_Key;
+}
+
+export interface GetUserByIdVariables {
+  id: string;
+}
+
 export interface ListProductsByCategoryData {
   productss: ({
     id: UUIDString;
@@ -150,4 +166,16 @@ export const listUsersRef: ListUsersRef;
 
 export function listUsers(): QueryPromise<ListUsersData, undefined>;
 export function listUsers(dc: DataConnect): QueryPromise<ListUsersData, undefined>;
+
+interface GetUserByIdRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: GetUserByIdVariables): QueryRef<GetUserByIdData, GetUserByIdVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: GetUserByIdVariables): QueryRef<GetUserByIdData, GetUserByIdVariables>;
+  operationName: string;
+}
+export const getUserByIdRef: GetUserByIdRef;
+
+export function getUserById(vars: GetUserByIdVariables): QueryPromise<GetUserByIdData, GetUserByIdVariables>;
+export function getUserById(dc: DataConnect, vars: GetUserByIdVariables): QueryPromise<GetUserByIdData, GetUserByIdVariables>;
 

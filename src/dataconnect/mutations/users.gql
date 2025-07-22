@@ -1,18 +1,6 @@
-
-mutation CreateUser($id: String!, $email: String!, $name: String, $dni: String, $phone: String) {
-  users_insert(
-    data: {id: $id, email: $email, name: $name, dni: $dni, phone: $phone, role: "user"}
-  )
-}
-
 mutation updateUserRole($id: String!, $role: String!) {
-  users_update(
-    id: $id,
-    data: {
-      role: $role
+    users_update(id: $id, data: {role: $role}) {
+        id
+        role
     }
-  ) {
-    id
-    role
-  }
 }

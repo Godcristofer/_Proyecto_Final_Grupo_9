@@ -11,9 +11,10 @@ schema:
 connectorDirs:
   - ./connector
 mutations:
-  source: ./mutations
+  source: 
+    - ./mutations/shipments.gql
+    - ./mutations/users.gql
 queries:
   source: 
-    - ./queries
     - ./queries/sales.gql
     - ./queries/users.gql

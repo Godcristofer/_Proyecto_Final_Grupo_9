@@ -14,6 +14,7 @@ This README will guide you through the process of using the generated JavaScript
   - [*GetProduct*](#getproduct)
   - [*ListProductsByCategory*](#listproductsbycategory)
   - [*ListUsers*](#listusers)
+  - [*getUserById*](#getuserbyid)
 - [**Mutations**](#mutations)
   - [*CreateUser*](#createuser)
 
@@ -451,6 +452,123 @@ console.log(data.userss);
 executeQuery(ref).then((response) => {
   const data = response.data;
   console.log(data.userss);
+});
+```
+
+## getUserById
+You can execute the `getUserById` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
+```typescript
+getUserById(vars: GetUserByIdVariables): QueryPromise<GetUserByIdData, GetUserByIdVariables>;
+
+interface GetUserByIdRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: GetUserByIdVariables): QueryRef<GetUserByIdData, GetUserByIdVariables>;
+}
+export const getUserByIdRef: GetUserByIdRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+getUserById(dc: DataConnect, vars: GetUserByIdVariables): QueryPromise<GetUserByIdData, GetUserByIdVariables>;
+
+interface GetUserByIdRef {
+  ...
+  (dc: DataConnect, vars: GetUserByIdVariables): QueryRef<GetUserByIdData, GetUserByIdVariables>;
+}
+export const getUserByIdRef: GetUserByIdRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the getUserByIdRef:
+```typescript
+const name = getUserByIdRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `getUserById` query requires an argument of type `GetUserByIdVariables`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface GetUserByIdVariables {
+  id: string;
+}
+```
+### Return Type
+Recall that executing the `getUserById` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `GetUserByIdData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface GetUserByIdData {
+  users?: {
+    id: string;
+    name?: string | null;
+    email: string;
+    role?: string | null;
+    createdAt: TimestampString;
+    dni?: string | null;
+    phone?: string | null;
+  } & Users_Key;
+}
+```
+### Using `getUserById`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, getUserById, GetUserByIdVariables } from '@firebasegen/default-2-connector';
+
+// The `getUserById` query requires an argument of type `GetUserByIdVariables`:
+const getUserByIdVars: GetUserByIdVariables = {
+  id: ..., 
+};
+
+// Call the `getUserById()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await getUserById(getUserByIdVars);
+// Variables can be defined inline as well.
+const { data } = await getUserById({ id: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await getUserById(dataConnect, getUserByIdVars);
+
+console.log(data.users);
+
+// Or, you can use the `Promise` API.
+getUserById(getUserByIdVars).then((response) => {
+  const data = response.data;
+  console.log(data.users);
+});
+```
+
+### Using `getUserById`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, getUserByIdRef, GetUserByIdVariables } from '@firebasegen/default-2-connector';
+
+// The `getUserById` query requires an argument of type `GetUserByIdVariables`:
+const getUserByIdVars: GetUserByIdVariables = {
+  id: ..., 
+};
+
+// Call the `getUserByIdRef()` function to get a reference to the query.
+const ref = getUserByIdRef(getUserByIdVars);
+// Variables can be defined inline as well.
+const ref = getUserByIdRef({ id: ..., });
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = getUserByIdRef(dataConnect, getUserByIdVars);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.users);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.users);
 });
 ```
 
