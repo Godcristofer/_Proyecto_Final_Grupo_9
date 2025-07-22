@@ -13,6 +13,7 @@ type Users @table(name: "users") {
   email: String! @unique
   dni: String
   phone: String
+  role: String @col(default: "'user'")
   createdAt: Timestamp! @col(name: "created_at") @default(expr: "request.time")
   updatedAt: Timestamp! @col(name: "updated_at") @default(expr: "request.time")
 }
