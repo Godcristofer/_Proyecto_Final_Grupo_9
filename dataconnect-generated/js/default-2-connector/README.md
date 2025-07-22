@@ -394,7 +394,7 @@ The `data` property is an object of type `ListUsersData`, which is defined in [d
 ```typescript
 export interface ListUsersData {
   userss: ({
-    id: UUIDString;
+    id: string;
     name?: string | null;
     email: string;
     createdAt: TimestampString;
@@ -501,7 +501,7 @@ The `CreateUser` mutation requires an argument of type `CreateUserVariables`, wh
 
 ```typescript
 export interface CreateUserVariables {
-  id: UUIDString;
+  id: string;
   email: string;
   name?: string | null;
   dni?: string | null;

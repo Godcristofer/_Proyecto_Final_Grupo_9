@@ -364,7 +364,7 @@ To access the data returned by a Query, use the `UseQueryResult.data` field. The
 ```javascript
 export interface ListUsersData {
   userss: ({
-    id: UUIDString;
+    id: string;
     name?: string | null;
     email: string;
     createdAt: TimestampString;
@@ -456,7 +456,7 @@ The `CreateUser` Mutation requires an argument of type `CreateUserVariables`, wh
 
 ```javascript
 export interface CreateUserVariables {
-  id: UUIDString;
+  id: string;
   email: string;
   name?: string | null;
   dni?: string | null;

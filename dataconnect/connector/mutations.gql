@@ -1,4 +1,4 @@
-mutation CreateUser($id: UUID!, $email: String!, $name: String, $dni: String, $phone: String) @auth(level: NO_ACCESS) {
+mutation CreateUser($id: String!, $email: String!, $name: String, $dni: String, $phone: String) @auth(level: PUBLIC) {
   users_insert(
     data: {
       id: $id

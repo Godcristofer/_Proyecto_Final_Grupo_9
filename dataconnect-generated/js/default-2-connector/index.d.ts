@@ -15,7 +15,7 @@ export interface CreateUserData {
 }
 
 export interface CreateUserVariables {
-  id: UUIDString;
+  id: string;
   email: string;
   name?: string | null;
   dni?: string | null;
@@ -57,7 +57,7 @@ export interface ListProductsData {
 
 export interface ListUsersData {
   userss: ({
-    id: UUIDString;
+    id: string;
     name?: string | null;
     email: string;
     createdAt: TimestampString;
@@ -70,7 +70,7 @@ export interface Products_Key {
 }
 
 export interface Users_Key {
-  id: UUIDString;
+  id: string;
   __typename?: 'Users_Key';
 }
 
