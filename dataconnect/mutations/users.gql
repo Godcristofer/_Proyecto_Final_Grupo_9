@@ -1,0 +1,11 @@
+mutation CreateUser($id: UUID!, $email: String!, $name: String, $dni: String, $phone: String) @auth(level: ADMIN) {
+  users_insert(
+    data: {
+      id: $id
+      email: $email
+      name: $name
+      dni: $dni
+      phone: $phone
+    }
+  )
+}

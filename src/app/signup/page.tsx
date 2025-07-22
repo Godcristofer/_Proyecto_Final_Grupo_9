@@ -37,6 +37,8 @@ const formSchema = z.object({
   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }),
   email: z.string().email({ message: "Dirección de correo electrónico inválida." }),
   password: z.string().min(6, { message: "La contraseña debe tener al menos 6 caracteres." }),
+  dni: z.string().optional(),
+  phone: z.string().optional(),
 });
 
 export default function SignupPage() {
@@ -50,6 +52,8 @@ export default function SignupPage() {
       name: "",
       email: "",
       password: "",
+      dni: "",
+      phone: "",
     },
   });
 
@@ -76,6 +80,8 @@ export default function SignupPage() {
         id: user.uid,
         email: user.email!,
         name: values.name,
+        dni: values.dni,
+        phone: values.phone,
       });
       
       toast({
@@ -121,6 +127,32 @@ export default function SignupPage() {
                     <FormLabel>Nombre</FormLabel>
                     <FormControl>
                       <Input placeholder="Tu Nombre" {...field} disabled={loading} autoComplete="name" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+               <FormField
+                control={form.control}
+                name="dni"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>DNI</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Tu DNI" {...field} disabled={loading} autoComplete="off" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+               <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Teléfono</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Tu número de teléfono" {...field} disabled={loading} autoComplete="tel" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
