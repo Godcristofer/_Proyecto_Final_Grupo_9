@@ -1,12 +1,9 @@
-
-"""
-Represents a sale made in the store.
-"""
 type Sales @table(name: "sales") {
-  id: UUID!
+  id: ID!
   userId: String! @col(name: "user_id")
-  user: Users! @ref(references: "id")
-  total: Float!
+  user: Users! @ref(fields: "userId", references: "id")
   saleDate: Timestamp! @col(name: "sale_date", default: "now()")
-  status: String! @col(default: "'pending'") # e.g., pending, completed, cancelled
+  total: Float!
+  details: [SaleDetails]! @ref(references: "saleId")
+  shipment: Shipments @ref(references: "saleId")
 }

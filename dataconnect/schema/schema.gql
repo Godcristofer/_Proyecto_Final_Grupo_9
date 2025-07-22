@@ -17,3 +17,37 @@ type Users @table(name: "users") {
   createdAt: Timestamp! @col(name: "created_at") @default(expr: "request.time")
   updatedAt: Timestamp! @col(name: "updated_at") @default(expr: "request.time")
 }
+
+type Sales @table(name: "sales") {
+  id: ID!
+  userId: String! @col(name: "user_id")
+  user: Users! @ref(fields: "id")
+  saleDate: Date! @col(name: "sale_date") @default(expr: "request.time")
+  total: Float!
+  details: [SaleDetails]! @ref(fields: "saleId")
+  shipment: Shipments @ref(fields: "saleId")
+}
+
+
+type SaleDetails @table(name: "sale_details") {
+  id: ID!
+  saleId: ID! @col(name: "sale_id")
+  sale: Sales! @ref(references: "id")
+  productId: UUID! @col(name: "product_id")
+  product: Products! @ref(references: "id")
+  quantity: Int!
+  subtotal: Float!
+}
+
+type Shipments @table(name: "shipments") {
+  id: ID!
+  saleId: ID! @col(name: "sale_id") @unique
+  sale: Sales! @ref(fields: "id")
+  address: String!
+  city: String!
+  status: String! @col(default: "'pending'")
+  shippedAt: Timestamp @col(name: "shipped_at")
+  deliveredAt: Timestamp @col(name: "delivered_at")
+  createdAt: Timestamp! @col(name: "created_at") @default(expr: "request.time")
+  updatedAt: Timestamp! @col(name: "updated_at") @default(expr: "request.time")
+}

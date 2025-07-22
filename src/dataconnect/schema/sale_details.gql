@@ -1,13 +1,9 @@
-
-"""
-Represents an individual item within a sale.
-"""
 type SaleDetails @table(name: "sale_details") {
-  id: UUID!
-  saleId: UUID! @col(name: "sale_id")
+  id: ID!
+  saleId: ID! @col(name: "sale_id")
   sale: Sales! @ref(references: "id")
-  productId: String! @col(name: "product_id")
+  productId: UUID! @col(name: "product_id")
   product: Products! @ref(references: "id")
   quantity: Int!
-  unitPrice: Float! @col(name: "unit_price")
+  subtotal: Float!
 }
