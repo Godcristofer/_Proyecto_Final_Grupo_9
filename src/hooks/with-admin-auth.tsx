@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { getFirebaseAuth } from "next-firebase-auth-edge/lib/auth";
 import { firebaseAdminConfig } from "@/lib/firebase-admin-config";
 
-const {事件} = getFirebaseAuth({
+const { auth } = getFirebaseAuth({
     ...firebaseAdminConfig,
     checkRevoked: true,
 });
@@ -13,7 +13,7 @@ const withAdminAuth = <P extends object>(
   Component: React.ComponentType<P>
 ) => {
   return async function WithAdminAuth(props: P) {
-    const tokens = await event.getTokens(cookies(), {
+    const tokens = await auth.getTokens(cookies(), {
       checkRevoked: true,
     });
 

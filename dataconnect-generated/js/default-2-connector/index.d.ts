@@ -91,6 +91,18 @@ export interface Users_Key {
   __typename?: 'Users_Key';
 }
 
+interface CreateUserRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
+  operationName: string;
+}
+export const createUserRef: CreateUserRef;
+
+export function createUser(vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
+export function createUser(dc: DataConnect, vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
+
 interface ListProductsRef {
   /* Allow users to create refs without passing in DataConnect */
   (): QueryRef<ListProductsData, undefined>;
@@ -138,16 +150,4 @@ export const listUsersRef: ListUsersRef;
 
 export function listUsers(): QueryPromise<ListUsersData, undefined>;
 export function listUsers(dc: DataConnect): QueryPromise<ListUsersData, undefined>;
-
-interface CreateUserRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
-  operationName: string;
-}
-export const createUserRef: CreateUserRef;
-
-export function createUser(vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
-export function createUser(dc: DataConnect, vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
 
