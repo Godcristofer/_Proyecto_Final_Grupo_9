@@ -17,6 +17,7 @@ This README will guide you through the process of using the generated JavaScript
   - [*getUserById*](#getuserbyid)
 - [**Mutations**](#mutations)
   - [*CreateUser*](#createuser)
+  - [*updateUserRole*](#updateuserrole)
 
 # Accessing the connector
 A connector is a collection of Queries and Mutations. One SDK is generated for each connector - this SDK is generated for the connector `default-2`. You can find more information about connectors in the [Data Connect documentation](https://firebase.google.com/docs/data-connect#how-does).
@@ -626,6 +627,7 @@ export interface CreateUserVariables {
   name?: string | null;
   dni?: string | null;
   phone?: string | null;
+  role?: string | null;
 }
 ```
 ### Return Type
@@ -650,13 +652,14 @@ const createUserVars: CreateUserVariables = {
   name: ..., // optional
   dni: ..., // optional
   phone: ..., // optional
+  role: ..., // optional
 };
 
 // Call the `createUser()` function to execute the mutation.
 // You can use the `await` keyword to wait for the promise to resolve.
 const { data } = await createUser(createUserVars);
 // Variables can be defined inline as well.
-const { data } = await createUser({ id: ..., email: ..., name: ..., dni: ..., phone: ..., });
+const { data } = await createUser({ id: ..., email: ..., name: ..., dni: ..., phone: ..., role: ..., });
 
 // You can also pass in a `DataConnect` instance to the action shortcut function.
 const dataConnect = getDataConnect(connectorConfig);
@@ -684,12 +687,13 @@ const createUserVars: CreateUserVariables = {
   name: ..., // optional
   dni: ..., // optional
   phone: ..., // optional
+  role: ..., // optional
 };
 
 // Call the `createUserRef()` function to get a reference to the mutation.
 const ref = createUserRef(createUserVars);
 // Variables can be defined inline as well.
-const ref = createUserRef({ id: ..., email: ..., name: ..., dni: ..., phone: ..., });
+const ref = createUserRef({ id: ..., email: ..., name: ..., dni: ..., phone: ..., role: ..., });
 
 // You can also pass in a `DataConnect` instance to the `MutationRef` function.
 const dataConnect = getDataConnect(connectorConfig);
@@ -705,6 +709,118 @@ console.log(data.users_insert);
 executeMutation(ref).then((response) => {
   const data = response.data;
   console.log(data.users_insert);
+});
+```
+
+## updateUserRole
+You can execute the `updateUserRole` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
+```typescript
+updateUserRole(vars: UpdateUserRoleVariables): MutationPromise<UpdateUserRoleData, UpdateUserRoleVariables>;
+
+interface UpdateUserRoleRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateUserRoleVariables): MutationRef<UpdateUserRoleData, UpdateUserRoleVariables>;
+}
+export const updateUserRoleRef: UpdateUserRoleRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
+```typescript
+updateUserRole(dc: DataConnect, vars: UpdateUserRoleVariables): MutationPromise<UpdateUserRoleData, UpdateUserRoleVariables>;
+
+interface UpdateUserRoleRef {
+  ...
+  (dc: DataConnect, vars: UpdateUserRoleVariables): MutationRef<UpdateUserRoleData, UpdateUserRoleVariables>;
+}
+export const updateUserRoleRef: UpdateUserRoleRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the updateUserRoleRef:
+```typescript
+const name = updateUserRoleRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `updateUserRole` mutation requires an argument of type `UpdateUserRoleVariables`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+
+```typescript
+export interface UpdateUserRoleVariables {
+  id: string;
+  role: string;
+}
+```
+### Return Type
+Recall that executing the `updateUserRole` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `UpdateUserRoleData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface UpdateUserRoleData {
+  users_update?: Users_Key | null;
+}
+```
+### Using `updateUserRole`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, updateUserRole, UpdateUserRoleVariables } from '@firebasegen/default-2-connector';
+
+// The `updateUserRole` mutation requires an argument of type `UpdateUserRoleVariables`:
+const updateUserRoleVars: UpdateUserRoleVariables = {
+  id: ..., 
+  role: ..., 
+};
+
+// Call the `updateUserRole()` function to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await updateUserRole(updateUserRoleVars);
+// Variables can be defined inline as well.
+const { data } = await updateUserRole({ id: ..., role: ..., });
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await updateUserRole(dataConnect, updateUserRoleVars);
+
+console.log(data.users_update);
+
+// Or, you can use the `Promise` API.
+updateUserRole(updateUserRoleVars).then((response) => {
+  const data = response.data;
+  console.log(data.users_update);
+});
+```
+
+### Using `updateUserRole`'s `MutationRef` function
+
+```typescript
+import { getDataConnect, executeMutation } from 'firebase/data-connect';
+import { connectorConfig, updateUserRoleRef, UpdateUserRoleVariables } from '@firebasegen/default-2-connector';
+
+// The `updateUserRole` mutation requires an argument of type `UpdateUserRoleVariables`:
+const updateUserRoleVars: UpdateUserRoleVariables = {
+  id: ..., 
+  role: ..., 
+};
+
+// Call the `updateUserRoleRef()` function to get a reference to the mutation.
+const ref = updateUserRoleRef(updateUserRoleVars);
+// Variables can be defined inline as well.
+const ref = updateUserRoleRef({ id: ..., role: ..., });
+
+// You can also pass in a `DataConnect` instance to the `MutationRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = updateUserRoleRef(dataConnect, updateUserRoleVars);
+
+// Call `executeMutation()` on the reference to execute the mutation.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeMutation(ref);
+
+console.log(data.users_update);
+
+// Or, you can use the `Promise` API.
+executeMutation(ref).then((response) => {
+  const data = response.data;
+  console.log(data.users_update);
 });
 ```
 

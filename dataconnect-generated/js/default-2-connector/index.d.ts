@@ -20,6 +20,7 @@ export interface CreateUserVariables {
   name?: string | null;
   dni?: string | null;
   phone?: string | null;
+  role?: string | null;
 }
 
 export interface GetProductData {
@@ -102,6 +103,15 @@ export interface Shipments_Key {
   __typename?: 'Shipments_Key';
 }
 
+export interface UpdateUserRoleData {
+  users_update?: Users_Key | null;
+}
+
+export interface UpdateUserRoleVariables {
+  id: string;
+  role: string;
+}
+
 export interface Users_Key {
   id: string;
   __typename?: 'Users_Key';
@@ -118,6 +128,18 @@ export const createUserRef: CreateUserRef;
 
 export function createUser(vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
 export function createUser(dc: DataConnect, vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
+
+interface UpdateUserRoleRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: UpdateUserRoleVariables): MutationRef<UpdateUserRoleData, UpdateUserRoleVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: UpdateUserRoleVariables): MutationRef<UpdateUserRoleData, UpdateUserRoleVariables>;
+  operationName: string;
+}
+export const updateUserRoleRef: UpdateUserRoleRef;
+
+export function updateUserRole(vars: UpdateUserRoleVariables): MutationPromise<UpdateUserRoleData, UpdateUserRoleVariables>;
+export function updateUserRole(dc: DataConnect, vars: UpdateUserRoleVariables): MutationPromise<UpdateUserRoleData, UpdateUserRoleVariables>;
 
 interface ListProductsRef {
   /* Allow users to create refs without passing in DataConnect */

@@ -2,31 +2,37 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/lib/users";
-import { getFirebaseAuth } from "next-firebase-auth-edge/lib/auth";
+import admin from 'firebase-admin';
 import { firebaseAdminConfig } from "@/lib/firebase-admin-config";
 
-const auth = getFirebaseAuth({
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
-    ...firebaseAdminConfig
-});
+if (!admin.apps.length) {
+    admin.initializeApp({
+        credential: admin.credential.cert(firebaseAdminConfig)
+    });
+}
 
 async function AdminLayout({ children }: { children: React.ReactNode }) {
     
-    const tokens = await auth.getTokens(cookies(), {
-      checkRevoked: true
-    });
+    const sessionCookie = cookies().get('session')?.value;
 
-    if (!tokens) {
-        redirect("/login");
+    if (!sessionCookie) {
+        return redirect("/login");
     }
 
-    const user = await getUserById(tokens.decodedToken.uid);
+    try {
+        const decodedClaims = await admin.auth().verifySessionCookie(sessionCookie, true);
+        const user = await getUserById(decodedClaims.uid);
 
-    if (user?.role !== 'admin') {
-        redirect('/');
+        if (user?.role !== 'admin') {
+            return redirect('/');
+        }
+
+        return <>{children}</>;
+
+    } catch (error) {
+        console.error("Error verifying session cookie:", error);
+        return redirect("/login");
     }
-
-    return <>{children}</>;
 }
 
 export default AdminLayout;

@@ -17,6 +17,17 @@ export function createUser(dcOrVars, vars) {
   return executeMutation(createUserRef(dcOrVars, vars));
 }
 
+export const updateUserRoleRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'updateUserRole', inputVars);
+}
+updateUserRoleRef.operationName = 'updateUserRole';
+
+export function updateUserRole(dcOrVars, vars) {
+  return executeMutation(updateUserRoleRef(dcOrVars, vars));
+}
+
 export const listProductsRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();

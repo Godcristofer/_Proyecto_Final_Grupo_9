@@ -24,6 +24,7 @@ You can also follow the instructions from the [Data Connect documentation](https
   - [*getUserById*](#getuserbyid)
 - [**Mutations**](#mutations)
   - [*CreateUser*](#createuser)
+  - [*updateUserRole*](#updateuserrole)
 
 # TanStack Query Firebase & TanStack React Query
 This SDK provides [React](https://react.dev/) hooks generated specific to your application, for the operations found in the connector `default-2`. These hooks are generated using [TanStack Query Firebase](https://react-query-firebase.invertase.dev/) by our partners at Invertase, a library built on top of [TanStack React Query v5](https://tanstack.com/query/v5/docs/framework/react/overview).
@@ -554,6 +555,7 @@ export interface CreateUserVariables {
   name?: string | null;
   dni?: string | null;
   phone?: string | null;
+  role?: string | null;
 }
 ```
 ### Return Type
@@ -608,10 +610,11 @@ export default function CreateUserComponent() {
     name: ..., // optional
     dni: ..., // optional
     phone: ..., // optional
+    role: ..., // optional
   };
   mutation.mutate(createUserVars);
   // Variables can be defined inline as well.
-  mutation.mutate({ id: ..., email: ..., name: ..., dni: ..., phone: ..., });
+  mutation.mutate({ id: ..., email: ..., name: ..., dni: ..., phone: ..., role: ..., });
 
   // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
   const options = {
@@ -631,6 +634,102 @@ export default function CreateUserComponent() {
   // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
   if (mutation.isSuccess) {
     console.log(mutation.data.users_insert);
+  }
+  return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
+}
+```
+
+## updateUserRole
+You can execute the `updateUserRole` Mutation using the `UseMutationResult` object returned by the following Mutation hook function (which is defined in [default-2-connector/react/index.d.ts](./index.d.ts)):
+```javascript
+useUpdateUserRole(options?: useDataConnectMutationOptions<UpdateUserRoleData, FirebaseError, UpdateUserRoleVariables>): UseDataConnectMutationResult<UpdateUserRoleData, UpdateUserRoleVariables>;
+```
+You can also pass in a `DataConnect` instance to the Mutation hook function.
+```javascript
+useUpdateUserRole(dc: DataConnect, options?: useDataConnectMutationOptions<UpdateUserRoleData, FirebaseError, UpdateUserRoleVariables>): UseDataConnectMutationResult<UpdateUserRoleData, UpdateUserRoleVariables>;
+```
+
+### Variables
+The `updateUserRole` Mutation requires an argument of type `UpdateUserRoleVariables`, which is defined in [default-2-connector/index.d.ts](../index.d.ts). It has the following fields:
+
+```javascript
+export interface UpdateUserRoleVariables {
+  id: string;
+  role: string;
+}
+```
+### Return Type
+Recall that calling the `updateUserRole` Mutation hook function returns a `UseMutationResult` object. This object holds the state of your Mutation, including whether the Mutation is loading, has completed, or has succeeded/failed, among other things.
+
+To check the status of a Mutation, use the `UseMutationResult.status` field. You can also check for pending / success / error status using the `UseMutationResult.isPending`, `UseMutationResult.isSuccess`, and `UseMutationResult.isError` fields.
+
+To execute the Mutation, call `UseMutationResult.mutate()`. This function executes the Mutation, but does not return the data from the Mutation.
+
+To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `updateUserRole` Mutation is of type `UpdateUserRoleData`, which is defined in [default-2-connector/index.d.ts](../index.d.ts). It has the following fields:
+```javascript
+export interface UpdateUserRoleData {
+  users_update?: Users_Key | null;
+}
+```
+
+To learn more about the `UseMutationResult` object, see the [TanStack React Query documentation](https://tanstack.com/query/v5/docs/framework/react/reference/useMutation).
+
+### Using `updateUserRole`'s Mutation hook function
+
+```javascript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, UpdateUserRoleVariables } from '@firebasegen/default-2-connector';
+import { useUpdateUserRole } from '@firebasegen/default-2-connector/react'
+
+export default function UpdateUserRoleComponent() {
+  // Call the Mutation hook function to get a `UseMutationResult` object which holds the state of your Mutation.
+  const mutation = useUpdateUserRole();
+
+  // You can also pass in a `DataConnect` instance to the Mutation hook function.
+  const dataConnect = getDataConnect(connectorConfig);
+  const mutation = useUpdateUserRole(dataConnect);
+
+  // You can also pass in a `useDataConnectMutationOptions` object to the Mutation hook function.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useUpdateUserRole(options);
+
+  // You can also pass both a `DataConnect` instance and a `useDataConnectMutationOptions` object.
+  const dataConnect = getDataConnect(connectorConfig);
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  const mutation = useUpdateUserRole(dataConnect, options);
+
+  // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
+  // The `useUpdateUserRole` Mutation requires an argument of type `UpdateUserRoleVariables`:
+  const updateUserRoleVars: UpdateUserRoleVariables = {
+    id: ..., 
+    role: ..., 
+  };
+  mutation.mutate(updateUserRoleVars);
+  // Variables can be defined inline as well.
+  mutation.mutate({ id: ..., role: ..., });
+
+  // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
+  const options = {
+    onSuccess: () => { console.log('Mutation succeeded!'); }
+  };
+  mutation.mutate(updateUserRoleVars, options);
+
+  // Then, you can render your component dynamically based on the status of the Mutation.
+  if (mutation.isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (mutation.isError) {
+    return <div>Error: {mutation.error.message}</div>;
+  }
+
+  // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
+  if (mutation.isSuccess) {
+    console.log(mutation.data.users_update);
   }
   return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
 }
