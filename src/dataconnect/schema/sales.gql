@@ -1,5 +1,4 @@
 type Sales @table(name: "sales") {
-  id: UUID! @id
   userId: String! @col(name: "user_id")
   user: Users! @ref(fields: "userId", references: "id")
   saleDate: Date! @col(name: "sale_date") @default(expr: "request.time")

@@ -13,23 +13,19 @@ type Users @table(name: "users") {
   email: String! @unique
   dni: String
   phone: String
-  role: String @col(default: "'user'")
+  role: String @default(value: "user")
   createdAt: Timestamp! @col(name: "created_at") @default(expr: "request.time")
   updatedAt: Timestamp! @col(name: "updated_at") @default(expr: "request.time")
 }
 
 type Sales @table(name: "sales") {
-  id: UUID! @id
   userId: String! @col(name: "user_id")
   user: Users! @ref(fields: "userId", references: "id")
   saleDate: Date! @col(name: "sale_date") @default(expr: "request.time")
   total: Float!
-  details: [SaleDetails]! @ref(references: "saleId")
-  shipment: Shipments @ref(references: "saleId")
 }
 
 type SaleDetails @table(name: "sale_details") {
-  id: UUID! @id
   saleId: UUID! @col(name: "sale_id")
   sale: Sales! @ref(fields: "saleId", references: "id")
   productId: UUID! @col(name: "product_id")
@@ -39,12 +35,11 @@ type SaleDetails @table(name: "sale_details") {
 }
 
 type Shipments @table(name: "shipments") {
-  id: UUID! @id
   saleId: UUID! @col(name: "sale_id") @unique
   sale: Sales! @ref(fields: "saleId", references: "id")
   address: String!
   city: String!
-  status: String! @col(default: "'pending'")
+  status: String! @default(value: "pending")
   shippedAt: Timestamp @col(name: "shipped_at")
   deliveredAt: Timestamp @col(name: "delivered_at")
   createdAt: Timestamp! @col(name: "created_at") @default(expr: "request.time")

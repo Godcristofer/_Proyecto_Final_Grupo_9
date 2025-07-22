@@ -1,11 +1,11 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('./<TU-FIREBASE-SERVICE-ACCOUNT-KEY>.json'); // Descarga esto desde tu consola de Firebase
+const serviceAccount = require('./firebase-service-account.json'); // Descarga esto desde tu consola de Firebase
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-const userEmail = 'tu-email-de-admin@ejemplo.com'; // <-- CAMBIA ESTO
+const userEmail = 'nikco@gmail.com'; // <-- CAMBIA ESTO
 
 admin.auth().getUserByEmail(userEmail)
   .then((user) => {

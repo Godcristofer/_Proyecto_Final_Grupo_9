@@ -7,18 +7,6 @@ const connectorConfig = {
 };
 exports.connectorConfig = connectorConfig;
 
-const createUserRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'CreateUser', inputVars);
-}
-createUserRef.operationName = 'CreateUser';
-exports.createUserRef = createUserRef;
-
-exports.createUser = function createUser(dcOrVars, vars) {
-  return executeMutation(createUserRef(dcOrVars, vars));
-};
-
 const listProductsRef = (dc) => {
   const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
   dcInstance._useGeneratedSdk();
@@ -65,4 +53,16 @@ exports.listUsersRef = listUsersRef;
 
 exports.listUsers = function listUsers(dc) {
   return executeQuery(listUsersRef(dc));
+};
+
+const createUserRef = (dcOrVars, vars) => {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
+  dcInstance._useGeneratedSdk();
+  return mutationRef(dcInstance, 'CreateUser', inputVars);
+}
+createUserRef.operationName = 'CreateUser';
+exports.createUserRef = createUserRef;
+
+exports.createUser = function createUser(dcOrVars, vars) {
+  return executeMutation(createUserRef(dcOrVars, vars));
 };

@@ -71,22 +71,25 @@ export interface Products_Key {
   __typename?: 'Products_Key';
 }
 
+export interface SaleDetails_Key {
+  id: UUIDString;
+  __typename?: 'SaleDetails_Key';
+}
+
+export interface Sales_Key {
+  id: UUIDString;
+  __typename?: 'Sales_Key';
+}
+
+export interface Shipments_Key {
+  id: UUIDString;
+  __typename?: 'Shipments_Key';
+}
+
 export interface Users_Key {
   id: string;
   __typename?: 'Users_Key';
 }
-
-interface CreateUserRef {
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
-  /* Allow users to pass in custom DataConnect instances */
-  (dc: DataConnect, vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
-  operationName: string;
-}
-export const createUserRef: CreateUserRef;
-
-export function createUser(vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
-export function createUser(dc: DataConnect, vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
 
 interface ListProductsRef {
   /* Allow users to create refs without passing in DataConnect */
@@ -135,4 +138,16 @@ export const listUsersRef: ListUsersRef;
 
 export function listUsers(): QueryPromise<ListUsersData, undefined>;
 export function listUsers(dc: DataConnect): QueryPromise<ListUsersData, undefined>;
+
+interface CreateUserRef {
+  /* Allow users to create refs without passing in DataConnect */
+  (vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
+  /* Allow users to pass in custom DataConnect instances */
+  (dc: DataConnect, vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
+  operationName: string;
+}
+export const createUserRef: CreateUserRef;
+
+export function createUser(vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
+export function createUser(dc: DataConnect, vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
 
