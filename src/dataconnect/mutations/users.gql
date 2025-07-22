@@ -1,13 +1,18 @@
-mutation CreateUser($id: String!, $email: String!, $name: String, $dni: String, $phone: String) @auth(level: USER) {
+
+mutation CreateUser($id: String!, $email: String!, $name: String, $dni: String, $phone: String) {
   users_insert(
+    data: {id: $id, email: $email, name: $name, dni: $dni, phone: $phone, role: "user"}
+  )
+}
+
+mutation updateUserRole($id: String!, $role: String!) {
+  users_update(
+    id: $id,
     data: {
-      id: $id,
-      email: $email,
-      name: $name,
-      dni: $dni,
-      phone: $phone
+      role: $role
     }
   ) {
     id
+    role
   }
 }
