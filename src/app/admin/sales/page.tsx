@@ -58,6 +58,12 @@ export default async function SalesAdminPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="flex justify-between w-full pr-12 pl-4 pb-2 text-sm font-medium text-muted-foreground border-b">
+              <span className="w-1/4">ID de Venta</span>
+              <span className="w-1/4 text-center">Cliente</span>
+              <span className="w-1/4 text-center">Fecha</span>
+              <span className='w-1/4 text-right'>Total</span>
+          </div>
           <Accordion type="single" collapsible className="w-full">
             {sales.length === 0 ? (
               <div className="text-center py-12">
@@ -68,10 +74,10 @@ export default async function SalesAdminPage() {
                 <AccordionItem value={sale.id} key={sale.id}>
                   <AccordionTrigger>
                     <div className="flex justify-between w-full pr-4 text-sm">
-                        <span className="font-mono text-xs">{sale.id}</span>
-                        <span>{sale.user?.name || 'N/A'}</span>
-                        <span>{format(new Date(sale.saleDate), "dd/MM/yyyy")}</span>
-                        <span className='font-bold'>S/ {sale.total.toFixed(2)}</span>
+                        <span className="font-mono text-xs w-1/4 text-left">{sale.id}</span>
+                        <span className='w-1/4 text-center'>{sale.user?.name || 'N/A'}</span>
+                        <span className='w-1/4 text-center'>{format(new Date(sale.saleDate), "dd/MM/yyyy")}</span>
+                        <span className='font-bold w-1/4 text-right'>S/ {sale.total.toFixed(2)}</span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
