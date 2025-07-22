@@ -37,26 +37,3 @@ query ListUsers @auth(level: PUBLIC) {
   }
 }
 
-query getCartByUserId($userId: UUID!) @auth(expr: "auth.uid == args.userId") {
-  # Use the plural query 'shoppingCarts', as confirmed by the error message.
-  # The 'where' argument is now valid because 'userid' has an @index.
-  shoppingCarts(where: { userid: { eq: $userId } }) {
-    # The result of a collection query is a "connection" object.
-    # The actual data is in its 'items' field.
-    items {
-      # Fields from the ShoppingCarts record.
-      id
-      userid
-      createdAt
-      updatedAt
-      # Use the correct auto-generated field name for the reverse relationship.
-      shoppingCartItems_on_cart {
-        # Fields from the ShoppingCartItems records.
-        id
-        productid
-        quantity
-        addedAt
-      }
-    }
-  }
-}

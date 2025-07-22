@@ -1,8 +1,9 @@
 
 'use server';
 
-import { connectorConfig, createUser as createUserMutation } from '@firebasegen/default-2-connector';
+import { connectorConfig, createUser as createUserMutation, listUsers } from '@firebasegen/default-2-connector';
 import { getDataConnect } from 'firebase/data-connect';
+import { getFirebaseApp } from './firebase';
 
 
 interface CreateUserInput {
@@ -15,13 +16,14 @@ interface CreateUserInput {
 
 export const createUser = async (userData: CreateUserInput) => {
     try {
-        const dataConnect = getDataConnect(connectorConfig);
-        await createUserMutation({ 
+        const app = getFirebaseApp();
+        const dataConnect = getDataConnect(connectorConfig, { app });
+        await createUserMutation(dataConnect, {
             id: userData.id,
             email: userData.email,
             name: userData.name,
-            dni: userData.dni,
-            phone: userData.phone,
+            dni: userData.dni || null,
+            phone: userData.phone || null,
          });
         return { success: true };
 
@@ -33,10 +35,24 @@ export const createUser = async (userData: CreateUserInput) => {
 
 export const getUsers = async () => {
     try {
-        console.warn("Data Connect call to get users is temporarily disabled to resolve build issues.");
-        return [];
+        const app = getFirebaseApp();
+        const dataConnect = getDataConnect(connectorConfig, { app });
+        const { data } = await listUsers(dataConnect);
+
+        if (!data || !data.userss) {
+            return [];
+        }
+        return data.userss.map(user => ({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            createdAt: user.createdAt,
+            dni: user.dni,
+            phone: user.phone
+        }));
     } catch (error) {
         console.error('Error al obtener usuarios:', error);
         return [];
     }
 };
+

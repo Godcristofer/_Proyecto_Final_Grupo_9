@@ -6,31 +6,3 @@ type Products @table {
   image: String
   category: String
 }
-
-type Users @table {
-  id: UUID! 
-  name: String
-  email: String! @unique
-  createdAt: Timestamp!
-}
-
-# Define the primary key as 'id' using the correct @table directive.
-type ShoppingCarts @table(name: "shopping_carts", key: "id") {
-  id: UUID!
-  # Add @index. This is the critical step that enables filtering by this field.
-  userid: UUID! @col(name: "user_id") @index
-  createdAt: Timestamp! @col(name: "created_at")
-  updatedAt: Timestamp! @col(name: "updated_at")
-}
-
-type ShoppingCartItems @table(name: "shopping_cart_items", key: "id") {
-    id: UUID!
-    # @ref defines the relationship back to ShoppingCarts.
-    # It correctly defaults to referencing the 'id' primary key.
-    cart: ShoppingCarts! @ref(fields: "cartid")
-    cartid: UUID! @col(name: "cart_id")
-
-    productid: UUID! @col(name: "product_id")
-    quantity: Int! @col(name: "quantity")
-    addedAt: Timestamp! @col(name: "added_at")
-}

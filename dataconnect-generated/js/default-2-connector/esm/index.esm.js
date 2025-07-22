@@ -6,48 +6,15 @@ export const connectorConfig = {
   location: 'us-central1'
 };
 
-export const createCartRef = (dcOrVars, vars) => {
+export const createUserRef = (dcOrVars, vars) => {
   const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
   dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'CreateCart', inputVars);
+  return mutationRef(dcInstance, 'CreateUser', inputVars);
 }
-createCartRef.operationName = 'CreateCart';
+createUserRef.operationName = 'CreateUser';
 
-export function createCart(dcOrVars, vars) {
-  return executeMutation(createCartRef(dcOrVars, vars));
-}
-
-export const addItemToCartRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'AddItemToCart', inputVars);
-}
-addItemToCartRef.operationName = 'AddItemToCart';
-
-export function addItemToCart(dcOrVars, vars) {
-  return executeMutation(addItemToCartRef(dcOrVars, vars));
-}
-
-export const updateCartItemQuantityRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'UpdateCartItemQuantity', inputVars);
-}
-updateCartItemQuantityRef.operationName = 'UpdateCartItemQuantity';
-
-export function updateCartItemQuantity(dcOrVars, vars) {
-  return executeMutation(updateCartItemQuantityRef(dcOrVars, vars));
-}
-
-export const deleteCartItemRef = (dcOrVars, vars) => {
-  const { dc: dcInstance, vars: inputVars} = validateArgs(connectorConfig, dcOrVars, vars, true);
-  dcInstance._useGeneratedSdk();
-  return mutationRef(dcInstance, 'DeleteCartItem', inputVars);
-}
-deleteCartItemRef.operationName = 'DeleteCartItem';
-
-export function deleteCartItem(dcOrVars, vars) {
-  return executeMutation(deleteCartItemRef(dcOrVars, vars));
+export function createUser(dcOrVars, vars) {
+  return executeMutation(createUserRef(dcOrVars, vars));
 }
 
 export const listProductsRef = (dc) => {

@@ -1,32 +1,11 @@
-mutation CreateCart($userId: UUID!) @auth(level: USER) {
-  shoppingCarts_insert(
+mutation CreateUser($id: UUID!, $email: String!, $name: String, $dni: String, $phone: String) @auth(level: NO_ACCESS) {
+  users_insert(
     data: {
-      userid: $userId
+      id: $id
+      email: $email
+      name: $name
+      dni: $dni
+      phone: $phone
     }
-  )
-}
-
-mutation AddItemToCart($cartId: UUID!, $productId: UUID!, $quantity: Int!) @auth(level: USER) {
-  shoppingCartItems_insert(
-    data: {
-      cartid: $cartId,
-      productid: $productId,
-      quantity: $quantity
-    }
-  )
-}
-
-mutation UpdateCartItemQuantity($itemId: UUID!, $quantity: Int!) @auth(level: USER) {
-  shoppingCartItems_update(
-    key: { id: $itemId },
-    data: {
-      quantity: $quantity
-    }
-  )
-}
-
-mutation DeleteCartItem($itemId: UUID!) @auth(level: USER) {
-  shoppingCartItems_delete(
-    key: { id: $itemId }
   )
 }

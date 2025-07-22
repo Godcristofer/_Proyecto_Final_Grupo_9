@@ -1,8 +1,0 @@
-type Products @table(name: "products") {
-  id: UUID!
-  name: String!
-  description: String
-  price: Float!
-  image: String
-  category: String
-}

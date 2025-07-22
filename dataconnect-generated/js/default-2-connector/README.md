@@ -15,10 +15,7 @@ This README will guide you through the process of using the generated JavaScript
   - [*ListProductsByCategory*](#listproductsbycategory)
   - [*ListUsers*](#listusers)
 - [**Mutations**](#mutations)
-  - [*CreateCart*](#createcart)
-  - [*AddItemToCart*](#additemtocart)
-  - [*UpdateCartItemQuantity*](#updatecartitemquantity)
-  - [*DeleteCartItem*](#deletecartitem)
+  - [*CreateUser*](#createuser)
 
 # Accessing the connector
 A connector is a collection of Queries and Mutations. One SDK is generated for each connector - this SDK is generated for the connector `default-2`. You can find more information about connectors in the [Data Connect documentation](https://firebase.google.com/docs/data-connect#how-does).
@@ -470,448 +467,124 @@ The following is true for both the action shortcut function and the `MutationRef
 
 Below are examples of how to use the `default-2` connector's generated functions to execute each mutation. You can also follow the examples from the [Data Connect documentation](https://firebase.google.com/docs/data-connect/web-sdk#using-mutations).
 
-## CreateCart
-You can execute the `CreateCart` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
+## CreateUser
+You can execute the `CreateUser` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
 ```typescript
-createCart(vars: CreateCartVariables): MutationPromise<CreateCartData, CreateCartVariables>;
+createUser(vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
 
-interface CreateCartRef {
+interface CreateUserRef {
   ...
   /* Allow users to create refs without passing in DataConnect */
-  (vars: CreateCartVariables): MutationRef<CreateCartData, CreateCartVariables>;
+  (vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
 }
-export const createCartRef: CreateCartRef;
+export const createUserRef: CreateUserRef;
 ```
 You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
 ```typescript
-createCart(dc: DataConnect, vars: CreateCartVariables): MutationPromise<CreateCartData, CreateCartVariables>;
+createUser(dc: DataConnect, vars: CreateUserVariables): MutationPromise<CreateUserData, CreateUserVariables>;
 
-interface CreateCartRef {
+interface CreateUserRef {
   ...
-  (dc: DataConnect, vars: CreateCartVariables): MutationRef<CreateCartData, CreateCartVariables>;
+  (dc: DataConnect, vars: CreateUserVariables): MutationRef<CreateUserData, CreateUserVariables>;
 }
-export const createCartRef: CreateCartRef;
+export const createUserRef: CreateUserRef;
 ```
 
-If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the createCartRef:
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the createUserRef:
 ```typescript
-const name = createCartRef.operationName;
+const name = createUserRef.operationName;
 console.log(name);
 ```
 
 ### Variables
-The `CreateCart` mutation requires an argument of type `CreateCartVariables`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+The `CreateUser` mutation requires an argument of type `CreateUserVariables`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
 
 ```typescript
-export interface CreateCartVariables {
-  userId: UUIDString;
+export interface CreateUserVariables {
+  id: UUIDString;
+  email: string;
+  name?: string | null;
+  dni?: string | null;
+  phone?: string | null;
 }
 ```
 ### Return Type
-Recall that executing the `CreateCart` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
+Recall that executing the `CreateUser` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
 
-The `data` property is an object of type `CreateCartData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+The `data` property is an object of type `CreateUserData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
 ```typescript
-export interface CreateCartData {
-  shoppingCarts_insert: ShoppingCarts_Key;
+export interface CreateUserData {
+  users_insert: Users_Key;
 }
 ```
-### Using `CreateCart`'s action shortcut function
+### Using `CreateUser`'s action shortcut function
 
 ```typescript
 import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, createCart, CreateCartVariables } from '@firebasegen/default-2-connector';
+import { connectorConfig, createUser, CreateUserVariables } from '@firebasegen/default-2-connector';
 
-// The `CreateCart` mutation requires an argument of type `CreateCartVariables`:
-const createCartVars: CreateCartVariables = {
-  userId: ..., 
+// The `CreateUser` mutation requires an argument of type `CreateUserVariables`:
+const createUserVars: CreateUserVariables = {
+  id: ..., 
+  email: ..., 
+  name: ..., // optional
+  dni: ..., // optional
+  phone: ..., // optional
 };
 
-// Call the `createCart()` function to execute the mutation.
+// Call the `createUser()` function to execute the mutation.
 // You can use the `await` keyword to wait for the promise to resolve.
-const { data } = await createCart(createCartVars);
+const { data } = await createUser(createUserVars);
 // Variables can be defined inline as well.
-const { data } = await createCart({ userId: ..., });
+const { data } = await createUser({ id: ..., email: ..., name: ..., dni: ..., phone: ..., });
 
 // You can also pass in a `DataConnect` instance to the action shortcut function.
 const dataConnect = getDataConnect(connectorConfig);
-const { data } = await createCart(dataConnect, createCartVars);
+const { data } = await createUser(dataConnect, createUserVars);
 
-console.log(data.shoppingCarts_insert);
+console.log(data.users_insert);
 
 // Or, you can use the `Promise` API.
-createCart(createCartVars).then((response) => {
+createUser(createUserVars).then((response) => {
   const data = response.data;
-  console.log(data.shoppingCarts_insert);
+  console.log(data.users_insert);
 });
 ```
 
-### Using `CreateCart`'s `MutationRef` function
+### Using `CreateUser`'s `MutationRef` function
 
 ```typescript
 import { getDataConnect, executeMutation } from 'firebase/data-connect';
-import { connectorConfig, createCartRef, CreateCartVariables } from '@firebasegen/default-2-connector';
+import { connectorConfig, createUserRef, CreateUserVariables } from '@firebasegen/default-2-connector';
 
-// The `CreateCart` mutation requires an argument of type `CreateCartVariables`:
-const createCartVars: CreateCartVariables = {
-  userId: ..., 
+// The `CreateUser` mutation requires an argument of type `CreateUserVariables`:
+const createUserVars: CreateUserVariables = {
+  id: ..., 
+  email: ..., 
+  name: ..., // optional
+  dni: ..., // optional
+  phone: ..., // optional
 };
 
-// Call the `createCartRef()` function to get a reference to the mutation.
-const ref = createCartRef(createCartVars);
+// Call the `createUserRef()` function to get a reference to the mutation.
+const ref = createUserRef(createUserVars);
 // Variables can be defined inline as well.
-const ref = createCartRef({ userId: ..., });
+const ref = createUserRef({ id: ..., email: ..., name: ..., dni: ..., phone: ..., });
 
 // You can also pass in a `DataConnect` instance to the `MutationRef` function.
 const dataConnect = getDataConnect(connectorConfig);
-const ref = createCartRef(dataConnect, createCartVars);
+const ref = createUserRef(dataConnect, createUserVars);
 
 // Call `executeMutation()` on the reference to execute the mutation.
 // You can use the `await` keyword to wait for the promise to resolve.
 const { data } = await executeMutation(ref);
 
-console.log(data.shoppingCarts_insert);
+console.log(data.users_insert);
 
 // Or, you can use the `Promise` API.
 executeMutation(ref).then((response) => {
   const data = response.data;
-  console.log(data.shoppingCarts_insert);
-});
-```
-
-## AddItemToCart
-You can execute the `AddItemToCart` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
-```typescript
-addItemToCart(vars: AddItemToCartVariables): MutationPromise<AddItemToCartData, AddItemToCartVariables>;
-
-interface AddItemToCartRef {
-  ...
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: AddItemToCartVariables): MutationRef<AddItemToCartData, AddItemToCartVariables>;
-}
-export const addItemToCartRef: AddItemToCartRef;
-```
-You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
-```typescript
-addItemToCart(dc: DataConnect, vars: AddItemToCartVariables): MutationPromise<AddItemToCartData, AddItemToCartVariables>;
-
-interface AddItemToCartRef {
-  ...
-  (dc: DataConnect, vars: AddItemToCartVariables): MutationRef<AddItemToCartData, AddItemToCartVariables>;
-}
-export const addItemToCartRef: AddItemToCartRef;
-```
-
-If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the addItemToCartRef:
-```typescript
-const name = addItemToCartRef.operationName;
-console.log(name);
-```
-
-### Variables
-The `AddItemToCart` mutation requires an argument of type `AddItemToCartVariables`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
-
-```typescript
-export interface AddItemToCartVariables {
-  cartId: UUIDString;
-  productId: UUIDString;
-  quantity: number;
-}
-```
-### Return Type
-Recall that executing the `AddItemToCart` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
-
-The `data` property is an object of type `AddItemToCartData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
-```typescript
-export interface AddItemToCartData {
-  shoppingCartItems_insert: ShoppingCartItems_Key;
-}
-```
-### Using `AddItemToCart`'s action shortcut function
-
-```typescript
-import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, addItemToCart, AddItemToCartVariables } from '@firebasegen/default-2-connector';
-
-// The `AddItemToCart` mutation requires an argument of type `AddItemToCartVariables`:
-const addItemToCartVars: AddItemToCartVariables = {
-  cartId: ..., 
-  productId: ..., 
-  quantity: ..., 
-};
-
-// Call the `addItemToCart()` function to execute the mutation.
-// You can use the `await` keyword to wait for the promise to resolve.
-const { data } = await addItemToCart(addItemToCartVars);
-// Variables can be defined inline as well.
-const { data } = await addItemToCart({ cartId: ..., productId: ..., quantity: ..., });
-
-// You can also pass in a `DataConnect` instance to the action shortcut function.
-const dataConnect = getDataConnect(connectorConfig);
-const { data } = await addItemToCart(dataConnect, addItemToCartVars);
-
-console.log(data.shoppingCartItems_insert);
-
-// Or, you can use the `Promise` API.
-addItemToCart(addItemToCartVars).then((response) => {
-  const data = response.data;
-  console.log(data.shoppingCartItems_insert);
-});
-```
-
-### Using `AddItemToCart`'s `MutationRef` function
-
-```typescript
-import { getDataConnect, executeMutation } from 'firebase/data-connect';
-import { connectorConfig, addItemToCartRef, AddItemToCartVariables } from '@firebasegen/default-2-connector';
-
-// The `AddItemToCart` mutation requires an argument of type `AddItemToCartVariables`:
-const addItemToCartVars: AddItemToCartVariables = {
-  cartId: ..., 
-  productId: ..., 
-  quantity: ..., 
-};
-
-// Call the `addItemToCartRef()` function to get a reference to the mutation.
-const ref = addItemToCartRef(addItemToCartVars);
-// Variables can be defined inline as well.
-const ref = addItemToCartRef({ cartId: ..., productId: ..., quantity: ..., });
-
-// You can also pass in a `DataConnect` instance to the `MutationRef` function.
-const dataConnect = getDataConnect(connectorConfig);
-const ref = addItemToCartRef(dataConnect, addItemToCartVars);
-
-// Call `executeMutation()` on the reference to execute the mutation.
-// You can use the `await` keyword to wait for the promise to resolve.
-const { data } = await executeMutation(ref);
-
-console.log(data.shoppingCartItems_insert);
-
-// Or, you can use the `Promise` API.
-executeMutation(ref).then((response) => {
-  const data = response.data;
-  console.log(data.shoppingCartItems_insert);
-});
-```
-
-## UpdateCartItemQuantity
-You can execute the `UpdateCartItemQuantity` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
-```typescript
-updateCartItemQuantity(vars: UpdateCartItemQuantityVariables): MutationPromise<UpdateCartItemQuantityData, UpdateCartItemQuantityVariables>;
-
-interface UpdateCartItemQuantityRef {
-  ...
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: UpdateCartItemQuantityVariables): MutationRef<UpdateCartItemQuantityData, UpdateCartItemQuantityVariables>;
-}
-export const updateCartItemQuantityRef: UpdateCartItemQuantityRef;
-```
-You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
-```typescript
-updateCartItemQuantity(dc: DataConnect, vars: UpdateCartItemQuantityVariables): MutationPromise<UpdateCartItemQuantityData, UpdateCartItemQuantityVariables>;
-
-interface UpdateCartItemQuantityRef {
-  ...
-  (dc: DataConnect, vars: UpdateCartItemQuantityVariables): MutationRef<UpdateCartItemQuantityData, UpdateCartItemQuantityVariables>;
-}
-export const updateCartItemQuantityRef: UpdateCartItemQuantityRef;
-```
-
-If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the updateCartItemQuantityRef:
-```typescript
-const name = updateCartItemQuantityRef.operationName;
-console.log(name);
-```
-
-### Variables
-The `UpdateCartItemQuantity` mutation requires an argument of type `UpdateCartItemQuantityVariables`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
-
-```typescript
-export interface UpdateCartItemQuantityVariables {
-  itemId: UUIDString;
-  quantity: number;
-}
-```
-### Return Type
-Recall that executing the `UpdateCartItemQuantity` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
-
-The `data` property is an object of type `UpdateCartItemQuantityData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
-```typescript
-export interface UpdateCartItemQuantityData {
-  shoppingCartItems_update?: ShoppingCartItems_Key | null;
-}
-```
-### Using `UpdateCartItemQuantity`'s action shortcut function
-
-```typescript
-import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, updateCartItemQuantity, UpdateCartItemQuantityVariables } from '@firebasegen/default-2-connector';
-
-// The `UpdateCartItemQuantity` mutation requires an argument of type `UpdateCartItemQuantityVariables`:
-const updateCartItemQuantityVars: UpdateCartItemQuantityVariables = {
-  itemId: ..., 
-  quantity: ..., 
-};
-
-// Call the `updateCartItemQuantity()` function to execute the mutation.
-// You can use the `await` keyword to wait for the promise to resolve.
-const { data } = await updateCartItemQuantity(updateCartItemQuantityVars);
-// Variables can be defined inline as well.
-const { data } = await updateCartItemQuantity({ itemId: ..., quantity: ..., });
-
-// You can also pass in a `DataConnect` instance to the action shortcut function.
-const dataConnect = getDataConnect(connectorConfig);
-const { data } = await updateCartItemQuantity(dataConnect, updateCartItemQuantityVars);
-
-console.log(data.shoppingCartItems_update);
-
-// Or, you can use the `Promise` API.
-updateCartItemQuantity(updateCartItemQuantityVars).then((response) => {
-  const data = response.data;
-  console.log(data.shoppingCartItems_update);
-});
-```
-
-### Using `UpdateCartItemQuantity`'s `MutationRef` function
-
-```typescript
-import { getDataConnect, executeMutation } from 'firebase/data-connect';
-import { connectorConfig, updateCartItemQuantityRef, UpdateCartItemQuantityVariables } from '@firebasegen/default-2-connector';
-
-// The `UpdateCartItemQuantity` mutation requires an argument of type `UpdateCartItemQuantityVariables`:
-const updateCartItemQuantityVars: UpdateCartItemQuantityVariables = {
-  itemId: ..., 
-  quantity: ..., 
-};
-
-// Call the `updateCartItemQuantityRef()` function to get a reference to the mutation.
-const ref = updateCartItemQuantityRef(updateCartItemQuantityVars);
-// Variables can be defined inline as well.
-const ref = updateCartItemQuantityRef({ itemId: ..., quantity: ..., });
-
-// You can also pass in a `DataConnect` instance to the `MutationRef` function.
-const dataConnect = getDataConnect(connectorConfig);
-const ref = updateCartItemQuantityRef(dataConnect, updateCartItemQuantityVars);
-
-// Call `executeMutation()` on the reference to execute the mutation.
-// You can use the `await` keyword to wait for the promise to resolve.
-const { data } = await executeMutation(ref);
-
-console.log(data.shoppingCartItems_update);
-
-// Or, you can use the `Promise` API.
-executeMutation(ref).then((response) => {
-  const data = response.data;
-  console.log(data.shoppingCartItems_update);
-});
-```
-
-## DeleteCartItem
-You can execute the `DeleteCartItem` mutation using the following action shortcut function, or by calling `executeMutation()` after calling the following `MutationRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
-```typescript
-deleteCartItem(vars: DeleteCartItemVariables): MutationPromise<DeleteCartItemData, DeleteCartItemVariables>;
-
-interface DeleteCartItemRef {
-  ...
-  /* Allow users to create refs without passing in DataConnect */
-  (vars: DeleteCartItemVariables): MutationRef<DeleteCartItemData, DeleteCartItemVariables>;
-}
-export const deleteCartItemRef: DeleteCartItemRef;
-```
-You can also pass in a `DataConnect` instance to the action shortcut function or `MutationRef` function.
-```typescript
-deleteCartItem(dc: DataConnect, vars: DeleteCartItemVariables): MutationPromise<DeleteCartItemData, DeleteCartItemVariables>;
-
-interface DeleteCartItemRef {
-  ...
-  (dc: DataConnect, vars: DeleteCartItemVariables): MutationRef<DeleteCartItemData, DeleteCartItemVariables>;
-}
-export const deleteCartItemRef: DeleteCartItemRef;
-```
-
-If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the deleteCartItemRef:
-```typescript
-const name = deleteCartItemRef.operationName;
-console.log(name);
-```
-
-### Variables
-The `DeleteCartItem` mutation requires an argument of type `DeleteCartItemVariables`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
-
-```typescript
-export interface DeleteCartItemVariables {
-  itemId: UUIDString;
-}
-```
-### Return Type
-Recall that executing the `DeleteCartItem` mutation returns a `MutationPromise` that resolves to an object with a `data` property.
-
-The `data` property is an object of type `DeleteCartItemData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
-```typescript
-export interface DeleteCartItemData {
-  shoppingCartItems_delete?: ShoppingCartItems_Key | null;
-}
-```
-### Using `DeleteCartItem`'s action shortcut function
-
-```typescript
-import { getDataConnect } from 'firebase/data-connect';
-import { connectorConfig, deleteCartItem, DeleteCartItemVariables } from '@firebasegen/default-2-connector';
-
-// The `DeleteCartItem` mutation requires an argument of type `DeleteCartItemVariables`:
-const deleteCartItemVars: DeleteCartItemVariables = {
-  itemId: ..., 
-};
-
-// Call the `deleteCartItem()` function to execute the mutation.
-// You can use the `await` keyword to wait for the promise to resolve.
-const { data } = await deleteCartItem(deleteCartItemVars);
-// Variables can be defined inline as well.
-const { data } = await deleteCartItem({ itemId: ..., });
-
-// You can also pass in a `DataConnect` instance to the action shortcut function.
-const dataConnect = getDataConnect(connectorConfig);
-const { data } = await deleteCartItem(dataConnect, deleteCartItemVars);
-
-console.log(data.shoppingCartItems_delete);
-
-// Or, you can use the `Promise` API.
-deleteCartItem(deleteCartItemVars).then((response) => {
-  const data = response.data;
-  console.log(data.shoppingCartItems_delete);
-});
-```
-
-### Using `DeleteCartItem`'s `MutationRef` function
-
-```typescript
-import { getDataConnect, executeMutation } from 'firebase/data-connect';
-import { connectorConfig, deleteCartItemRef, DeleteCartItemVariables } from '@firebasegen/default-2-connector';
-
-// The `DeleteCartItem` mutation requires an argument of type `DeleteCartItemVariables`:
-const deleteCartItemVars: DeleteCartItemVariables = {
-  itemId: ..., 
-};
-
-// Call the `deleteCartItemRef()` function to get a reference to the mutation.
-const ref = deleteCartItemRef(deleteCartItemVars);
-// Variables can be defined inline as well.
-const ref = deleteCartItemRef({ itemId: ..., });
-
-// You can also pass in a `DataConnect` instance to the `MutationRef` function.
-const dataConnect = getDataConnect(connectorConfig);
-const ref = deleteCartItemRef(dataConnect, deleteCartItemVars);
-
-// Call `executeMutation()` on the reference to execute the mutation.
-// You can use the `await` keyword to wait for the promise to resolve.
-const { data } = await executeMutation(ref);
-
-console.log(data.shoppingCartItems_delete);
-
-// Or, you can use the `Promise` API.
-executeMutation(ref).then((response) => {
-  const data = response.data;
-  console.log(data.shoppingCartItems_delete);
+  console.log(data.users_insert);
 });
 ```
 

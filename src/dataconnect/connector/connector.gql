@@ -1,0 +1,47 @@
+query ListProducts {
+  productss {
+    id
+    name
+    description
+    price
+    image
+    category
+  }
+}
+
+query GetProduct($id: UUID!) {
+  products(id: $id) {
+    id
+    name
+    description
+    price
+    image
+    category
+  }
+}
+
+query ListUsers {
+  userss {
+    id
+    name
+    email
+    createdAt
+    dni
+    phone
+  }
+}
+
+mutation CreateUser($id: UUID!, $email: String!, $name: String, $dni: String, $phone: String) @auth(level: ANONYMOUS) {
+  users_insert(
+    data: {
+      id: $id,
+      email: $email,
+      name: $name,
+      dni: $dni,
+      phone: $phone
+    }
+  ) {
+    id
+    email
+  }
+}

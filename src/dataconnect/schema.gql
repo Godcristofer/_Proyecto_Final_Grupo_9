@@ -1,0 +1,37 @@
+type Users @table(name: "users") {
+  id: UUID! @pk
+  name: String
+  email: String! @unique
+  dni: String @unique
+  phone: String
+  createdAt: Timestamp! @default(value: "now()")
+}
+
+type Products @table(name: "products") {
+  id: UUID! @pk
+  name: String!
+  description: String
+  price: Float!
+  image: String
+  category: String
+  createdAt: Timestamp! @default(value: "now()")
+}
+
+type ShoppingCarts @table(name: "shopping_carts") {
+  id: UUID! @pk
+  userId: UUID! @col(name: "user_id") @unique
+  createdAt: Timestamp! @default(value: "now()")
+  updatedAt: Timestamp! @default(value: "now()")
+  user: Users! @ref(references: "userId")
+  items: [ShoppingCartItems]! @ref(references: "cartId")
+}
+
+type ShoppingCartItems @table(name: "shopping_cart_items") {
+  id: UUID! @pk
+  cartId: UUID! @col(name: "cart_id")
+  productId: UUID! @col(name: "product_id")
+  quantity: Int!
+  addedAt: Timestamp! @default(value: "now()")
+  cart: ShoppingCarts! @ref(references: "cartId")
+  product: Products! @ref(references: "productId")
+}

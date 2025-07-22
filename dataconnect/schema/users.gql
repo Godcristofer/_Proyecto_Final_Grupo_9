@@ -1,8 +1,8 @@
 type Users @table(name: "users") {
-  id: UUID! @primaryKey
+  id: UUID! 
   name: String
   email: String! @unique
-  createdAt: Timestamp! @col(name: "created_at", default: "now()")
+  createdAt: Timestamp! @col(name: "created_at")
   dni: String
   phone: String
 }
