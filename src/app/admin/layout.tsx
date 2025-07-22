@@ -23,7 +23,7 @@ async function AdminLayout({ children }: { children: React.ReactNode }) {
         const decodedClaims = await admin.auth().verifySessionCookie(sessionCookie, true);
         const user = await getUserById(decodedClaims.uid);
         
-        if (user?.role !== 'admin') {
+        if (!user || user.role !== 'admin') {
             console.log(`User ${decodedClaims.uid} does not have admin role, redirecting to home. Role: ${user?.role}`);
             return redirect('/');
         }
