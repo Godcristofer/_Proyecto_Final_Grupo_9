@@ -1,8 +1,10 @@
+
 type Sales @table(name: "sales") {
-  userId: String! @col(name: "user_id")
-  user: Users! @ref(fields: "userId", references: "id")
-  saleDate: Date! @col(name: "sale_date") @default(expr: "request.time")
+  id: String! @pk
+  userId: String!
+  saleDate: Timestamp!
   total: Float!
-  details: [SaleDetails]! @ref(references: "saleId")
-  shipment: Shipments @ref(references: "saleId")
+  user: Users @belongsTo(foreignKey: "userId", references: "id")
+  details: [SaleDetails] @hasMany(foreignKey: "saleId", references: "id")
+  shipment: Shipments @hasOne(foreignKey: "saleId", references: "id")
 }

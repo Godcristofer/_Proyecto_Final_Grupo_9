@@ -1,8 +1,12 @@
-type Products @table {
-  id: UUID!
+
+type Products @table(name: "products") {
+  id: String! @pk
   name: String!
   description: String
   price: Float!
   image: String
   category: String
+  data_ai_hint: String
+  createdAt: Timestamp
+  updatedAt: Timestamp
 }

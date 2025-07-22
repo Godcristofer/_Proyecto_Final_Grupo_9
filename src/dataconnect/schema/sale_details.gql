@@ -1,8 +1,10 @@
+
 type SaleDetails @table(name: "sale_details") {
-  saleId: UUID! @col(name: "sale_id")
-  sale: Sales! @ref(fields: "saleId", references: "id")
-  productId: UUID! @col(name: "product_id")
-  product: Products! @ref(fields: "productId", references: "id")
+  id: String! @pk
+  saleId: String!
+  productId: String!
   quantity: Int!
   subtotal: Float!
+  sale: Sales @belongsTo(foreignKey: "saleId", references: "id")
+  product: Products @belongsTo(foreignKey: "productId", references: "id")
 }

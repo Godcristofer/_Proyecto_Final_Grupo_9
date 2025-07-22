@@ -1,26 +1,21 @@
+
 query listSales {
   sales {
     id
-    userId
     saleDate
     total
     user {
-      id
       name
-      email
     }
     details {
       id
       quantity
-      price
       subtotal
       product {
-        id
         name
       }
     }
     shipment {
-      id
       address
       city
       status

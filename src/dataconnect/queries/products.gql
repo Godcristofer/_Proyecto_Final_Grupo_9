@@ -1,21 +1,24 @@
-query GetProduct($id: String!) {
-  products(id: $id) {
+
+query ListProducts {
+  products {
     id
     name
     description
     price
     image
     category
+    data_ai_hint
   }
 }
 
-query ListProductsByCategory($category: String!) {
-  productss(where: { category: { _eq: $category } }) {
+query GetProductById($id: String!) {
+  products(id: { eq: $id }) {
     id
     name
     description
     price
     image
     category
+    data_ai_hint
   }
 }

@@ -50,3 +50,40 @@ query getUserById($id: String!) @auth(level: PUBLIC) {
     phone
   }
 }
+
+query listSales @auth(level: PUBLIC) {
+  sales {
+    items {
+      id
+      saleDate
+      total
+      user {
+        name
+        email
+      }
+    }
+  }
+
+  saleDetails {
+    items {
+      saleId
+      quantity
+      subtotal
+      product {
+        name
+        price
+      }
+    }
+  }
+
+  shipments {
+    items {
+      saleId
+      address
+      city
+      status
+      shippedAt
+      deliveredAt
+    }
+  }
+}

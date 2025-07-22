@@ -1,0 +1,44 @@
+[debug] [2025-07-22T06:39:55.347Z] ----------------------------------------------------------------------
+[debug] [2025-07-22T06:39:55.350Z] Command:       /nix/store/ws50yvm6vzlzf7jzz6n7xh4szddrack1-nodejs-20.19.1/bin/node /nix/store/gv0i9ndcpzjpfi2yr06402kzy90q51ki-firebase-tools-14.10.1/lib/node_modules/firebase-tools/lib/bin/firebase.js deploy --only dataconnect --debug
+[debug] [2025-07-22T06:39:55.351Z] CLI Version:   14.10.1
+[debug] [2025-07-22T06:39:55.351Z] Platform:      linux
+[debug] [2025-07-22T06:39:55.351Z] Node Version:  v20.19.1
+[debug] [2025-07-22T06:39:55.351Z] Time:          Tue Jul 22 2025 06:39:55 GMT+0000 (Coordinated Universal Time)
+[debug] [2025-07-22T06:39:55.351Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-07-22T06:39:55.863Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-22T06:41:15.049Z] Running auto auth
+[debug] [2025-07-22T06:41:15.076Z] [iam] checking project comcorp-store for permissions ["cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","firebase.projects.get","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update"]
+[debug] [2025-07-22T06:41:15.082Z] No OAuth tokens found
+[debug] [2025-07-22T06:41:15.094Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions [none]
+[debug] [2025-07-22T06:41:15.096Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions x-goog-quota-user=projects/comcorp-store
+[debug] [2025-07-22T06:41:15.097Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions {"permissions":["cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","firebase.projects.get","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update"]}
+[debug] [2025-07-22T06:41:15.328Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions 200
+[debug] [2025-07-22T06:41:15.329Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions {"permissions":["cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","firebase.projects.get","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update"]}
+[info] 
+[info] === Deploying to 'comcorp-store'...
+[info] 
+[info] i  deploying dataconnect 
+[debug] [2025-07-22T06:41:15.339Z] No OAuth tokens found
+[debug] [2025-07-22T06:41:15.341Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/comcorp-store/billingInfo [none]
+[debug] [2025-07-22T06:41:16.300Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/comcorp-store/billingInfo 200
+[debug] [2025-07-22T06:41:16.301Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/comcorp-store/billingInfo {"name":"projects/comcorp-store/billingInfo","projectId":"comcorp-store","billingAccountName":"billingAccounts/01A7AA-1CCBEF-00FDAD","billingEnabled":true}
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[info] i  dataconnect: ensuring required API compute.googleapis.com is enabled... 
+[info] i  dataconnect: Preparing to deploy 
+[debug] [2025-07-22T06:41:16.354Z] defaultcredentials: no credential available.
+[debug] [2025-07-22T06:41:17.792Z] W0722 06:41:17.786980   37526 control.go:58] [/emulator/comcorp-store-service 63fb] connector "default-2" has errors: connector/queries.gql:56: Cannot query field "items" on type "Sales".
+connector/queries.gql:68: Cannot query field "items" on type "SaleDetails".
+connector/queries.gql:80: Cannot query field "items" on type "Shipments".
+
+sources: connector/mutations.gql [409B] connector/queries.gql [1170B] 
+I0722 06:41:17.788096   37526 control.go:84] [/emulator/comcorp-store-service 63fb] UpdateResources(): done
+Schema: sources: schema/schema.gql [1447B] 
+Connector "default-2": sources: connector/mutations.gql [409B] connector/queries.gql [1170B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"W0722 06:41:17.786980   37526 control.go:58] [/emulator/comcorp-store-service 63fb] connector \"default-2\" has errors: connector/queries.gql:56: Cannot query field \"items\" on type \"Sales\".\nconnector/queries.gql:68: Cannot query field \"items\" on type \"SaleDetails\".\nconnector/queries.gql:80: Cannot query field \"items\" on type \"Shipments\".\n\nsources: connector/mutations.gql [409B] connector/queries.gql [1170B] \nI0722 06:41:17.788096   37526 control.go:84] [/emulator/comcorp-store-service 63fb] UpdateResources(): done\nSchema: sources: schema/schema.gql [1447B] \nConnector \"default-2\": sources: connector/mutations.gql [409B] connector/queries.gql [1170B] \n"}}
+[error] 
+[error] Error: There are errors in your schema and connector files:
+connector/queries.gql:68: Cannot query field "items" on type "SaleDetails".
+connector/queries.gql:56: Cannot query field "items" on type "Sales".
+connector/queries.gql:80: Cannot query field "items" on type "Shipments".

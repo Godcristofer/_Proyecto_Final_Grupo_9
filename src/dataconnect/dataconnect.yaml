@@ -1,8 +1,9 @@
+
 specVersion: v1
 serviceId: comcorp-store-service
 location: us-central1
 schema:
-  source: 
+  source:
     - ./schema/users.gql
     - ./schema/products.gql
     - ./schema/sales.gql
@@ -11,11 +12,12 @@ schema:
 connectorDirs:
   - ./connector
 mutations:
-  source: 
+  source:
     - ./mutations/users.gql
     - ./mutations/shipments.gql
+    - ./mutations/sales.gql
 queries:
-  source: 
+  source:
     - ./queries/users.gql
     - ./queries/sales.gql
     - ./queries/products.gql

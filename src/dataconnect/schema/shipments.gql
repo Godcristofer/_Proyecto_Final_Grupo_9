@@ -1,11 +1,11 @@
+
 type Shipments @table(name: "shipments") {
-  saleId: UUID! @col(name: "sale_id") @unique
-  sale: Sales! @ref(fields: "saleId", references: "id")
+  id: String! @pk
+  saleId: String!
   address: String!
   city: String!
-  status: String! @default(value: "pending")
-  shippedAt: Timestamp @col(name: "shipped_at")
-  deliveredAt: Timestamp @col(name: "delivered_at")
-  createdAt: Timestamp! @col(name: "created_at") @default(expr: "request.time")
-  updatedAt: Timestamp! @col(name: "updated_at") @default(expr: "request.time")
+  status: String!
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  sale: Sales @belongsTo(foreignKey: "saleId", references: "id")
 }

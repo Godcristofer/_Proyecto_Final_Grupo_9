@@ -1,0 +1,6 @@
+
+mutation createSale($sale: Sales_InsertInput!, $details: [SaleDetails_InsertInput!]!, $shipment: Shipments_InsertInput!) {
+    sales_insert(input: $sale) { id }
+    saleDetails_insert(input: $details) { id }
+    shipments_insert(input: $shipment) { id }
+}

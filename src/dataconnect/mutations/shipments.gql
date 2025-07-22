@@ -1,16 +1,9 @@
 
-mutation updateShipmentStatus($saleId: UUID!, $status: String!) {
-    shipments_update(
-        filter: { saleId: { eq: $saleId } },
-        data: { 
-            status: $status,
-            shippedAt: "request.time",
-            updatedAt: "request.time"
-        }
-    ) {
-        id
-        status
-        shippedAt
-        updatedAt
-    }
+mutation updateShipmentStatus($saleId: String!, $status: String!) {
+  shipments_update(
+    filter: { saleId: { eq: $saleId } }
+    input: { status: $status }
+  ) {
+    id
+  }
 }
