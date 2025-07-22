@@ -4,6 +4,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { onIdTokenChanged, User } from 'firebase/auth';
 import { getFirebaseAuth } from '@/lib/firebase';
+import { getUserById } from '@/lib/users';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface AuthContextType {
@@ -28,8 +29,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const unsubscribe = onIdTokenChanged(auth, async (user) => {
       setUser(user);
       if (user) {
-        const tokenResult = await user.getIdTokenResult();
-        setIsAdmin(tokenResult.claims.role === 'admin');
+        const dbUser = await getUserById(user.uid);
+        setIsAdmin(dbUser?.role === 'admin');
       } else {
         setIsAdmin(false);
       }

@@ -32,7 +32,12 @@ export default function Header() {
     const auth = getFirebaseAuth();
     if (auth) {
       await signOut(auth);
+      // Clear session cookie by calling the API
+      await fetch('/api/auth/session', {
+          method: 'DELETE',
+      });
       router.push('/');
+      router.refresh();
     }
   };
 
@@ -83,7 +88,7 @@ export default function Header() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           {isAdmin && (
-            <DropdownMenuItem onClick={() => router.push('/admin/users')}>
+            <DropdownMenuItem onClick={() => router.push('/admin/sales')}>
               <Shield className="mr-2 h-4 w-4" />
               <span>Admin</span>
             </DropdownMenuItem>
@@ -139,7 +144,7 @@ export default function Header() {
                       </Link>
                     ))}
                     {isAdmin && (
-                       <Link href="/admin/users" className="text-lg text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                       <Link href="/admin/sales" className="text-lg text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                         Admin
                       </Link>
                     )}
