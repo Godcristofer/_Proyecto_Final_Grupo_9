@@ -54,11 +54,8 @@ mutation CreateShipment(
   })
 }
 
-
-mutation updateShipmentStatus($saleId: UUID!, $status: String!) {
-  shipments_upsert(
-    data: { sale: { id: $saleId }, status: $status }
-  )
+mutation updateShipmentStatus($id: UUID!, $status: String!) @auth(level: PUBLIC) {
+  shipments_update(id: $id, data: { status: $status})
 }
 
 

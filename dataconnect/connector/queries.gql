@@ -69,6 +69,7 @@ query ListSales @auth(level: PUBLIC){
       subtotal
     }
     shipments_on_sale {
+      id
       address
       city
       status
