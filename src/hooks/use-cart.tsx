@@ -1,27 +1,19 @@
 
 "use client";
 
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
 import type { Product, CartItem } from '@/lib/types';
-
-// DataConnect generated hooks
-import {
-    useGetCartByUserId,
-    useAddItemToCart,
-    useUpdateCartItemQuantity,
-    useDeleteCartItem,
-    useCreateCart,
-} from '@firebasegen/default-2-connector/react';
-import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (product: Product, quantity?: number) => void;
-  removeFromCart: (itemId: string) => void;
-  updateQuantity: (itemId: string, quantity: number) => void;
+  removeFromCart: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   cartCount: number;
   cartTotal: number;
@@ -31,125 +23,87 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const { user, loading: authLoading } = useAuth();
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuth();
   const { toast } = useToast();
+  const router = useRouter();
 
-  const { data: cartData, isLoading: cartLoading, refetch: refetchCart } = useGetCartByUserId(
-    { userId: user?.uid! },
-    { enabled: !!user }
-  );
-
-  const { mutate: addItem } = useAddItemToCart({
-      onSuccess: () => refetchCart(),
-      onError: (error) => toast({ variant: 'destructive', title: 'Error al añadir item', description: error.message }),
-  });
-  
-  const { mutate: updateItem } = useUpdateCartItemQuantity({
-    onSuccess: () => refetchCart(),
-    onError: (error) => toast({ variant: 'destructive', title: 'Error al actualizar item', description: error.message }),
-  });
-
-  const { mutate: removeItem } = useDeleteCartItem({
-      onSuccess: () => refetchCart(),
-      onError: (error) => toast({ variant: 'destructive', title: 'Error al eliminar item', description: error.message }),
-  });
-
-  const { mutate: createCart } = useCreateCart({
-      onSuccess: () => refetchCart(),
-      onError: (error) => toast({ variant: 'destructive', title: 'Error al crear carrito', description: error.message }),
-  });
-
-  const cart = useMemo(() => {
-    if (!cartData?.shoppingCartsCollection || cartData.shoppingCartsCollection.length === 0) {
-      return null;
+  useEffect(() => {
+    setIsLoading(true);
+    if (user) {
+      const storedCart = localStorage.getItem(`cart_${user.uid}`);
+      if (storedCart) {
+        setCartItems(JSON.parse(storedCart));
+      } else {
+        setCartItems([]);
+      }
+    } else {
+      setCartItems([]);
     }
-    return cartData.shoppingCartsCollection[0];
-  }, [cartData]);
+    setIsLoading(false);
+  }, [user]);
 
-  const cartItems = useMemo((): CartItem[] => {
-    if (!cart?.items) return [];
-    
-    return cart.items.map((item: any) => ({
-        id: item.id,
-        product: {
-            ...item.product,
-            description: item.product.description || '',
-            image: item.product.image && !item.product.image.startsWith('/') && !item.product.image.startsWith('http') ? `/${item.product.image}` : (item.product.image || 'https://placehold.co/600x400.png'),
-            category: item.product.category || 'Sin categoría',
-            data_ai_hint: item.product.name.split(' ').slice(0, 2).join(' ').toLowerCase() || 'product',
-        },
-        quantity: item.quantity,
-    }));
-  }, [cart]);
+  useEffect(() => {
+    if (user && !isLoading) {
+      localStorage.setItem(`cart_${user.uid}`, JSON.stringify(cartItems));
+    }
+  }, [cartItems, user, isLoading]);
 
-
-  const addToCart = async (product: Product, quantity: number = 1) => {
+  const addToCart = useCallback((product: Product, quantity: number = 1) => {
     if (!user) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Debes iniciar sesión para agregar productos al carrito.' });
+      toast({
+        title: 'Inicia Sesión',
+        description: 'Debes iniciar sesión para agregar productos al carrito.',
+        variant: 'destructive',
+        action: (
+            <Button onClick={() => router.push('/login')}>Iniciar Sesión</Button>
+        )
+      });
       return;
     }
 
-    const actionAfterCartExists = (cartId: string) => {
-        const existingItem = cartItems.find(item => item.product.id === product.id);
-        if (existingItem) {
-            updateItem({
-                itemId: existingItem.id!,
-                quantity: existingItem.quantity + quantity
-            });
-        } else {
-            addItem({ cartId: cartId, productId: product.id, quantity });
-        }
-        toast({ title: "Actualizado", description: `${product.name} ha sido agregado/actualizado en tu carrito.` });
-    };
+    setCartItems(prevItems => {
+      const existingItem = prevItems.find(item => item.product.id === product.id);
+      if (existingItem) {
+        return prevItems.map(item =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+      }
+      return [...prevItems, { id: product.id, product, quantity }];
+    });
 
-    if (!cart) {
-        createCart({ userId: user.uid }, {
-            onSuccess: (data) => {
-                const newCartId = data?.shoppingCarts_insert?.id;
-                if (newCartId) {
-                    actionAfterCartExists(newCartId);
-                } else {
-                    toast({ variant: 'destructive', title: 'Error', description: 'No se pudo crear el carrito.' });
-                }
-            }
-        });
-    } else {
-        actionAfterCartExists(cart.id);
-    }
-  };
+    toast({ title: "Producto añadido", description: `${product.name} ha sido agregado a tu carrito.` });
 
-  const removeFromCart = (itemId: string) => {
-    if (!user) return;
-    removeItem({ itemId });
-  };
+  }, [user, toast, router]);
 
-  const updateQuantity = (itemId: string, quantity: number) => {
-    if (!user || !cart) return;
+  const removeFromCart = useCallback((productId: string) => {
+    setCartItems(prevItems => prevItems.filter(item => item.product.id !== productId));
+  }, []);
 
+  const updateQuantity = useCallback((productId: string, quantity: number) => {
     if (quantity <= 0) {
-      removeFromCart(itemId);
-    } else {
-      updateItem({ itemId, quantity });
+      removeFromCart(productId);
+      return;
     }
-  };
-  
-  const clearCart = () => {
-    if (!user) return;
-    cartItems.forEach(item => removeItem({ itemId: item.id! }));
-  };
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.product.id === productId ? { ...item, quantity } : item
+      )
+    );
+  }, [removeFromCart]);
+
+  const clearCart = useCallback(() => {
+    setCartItems([]);
+  }, []);
 
   const cartCount = useMemo(() => cartItems.reduce((count, item) => count + item.quantity, 0), [cartItems]);
   const cartTotal = useMemo(() => cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0), [cartItems]);
 
-  const isLoading = authLoading || (!!user && cartLoading);
-  
   return (
     <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, cartCount, cartTotal, isLoading }}>
-      {isLoading && !authLoading && ( // Only show spinner if auth is done but cart is loading
-         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-background/80 backdrop-blur-sm">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-         </div>
-      )}
       {children}
     </CartContext.Provider>
   );

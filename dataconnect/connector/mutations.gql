@@ -9,8 +9,8 @@ mutation CreateCart($userId: UUID!) @auth(level: USER) {
 mutation AddItemToCart($cartId: UUID!, $productId: UUID!, $quantity: Int!) @auth(level: USER) {
   shoppingCartItems_insert(
     data: {
-      cartId: $cartId,
-      productId: $productId,
+      cartid: $cartId,
+      productid: $productId,
       quantity: $quantity
     }
   )

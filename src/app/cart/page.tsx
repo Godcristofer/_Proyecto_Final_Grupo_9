@@ -68,8 +68,8 @@ export default function CartPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {cartItems.map(({ id, product, quantity }) => (
-                    <TableRow key={id}>
+                  {cartItems.map(({ product, quantity }) => (
+                    <TableRow key={product.id}>
                       <TableCell>
                          <Image
                           src={product.image || 'https://placehold.co/600x400.png'}
@@ -90,7 +90,7 @@ export default function CartPage() {
                             variant="outline"
                             size="icon"
                             className="h-8 w-8"
-                            onClick={() => updateQuantity(id!, quantity - 1)}
+                            onClick={() => updateQuantity(product.id, quantity - 1)}
                             disabled={quantity <= 1}
                           >
                             <Minus className="h-4 w-4" />
@@ -105,7 +105,7 @@ export default function CartPage() {
                             variant="outline"
                             size="icon"
                             className="h-8 w-8"
-                            onClick={() => updateQuantity(id!, quantity + 1)}
+                            onClick={() => updateQuantity(product.id, quantity + 1)}
                           >
                             <Plus className="h-4 w-4" />
                           </Button>
@@ -115,7 +115,7 @@ export default function CartPage() {
                         S/ {(product.price * quantity).toFixed(2)}
                       </TableCell>
                       <TableCell className="text-right">
-                         <Button variant="ghost" size="icon" onClick={() => removeFromCart(id!)}>
+                         <Button variant="ghost" size="icon" onClick={() => removeFromCart(product.id)}>
                            <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive"/>
                          </Button>
                       </TableCell>
@@ -157,4 +157,3 @@ export default function CartPage() {
     </div>
   );
 }
-

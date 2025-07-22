@@ -12,7 +12,7 @@ export interface Product {
 }
 
 export interface CartItem {
-  id?: string;
+  id: string;
   product: Product;
   quantity: number;
 }

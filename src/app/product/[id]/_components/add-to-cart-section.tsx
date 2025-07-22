@@ -33,7 +33,7 @@ export function AddToCartSection({ product }: { product: Product }) {
     }
     setIsAdding(true);
     try {
-        await addToCart(product, quantity);
+        addToCart(product, quantity);
     } catch (error) {
         console.error(error);
     } finally {
