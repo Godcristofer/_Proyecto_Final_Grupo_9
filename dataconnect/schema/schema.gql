@@ -8,7 +8,7 @@ type Products @table {
 }
 
 type Users @table(name: "users", key: "id") {
-  id: String!
+  id: String! @default(expr: "uuidV4()")
   name: String
   email: String! @unique
   dni: String

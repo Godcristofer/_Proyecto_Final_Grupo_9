@@ -30,7 +30,7 @@ export const createUser = async (userData: CreateUserInput) => {
             name: userData.name,
             dni: userData.dni || null,
             phone: userData.phone || null,
-            role: 'user', // Asignar rol por defecto
+            role: 'user',
          });
         return { success: true };
 
