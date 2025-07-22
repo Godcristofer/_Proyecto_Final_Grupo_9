@@ -1,4 +1,5 @@
 type SaleDetails @table(name: "sale_details") {
+  id: UUID! @id
   saleId: UUID! @col(name: "sale_id")
   sale: Sales! @ref(fields: "saleId", references: "id")
   productId: UUID! @col(name: "product_id")

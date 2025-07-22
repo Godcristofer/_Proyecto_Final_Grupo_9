@@ -1,4 +1,5 @@
 type Shipments @table(name: "shipments") {
+  id: UUID! @id
   saleId: UUID! @col(name: "sale_id") @unique
   sale: Sales! @ref(fields: "saleId", references: "id")
   address: String!

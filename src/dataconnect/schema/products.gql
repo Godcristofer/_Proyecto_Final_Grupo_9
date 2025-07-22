@@ -1,0 +1,8 @@
+type Products @table {
+  id: UUID!
+  name: String!
+  description: String
+  price: Float!
+  image: String
+  category: String
+}
