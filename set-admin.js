@@ -5,7 +5,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-const userEmail = 'nikco@gmail.com'; // <-- CAMBIA ESTO
+const userEmail = 'nikco@gmail.com';
 
 admin.auth().getUserByEmail(userEmail)
   .then((user) => {
