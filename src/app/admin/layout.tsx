@@ -1,7 +1,6 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getUserById } from "@/lib/users";
 import admin from 'firebase-admin';
 import { firebaseAdminConfig } from "@/lib/firebase-admin-config";
 
@@ -21,16 +20,16 @@ async function AdminLayout({ children }: { children: React.ReactNode }) {
 
     try {
         const decodedClaims = await admin.auth().verifySessionCookie(sessionCookie, true);
-        const user = await getUserById(decodedClaims.uid);
-
-        if (user?.role !== 'admin') {
+        
+        if (decodedClaims.role !== 'admin') {
+            console.log("User is not an admin, redirecting.");
             return redirect('/');
         }
 
         return <>{children}</>;
 
     } catch (error) {
-        console.error("Error verifying session cookie:", error);
+        console.error("Error verifying session cookie or user role:", error);
         return redirect("/login");
     }
 }
