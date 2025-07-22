@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import admin from 'firebase-admin';
 import { firebaseAdminConfig } from "@/lib/firebase-admin-config";
+import { getUserById } from "@/lib/users";
 
 if (!admin.apps.length) {
     admin.initializeApp({
@@ -20,9 +21,10 @@ async function AdminLayout({ children }: { children: React.ReactNode }) {
 
     try {
         const decodedClaims = await admin.auth().verifySessionCookie(sessionCookie, true);
+        const user = await getUserById(decodedClaims.uid);
         
-        if (decodedClaims.role !== 'admin') {
-            console.log("User is not an admin, redirecting.");
+        if (user?.role !== 'admin') {
+            console.log(`User ${decodedClaims.uid} is not an admin, redirecting. Role: ${user?.role}`);
             return redirect('/');
         }
 
