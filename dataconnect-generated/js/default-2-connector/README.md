@@ -624,20 +624,22 @@ export interface ListSalesData {
       email: string;
     };
       saleDetailss_on_sale: ({
+        id: UUIDString;
         product: {
           name: string;
           price: number;
         };
           quantity: number;
           subtotal: number;
-      })[];
+      } & SaleDetails_Key)[];
         shipments_on_sale?: {
+          id: UUIDString;
           address: string;
           city: string;
           status: string;
           shippedAt?: TimestampString | null;
           deliveredAt?: TimestampString | null;
-        };
+        } & Shipments_Key;
   } & Sales_Key)[];
 }
 ```
@@ -1325,7 +1327,7 @@ The `updateShipmentStatus` mutation requires an argument of type `UpdateShipment
 
 ```typescript
 export interface UpdateShipmentStatusVariables {
-  saleId: UUIDString;
+  id: UUIDString;
   status: string;
 }
 ```
@@ -1335,7 +1337,7 @@ Recall that executing the `updateShipmentStatus` mutation returns a `MutationPro
 The `data` property is an object of type `UpdateShipmentStatusData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
 ```typescript
 export interface UpdateShipmentStatusData {
-  shipments_upsert: Shipments_Key;
+  shipments_update?: Shipments_Key | null;
 }
 ```
 ### Using `updateShipmentStatus`'s action shortcut function
@@ -1346,7 +1348,7 @@ import { connectorConfig, updateShipmentStatus, UpdateShipmentStatusVariables } 
 
 // The `updateShipmentStatus` mutation requires an argument of type `UpdateShipmentStatusVariables`:
 const updateShipmentStatusVars: UpdateShipmentStatusVariables = {
-  saleId: ..., 
+  id: ..., 
   status: ..., 
 };
 
@@ -1354,18 +1356,18 @@ const updateShipmentStatusVars: UpdateShipmentStatusVariables = {
 // You can use the `await` keyword to wait for the promise to resolve.
 const { data } = await updateShipmentStatus(updateShipmentStatusVars);
 // Variables can be defined inline as well.
-const { data } = await updateShipmentStatus({ saleId: ..., status: ..., });
+const { data } = await updateShipmentStatus({ id: ..., status: ..., });
 
 // You can also pass in a `DataConnect` instance to the action shortcut function.
 const dataConnect = getDataConnect(connectorConfig);
 const { data } = await updateShipmentStatus(dataConnect, updateShipmentStatusVars);
 
-console.log(data.shipments_upsert);
+console.log(data.shipments_update);
 
 // Or, you can use the `Promise` API.
 updateShipmentStatus(updateShipmentStatusVars).then((response) => {
   const data = response.data;
-  console.log(data.shipments_upsert);
+  console.log(data.shipments_update);
 });
 ```
 
@@ -1377,14 +1379,14 @@ import { connectorConfig, updateShipmentStatusRef, UpdateShipmentStatusVariables
 
 // The `updateShipmentStatus` mutation requires an argument of type `UpdateShipmentStatusVariables`:
 const updateShipmentStatusVars: UpdateShipmentStatusVariables = {
-  saleId: ..., 
+  id: ..., 
   status: ..., 
 };
 
 // Call the `updateShipmentStatusRef()` function to get a reference to the mutation.
 const ref = updateShipmentStatusRef(updateShipmentStatusVars);
 // Variables can be defined inline as well.
-const ref = updateShipmentStatusRef({ saleId: ..., status: ..., });
+const ref = updateShipmentStatusRef({ id: ..., status: ..., });
 
 // You can also pass in a `DataConnect` instance to the `MutationRef` function.
 const dataConnect = getDataConnect(connectorConfig);
@@ -1394,12 +1396,12 @@ const ref = updateShipmentStatusRef(dataConnect, updateShipmentStatusVars);
 // You can use the `await` keyword to wait for the promise to resolve.
 const { data } = await executeMutation(ref);
 
-console.log(data.shipments_upsert);
+console.log(data.shipments_update);
 
 // Or, you can use the `Promise` API.
 executeMutation(ref).then((response) => {
   const data = response.data;
-  console.log(data.shipments_upsert);
+  console.log(data.shipments_update);
 });
 ```
 

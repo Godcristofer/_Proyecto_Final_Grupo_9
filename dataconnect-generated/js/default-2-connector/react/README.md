@@ -545,20 +545,22 @@ export interface ListSalesData {
       email: string;
     };
       saleDetailss_on_sale: ({
+        id: UUIDString;
         product: {
           name: string;
           price: number;
         };
           quantity: number;
           subtotal: number;
-      })[];
+      } & SaleDetails_Key)[];
         shipments_on_sale?: {
+          id: UUIDString;
           address: string;
           city: string;
           status: string;
           shippedAt?: TimestampString | null;
           deliveredAt?: TimestampString | null;
-        };
+        } & Shipments_Key;
   } & Sales_Key)[];
 }
 ```
@@ -1143,7 +1145,7 @@ The `updateShipmentStatus` Mutation requires an argument of type `UpdateShipment
 
 ```javascript
 export interface UpdateShipmentStatusVariables {
-  saleId: UUIDString;
+  id: UUIDString;
   status: string;
 }
 ```
@@ -1157,7 +1159,7 @@ To execute the Mutation, call `UseMutationResult.mutate()`. This function execut
 To access the data returned by a Mutation, use the `UseMutationResult.data` field. The data for the `updateShipmentStatus` Mutation is of type `UpdateShipmentStatusData`, which is defined in [default-2-connector/index.d.ts](../index.d.ts). It has the following fields:
 ```javascript
 export interface UpdateShipmentStatusData {
-  shipments_upsert: Shipments_Key;
+  shipments_update?: Shipments_Key | null;
 }
 ```
 
@@ -1194,12 +1196,12 @@ export default function UpdateShipmentStatusComponent() {
   // After calling the Mutation hook function, you must call `UseMutationResult.mutate()` to execute the Mutation.
   // The `useUpdateShipmentStatus` Mutation requires an argument of type `UpdateShipmentStatusVariables`:
   const updateShipmentStatusVars: UpdateShipmentStatusVariables = {
-    saleId: ..., 
+    id: ..., 
     status: ..., 
   };
   mutation.mutate(updateShipmentStatusVars);
   // Variables can be defined inline as well.
-  mutation.mutate({ saleId: ..., status: ..., });
+  mutation.mutate({ id: ..., status: ..., });
 
   // You can also pass in a `useDataConnectMutationOptions` object to `UseMutationResult.mutate()`.
   const options = {
@@ -1218,7 +1220,7 @@ export default function UpdateShipmentStatusComponent() {
 
   // If the Mutation is successful, you can access the data returned using the `UseMutationResult.data` field.
   if (mutation.isSuccess) {
-    console.log(mutation.data.shipments_upsert);
+    console.log(mutation.data.shipments_update);
   }
   return <div>Mutation execution {mutation.isSuccess ? 'successful' : 'failed'}!</div>;
 }

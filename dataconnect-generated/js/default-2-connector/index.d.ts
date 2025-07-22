@@ -113,20 +113,22 @@ export interface ListSalesData {
       email: string;
     };
       saleDetailss_on_sale: ({
+        id: UUIDString;
         product: {
           name: string;
           price: number;
         };
           quantity: number;
           subtotal: number;
-      })[];
+      } & SaleDetails_Key)[];
         shipments_on_sale?: {
+          id: UUIDString;
           address: string;
           city: string;
           status: string;
           shippedAt?: TimestampString | null;
           deliveredAt?: TimestampString | null;
-        };
+        } & Shipments_Key;
   } & Sales_Key)[];
 }
 
@@ -162,11 +164,11 @@ export interface Shipments_Key {
 }
 
 export interface UpdateShipmentStatusData {
-  shipments_upsert: Shipments_Key;
+  shipments_update?: Shipments_Key | null;
 }
 
 export interface UpdateShipmentStatusVariables {
-  saleId: UUIDString;
+  id: UUIDString;
   status: string;
 }
 

@@ -36,7 +36,8 @@ type SaleDetails @table(name: "sale_details", key: "id") {
   subtotal: Float!
 }
 
-type Shipments @table{
+type Shipments @table(key: "id"){
+  id: UUID! @default(expr: "uuidV4()")
   sale: Sales! @unique
   address: String!
   city: String!
