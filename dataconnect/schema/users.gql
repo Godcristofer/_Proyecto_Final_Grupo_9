@@ -1,8 +1,10 @@
+
 type Users @table(name: "users") {
-  id: String! @unique
+  id: String!
   name: String
   email: String! @unique
-  createdAt: Timestamp! @col(name: "created_at")
   dni: String
   phone: String
+  createdAt: Timestamp! @col(name: "created_at", default: "now()")
+  updatedAt: Timestamp! @col(name: "updated_at", default: "now()", onUpdate: "now()")
 }
