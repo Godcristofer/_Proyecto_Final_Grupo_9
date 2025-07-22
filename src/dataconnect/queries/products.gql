@@ -1,0 +1,21 @@
+query GetProduct($id: String!) {
+  products(id: $id) {
+    id
+    name
+    description
+    price
+    image
+    category
+  }
+}
+
+query ListProductsByCategory($category: String!) {
+  productss(where: { category: { _eq: $category } }) {
+    id
+    name
+    description
+    price
+    image
+    category
+  }
+}

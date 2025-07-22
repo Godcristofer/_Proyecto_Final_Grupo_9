@@ -1,5 +1,17 @@
+query listUsers {
+  userss {
+    id
+    name
+    email
+    role
+    createdAt
+    dni
+    phone
+  }
+}
+
 query getUserById($id: String!) {
-  users(id: { eq: $id }) {
+  users(id: $id) {
     id
     name
     email

@@ -12,9 +12,10 @@ connectorDirs:
   - ./connector
 mutations:
   source: 
-    - ./mutations/shipments.gql
     - ./mutations/users.gql
+    - ./mutations/shipments.gql
 queries:
   source: 
-    - ./queries/sales.gql
     - ./queries/users.gql
+    - ./queries/sales.gql
+    - ./queries/products.gql
