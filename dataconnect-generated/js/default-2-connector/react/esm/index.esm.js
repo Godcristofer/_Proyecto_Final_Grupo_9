@@ -1,4 +1,4 @@
-import { createUserRef, updateUserRoleRef, createSaleRef, createSaleDetailRef, createShipmentRef, listProductsRef, getProductRef, listProductsByCategoryRef, listUsersRef, getUserByIdRef, connectorConfig } from '../../esm/index.esm.js';
+import { createUserRef, updateUserRoleRef, createSaleRef, createSaleDetailRef, createShipmentRef, listProductsRef, getProductRef, listProductsByCategoryRef, listUsersRef, getUserByIdRef, listSalesRef, connectorConfig } from '../../esm/index.esm.js';
 import { validateArgs, CallerSdkTypeEnum } from 'firebase/data-connect';
 import { useDataConnectQuery, useDataConnectMutation, validateReactArgs } from '@tanstack-query-firebase/react/data-connect';
 
@@ -70,5 +70,11 @@ export function useListUsers(dcOrOptions, options) {
 export function useGetUserById(dcOrVars, varsOrOptions, options) {
   const { dc: dcInstance, vars: inputVars, options: inputOpts } = validateReactArgs(connectorConfig, dcOrVars, varsOrOptions, options, true, true);
   const ref = getUserByIdRef(dcInstance, inputVars);
+  return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
+}
+
+export function useListSales(dcOrOptions, options) {
+  const { dc: dcInstance, options: inputOpts } = validateReactArgs(connectorConfig, dcOrOptions, options);
+  const ref = listSalesRef(dcInstance);
   return useDataConnectQuery(ref, inputOpts, CallerSdkTypeEnum.GeneratedReact);
 }

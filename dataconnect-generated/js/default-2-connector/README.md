@@ -15,6 +15,7 @@ This README will guide you through the process of using the generated JavaScript
   - [*ListProductsByCategory*](#listproductsbycategory)
   - [*ListUsers*](#listusers)
   - [*getUserById*](#getuserbyid)
+  - [*ListSales*](#listsales)
 - [**Mutations**](#mutations)
   - [*CreateUser*](#createuser)
   - [*updateUserRole*](#updateuserrole)
@@ -573,6 +574,120 @@ console.log(data.users);
 executeQuery(ref).then((response) => {
   const data = response.data;
   console.log(data.users);
+});
+```
+
+## ListSales
+You can execute the `ListSales` query using the following action shortcut function, or by calling `executeQuery()` after calling the following `QueryRef` function, both of which are defined in [default-2-connector/index.d.ts](./index.d.ts):
+```typescript
+listSales(): QueryPromise<ListSalesData, undefined>;
+
+interface ListSalesRef {
+  ...
+  /* Allow users to create refs without passing in DataConnect */
+  (): QueryRef<ListSalesData, undefined>;
+}
+export const listSalesRef: ListSalesRef;
+```
+You can also pass in a `DataConnect` instance to the action shortcut function or `QueryRef` function.
+```typescript
+listSales(dc: DataConnect): QueryPromise<ListSalesData, undefined>;
+
+interface ListSalesRef {
+  ...
+  (dc: DataConnect): QueryRef<ListSalesData, undefined>;
+}
+export const listSalesRef: ListSalesRef;
+```
+
+If you need the name of the operation without creating a ref, you can retrieve the operation name by calling the `operationName` property on the listSalesRef:
+```typescript
+const name = listSalesRef.operationName;
+console.log(name);
+```
+
+### Variables
+The `ListSales` query has no variables.
+### Return Type
+Recall that executing the `ListSales` query returns a `QueryPromise` that resolves to an object with a `data` property.
+
+The `data` property is an object of type `ListSalesData`, which is defined in [default-2-connector/index.d.ts](./index.d.ts). It has the following fields:
+```typescript
+export interface ListSalesData {
+  saless: ({
+    id: UUIDString;
+    saleDate: DateString;
+    total: number;
+    user: {
+      name?: string | null;
+      email: string;
+    };
+      saleDetailss_on_sale: ({
+        product: {
+          name: string;
+          price: number;
+        };
+          quantity: number;
+          subtotal: number;
+      })[];
+        shipments_on_sale?: {
+          address: string;
+          city: string;
+          status: string;
+          shippedAt?: TimestampString | null;
+          deliveredAt?: TimestampString | null;
+        };
+  } & Sales_Key)[];
+}
+```
+### Using `ListSales`'s action shortcut function
+
+```typescript
+import { getDataConnect } from 'firebase/data-connect';
+import { connectorConfig, listSales } from '@firebasegen/default-2-connector';
+
+
+// Call the `listSales()` function to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await listSales();
+
+// You can also pass in a `DataConnect` instance to the action shortcut function.
+const dataConnect = getDataConnect(connectorConfig);
+const { data } = await listSales(dataConnect);
+
+console.log(data.saless);
+
+// Or, you can use the `Promise` API.
+listSales().then((response) => {
+  const data = response.data;
+  console.log(data.saless);
+});
+```
+
+### Using `ListSales`'s `QueryRef` function
+
+```typescript
+import { getDataConnect, executeQuery } from 'firebase/data-connect';
+import { connectorConfig, listSalesRef } from '@firebasegen/default-2-connector';
+
+
+// Call the `listSalesRef()` function to get a reference to the query.
+const ref = listSalesRef();
+
+// You can also pass in a `DataConnect` instance to the `QueryRef` function.
+const dataConnect = getDataConnect(connectorConfig);
+const ref = listSalesRef(dataConnect);
+
+// Call `executeQuery()` on the reference to execute the query.
+// You can use the `await` keyword to wait for the promise to resolve.
+const { data } = await executeQuery(ref);
+
+console.log(data.saless);
+
+// Or, you can use the `Promise` API.
+executeQuery(ref).then((response) => {
+  const data = response.data;
+  console.log(data.saless);
 });
 ```
 

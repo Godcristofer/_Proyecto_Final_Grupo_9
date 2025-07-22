@@ -1,0 +1,96 @@
+[debug] [2025-07-22T08:42:57.431Z] ----------------------------------------------------------------------
+[debug] [2025-07-22T08:42:57.434Z] Command:       /nix/store/ws50yvm6vzlzf7jzz6n7xh4szddrack1-nodejs-20.19.1/bin/node /nix/store/gv0i9ndcpzjpfi2yr06402kzy90q51ki-firebase-tools-14.10.1/lib/node_modules/firebase-tools/lib/bin/firebase.js deploy --only dataconnect --debug
+[debug] [2025-07-22T08:42:57.434Z] CLI Version:   14.10.1
+[debug] [2025-07-22T08:42:57.435Z] Platform:      linux
+[debug] [2025-07-22T08:42:57.435Z] Node Version:  v20.19.1
+[debug] [2025-07-22T08:42:57.435Z] Time:          Tue Jul 22 2025 08:42:57 GMT+0000 (Coordinated Universal Time)
+[debug] [2025-07-22T08:42:57.435Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-07-22T08:42:57.898Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-22T08:42:57.900Z] > authorizing via signed-in user (nikco20013@gmail.com)
+[debug] [2025-07-22T08:42:57.901Z] [iam] checking project comcorp-store for permissions ["cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","firebase.projects.get","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update"]
+[debug] [2025-07-22T08:42:57.903Z] No OAuth tokens found
+[debug] [2025-07-22T08:42:57.903Z] No OAuth tokens found
+[debug] [2025-07-22T08:42:57.903Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-22T08:42:57.904Z] > authorizing via signed-in user (nikco20013@gmail.com)
+[debug] [2025-07-22T08:42:57.905Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions [none]
+[debug] [2025-07-22T08:42:57.906Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions x-goog-quota-user=projects/comcorp-store
+[debug] [2025-07-22T08:42:57.906Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions {"permissions":["cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","firebase.projects.get","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update"]}
+[debug] [2025-07-22T08:42:58.165Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions 200
+[debug] [2025-07-22T08:42:58.166Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions {"permissions":["cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","firebase.projects.get","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update"]}
+[info] 
+[info] === Deploying to 'comcorp-store'...
+[info] 
+[info] i  deploying dataconnect 
+[debug] [2025-07-22T08:42:58.174Z] No OAuth tokens found
+[debug] [2025-07-22T08:42:58.174Z] No OAuth tokens found
+[debug] [2025-07-22T08:42:58.175Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-22T08:42:58.175Z] > authorizing via signed-in user (nikco20013@gmail.com)
+[debug] [2025-07-22T08:42:58.175Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/comcorp-store/billingInfo [none]
+[debug] [2025-07-22T08:42:59.136Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/comcorp-store/billingInfo 200
+[debug] [2025-07-22T08:42:59.138Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/comcorp-store/billingInfo {"name":"projects/comcorp-store/billingInfo","projectId":"comcorp-store","billingAccountName":"billingAccounts/01A7AA-1CCBEF-00FDAD","billingEnabled":true}
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[info] i  dataconnect: ensuring required API compute.googleapis.com is enabled... 
+[info] i  dataconnect: Preparing to deploy 
+[debug] [2025-07-22T08:42:59.173Z] defaultcredentials: no credential available.
+[debug] [2025-07-22T08:43:00.495Z] W0722 08:43:00.491589   18836 control.go:58] [/emulator/comcorp-store-service a7a1] connector "default-2" has errors: connector/mutations.gql:58: Unknown argument "where" on field "Mutation.shipments_update".
+connector/mutations.gql:58: Unknown argument "update" on field "Mutation.shipments_update". Did you mean "data"?
+connector/mutations.gql:58: Field "shipments_update" argument "data" of type "Shipments_Data!" is required, but it was not provided.
+
+sources: connector/mutations.gql [1258B] connector/queries.gql [1110B] 
+I0722 08:43:00.491825   18836 control.go:84] [/emulator/comcorp-store-service a7a1] UpdateResources(): done
+Schema: sources: schema/schema.gql [1564B] 
+Connector "default-2": sources: connector/mutations.gql [1258B] connector/queries.gql [1110B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"W0722 08:43:00.491589   18836 control.go:58] [/emulator/comcorp-store-service a7a1] connector \"default-2\" has errors: connector/mutations.gql:58: Unknown argument \"where\" on field \"Mutation.shipments_update\".\nconnector/mutations.gql:58: Unknown argument \"update\" on field \"Mutation.shipments_update\". Did you mean \"data\"?\nconnector/mutations.gql:58: Field \"shipments_update\" argument \"data\" of type \"Shipments_Data!\" is required, but it was not provided.\n\nsources: connector/mutations.gql [1258B] connector/queries.gql [1110B] \nI0722 08:43:00.491825   18836 control.go:84] [/emulator/comcorp-store-service a7a1] UpdateResources(): done\nSchema: sources: schema/schema.gql [1564B] \nConnector \"default-2\": sources: connector/mutations.gql [1258B] connector/queries.gql [1110B] \n"}}
+[error] 
+[error] Error: There are errors in your schema and connector files:
+connector/mutations.gql:58: Field "shipments_update" argument "data" of type "Shipments_Data!" is required, but it was not provided.
+connector/mutations.gql:58: Unknown argument "update" on field "Mutation.shipments_update". Did you mean "data"?
+connector/mutations.gql:58: Unknown argument "where" on field "Mutation.shipments_update".
+[debug] [2025-07-22T08:43:56.125Z] ----------------------------------------------------------------------
+[debug] [2025-07-22T08:43:56.127Z] Command:       /nix/store/ws50yvm6vzlzf7jzz6n7xh4szddrack1-nodejs-20.19.1/bin/node /nix/store/gv0i9ndcpzjpfi2yr06402kzy90q51ki-firebase-tools-14.10.1/lib/node_modules/firebase-tools/lib/bin/firebase.js deploy --only dataconnect --debug
+[debug] [2025-07-22T08:43:56.128Z] CLI Version:   14.10.1
+[debug] [2025-07-22T08:43:56.128Z] Platform:      linux
+[debug] [2025-07-22T08:43:56.128Z] Node Version:  v20.19.1
+[debug] [2025-07-22T08:43:56.128Z] Time:          Tue Jul 22 2025 08:43:56 GMT+0000 (Coordinated Universal Time)
+[debug] [2025-07-22T08:43:56.129Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-07-22T08:43:56.611Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-22T08:43:56.613Z] > authorizing via signed-in user (nikco20013@gmail.com)
+[debug] [2025-07-22T08:43:56.613Z] [iam] checking project comcorp-store for permissions ["cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","firebase.projects.get","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update"]
+[debug] [2025-07-22T08:43:56.615Z] No OAuth tokens found
+[debug] [2025-07-22T08:43:56.616Z] No OAuth tokens found
+[debug] [2025-07-22T08:43:56.616Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-22T08:43:56.616Z] > authorizing via signed-in user (nikco20013@gmail.com)
+[debug] [2025-07-22T08:43:56.618Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions [none]
+[debug] [2025-07-22T08:43:56.619Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions x-goog-quota-user=projects/comcorp-store
+[debug] [2025-07-22T08:43:56.619Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions {"permissions":["cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","firebase.projects.get","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update"]}
+[debug] [2025-07-22T08:43:56.890Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions 200
+[debug] [2025-07-22T08:43:56.891Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/comcorp-store:testIamPermissions {"permissions":["cloudsql.databases.create","cloudsql.databases.update","cloudsql.instances.connect","cloudsql.instances.create","cloudsql.instances.get","cloudsql.instances.list","cloudsql.instances.update","cloudsql.users.create","firebase.projects.get","firebasedataconnect.connectors.create","firebasedataconnect.connectors.delete","firebasedataconnect.connectors.list","firebasedataconnect.connectors.update","firebasedataconnect.operations.get","firebasedataconnect.schemas.create","firebasedataconnect.schemas.delete","firebasedataconnect.schemas.list","firebasedataconnect.schemas.update","firebasedataconnect.services.create","firebasedataconnect.services.delete","firebasedataconnect.services.list","firebasedataconnect.services.update"]}
+[info] 
+[info] === Deploying to 'comcorp-store'...
+[info] 
+[info] i  deploying dataconnect 
+[debug] [2025-07-22T08:43:56.902Z] No OAuth tokens found
+[debug] [2025-07-22T08:43:56.903Z] No OAuth tokens found
+[debug] [2025-07-22T08:43:56.903Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-22T08:43:56.906Z] > authorizing via signed-in user (nikco20013@gmail.com)
+[debug] [2025-07-22T08:43:56.906Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/comcorp-store/billingInfo [none]
+[debug] [2025-07-22T08:43:57.841Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/comcorp-store/billingInfo 200
+[debug] [2025-07-22T08:43:57.841Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/comcorp-store/billingInfo {"name":"projects/comcorp-store/billingInfo","projectId":"comcorp-store","billingAccountName":"billingAccounts/01A7AA-1CCBEF-00FDAD","billingEnabled":true}
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[info] i  dataconnect: ensuring required API compute.googleapis.com is enabled... 
+[info] i  dataconnect: Preparing to deploy 
+[debug] [2025-07-22T08:43:57.881Z] defaultcredentials: no credential available.
+[debug] [2025-07-22T08:43:59.183Z] W0722 08:43:59.177050   19084 control.go:58] [/emulator/comcorp-store-service 272b] connector "default-2" has errors: connector/mutations.gql:58: Unknown argument "where" on field "Mutation.shipments_update".
+
+sources: connector/mutations.gql [1256B] connector/queries.gql [1110B] 
+I0722 08:43:59.177159   19084 control.go:84] [/emulator/comcorp-store-service 272b] UpdateResources(): done
+Schema: sources: schema/schema.gql [1564B] 
+Connector "default-2": sources: connector/mutations.gql [1256B] connector/queries.gql [1110B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"W0722 08:43:59.177050   19084 control.go:58] [/emulator/comcorp-store-service 272b] connector \"default-2\" has errors: connector/mutations.gql:58: Unknown argument \"where\" on field \"Mutation.shipments_update\".\n\nsources: connector/mutations.gql [1256B] connector/queries.gql [1110B] \nI0722 08:43:59.177159   19084 control.go:84] [/emulator/comcorp-store-service 272b] UpdateResources(): done\nSchema: sources: schema/schema.gql [1564B] \nConnector \"default-2\": sources: connector/mutations.gql [1256B] connector/queries.gql [1110B] \n"}}
+[error] 
+[error] Error: There are errors in your schema and connector files:
+connector/mutations.gql:58: Unknown argument "where" on field "Mutation.shipments_update".

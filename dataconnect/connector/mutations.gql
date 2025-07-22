@@ -54,4 +54,12 @@ mutation CreateShipment(
   })
 }
 
+mutation updateShipmentStatus($saleId: String!, $newStatus: String!) {
+  shipments_update(
+    where: { sale_id: { equalTo: $saleId } }
+    data: { status: $newStatus }
+  )
+}
+
+
 

@@ -51,3 +51,29 @@ query getUserById($id: String!) @auth(level: PUBLIC) {
   }
 }
 
+query ListSales @auth(level: PUBLIC){
+  saless (limit: 50){
+    id
+    saleDate
+    total
+    user {
+      name
+      email
+    }
+    saleDetailss_on_sale {
+      product {
+        name
+        price
+      }
+      quantity
+      subtotal
+    }
+    shipments_on_sale {
+      address
+      city
+      status
+      shippedAt
+      deliveredAt
+    }
+  }
+}

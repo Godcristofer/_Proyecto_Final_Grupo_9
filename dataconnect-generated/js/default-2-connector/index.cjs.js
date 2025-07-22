@@ -126,3 +126,15 @@ exports.getUserByIdRef = getUserByIdRef;
 exports.getUserById = function getUserById(dcOrVars, vars) {
   return executeQuery(getUserByIdRef(dcOrVars, vars));
 };
+
+const listSalesRef = (dc) => {
+  const { dc: dcInstance} = validateArgs(connectorConfig, dc, undefined);
+  dcInstance._useGeneratedSdk();
+  return queryRef(dcInstance, 'ListSales');
+}
+listSalesRef.operationName = 'ListSales';
+exports.listSalesRef = listSalesRef;
+
+exports.listSales = function listSales(dc) {
+  return executeQuery(listSalesRef(dc));
+};

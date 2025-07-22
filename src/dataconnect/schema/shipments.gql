@@ -1,11 +1,10 @@
-
 type Shipments @table(name: "shipments") {
-  id: String! @pk
-  saleId: String!
+  id: UUID! @id
+  saleId: UUID! @unique
   address: String!
   city: String!
-  status: String!
-  createdAt: Timestamp
-  updatedAt: Timestamp
-  sale: Sales @belongsTo(foreignKey: "saleId", references: "id")
+  status: String! @default(value: "pending")
+  shippedAt: Timestamp
+  deliveredAt: Timestamp
+  sale: Sales @relation(field: "saleId")
 }

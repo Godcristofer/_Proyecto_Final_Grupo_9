@@ -1,10 +1,9 @@
-
 type Sales @table(name: "sales") {
-  id: String! @pk
+  id: UUID! @id
   userId: String!
-  saleDate: Timestamp!
+  saleDate: Date!
   total: Float!
-  user: Users @belongsTo(foreignKey: "userId", references: "id")
-  details: [SaleDetails] @hasMany(foreignKey: "saleId", references: "id")
-  shipment: Shipments @hasOne(foreignKey: "saleId", references: "id")
+  user: Users @relation(field: "userId")
+  details: [SaleDetails] @relation(on: "saleId")
+  shipment: Shipments @relation(on: "saleId")
 }
