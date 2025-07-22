@@ -1,4 +1,10 @@
-mutation CreateUser($id: UUID!, $email: String!, $name: String, $dni: String, $phone: String) @auth(level: ADMIN) {
+mutation CreateUser(
+  $id: String!
+  $email: String!
+  $name: String
+  $dni: String
+  $phone: String
+) @auth(level: USER) {
   users_insert(
     data: {
       id: $id
@@ -7,5 +13,7 @@ mutation CreateUser($id: UUID!, $email: String!, $name: String, $dni: String, $p
       dni: $dni
       phone: $phone
     }
-  )
+  ) {
+    id
+  }
 }
