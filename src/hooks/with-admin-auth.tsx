@@ -14,20 +14,20 @@ if (
     );
 }
 
-const { auth } = getFirebaseAuth({
-    ...firebaseAdminConfig,
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
-    cookieSignature: [
-      process.env.COOKIE_SECRET_CURRENT,
-      process.env.COOKIE_SECRET_PREVIOUS,
-    ],
-    checkRevoked: true,
-});
-
 const withAdminAuth = <P extends object>(
   Component: React.ComponentType<P>
 ) => {
   return async function WithAdminAuth(props: P) {
+    const { auth } = getFirebaseAuth({
+        ...firebaseAdminConfig,
+        apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
+        cookieSignature: [
+          process.env.COOKIE_SECRET_CURRENT!,
+          process.env.COOKIE_SECRET_PREVIOUS!,
+        ],
+        checkRevoked: true,
+    });
+      
     const tokens = await auth.getTokens(cookies(), {
       checkRevoked: true,
     });
