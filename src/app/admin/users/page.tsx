@@ -15,6 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { format } from 'date-fns';
+import { Badge } from '@/components/ui/badge';
 
 export default async function UsersAdminPage() {
   const users = await getUsers();
@@ -34,13 +35,14 @@ export default async function UsersAdminPage() {
               <TableRow>
                 <TableHead>Nombre</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead>Rol</TableHead>
                 <TableHead>Fecha de Registro</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {users.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={3} className="h-24 text-center">
+                  <TableCell colSpan={4} className="h-24 text-center">
                     No se encontraron usuarios.
                   </TableCell>
                 </TableRow>
@@ -49,6 +51,11 @@ export default async function UsersAdminPage() {
                   <TableRow key={user.id}>
                     <TableCell className="font-medium">{user.name || 'N/A'}</TableCell>
                     <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
+                        {user.role}
+                      </Badge>
+                    </TableCell>
                     <TableCell>
                       {format(new Date(user.createdAt), "dd/MM/yyyy HH:mm")}
                     </TableCell>

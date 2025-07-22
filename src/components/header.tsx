@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ShoppingCart, Menu, Search, User, LogOut } from 'lucide-react';
+import { ShoppingCart, Menu, Search, User, LogOut, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useCart } from '@/hooks/use-cart';
@@ -24,7 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function Header() {
   const { cartCount } = useCart();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const isMobile = useIsMobile();
   const router = useRouter();
 
@@ -82,6 +82,12 @@ export default function Header() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
+          {isAdmin && (
+            <DropdownMenuItem onClick={() => router.push('/admin/users')}>
+              <Shield className="mr-2 h-4 w-4" />
+              <span>Admin</span>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem onClick={handleSignOut}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>Cerrar sesión</span>
@@ -132,6 +138,11 @@ export default function Header() {
                         {link.label}
                       </Link>
                     ))}
+                    {isAdmin && (
+                       <Link href="/admin/users" className="text-lg text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                        Admin
+                      </Link>
+                    )}
                   </nav>
                   <div className="mt-4">
                     <SearchBar />

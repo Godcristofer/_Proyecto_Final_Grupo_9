@@ -46,6 +46,7 @@ export const getUsers = async () => {
             id: user.id,
             name: user.name,
             email: user.email,
+            role: user.role,
             createdAt: user.createdAt,
             dni: user.dni,
             phone: user.phone
@@ -55,4 +56,3 @@ export const getUsers = async () => {
         return [];
     }
 };
-
