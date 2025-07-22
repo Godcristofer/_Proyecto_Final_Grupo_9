@@ -1,24 +1,23 @@
-
-query listUsers {
-    users {
-        id
-        name
-        email
-        role
-        createdAt
-        dni
-        phone
-    }
+query ListUsers @auth(level: ADMIN) {
+  userss {
+    id
+    name
+    email
+    role
+    createdAt
+    dni
+    phone
+  }
 }
 
-query getUserById($id: String!) {
-    users(id: { eq: $id }) {
-        id
-        name
-        email
-        role
-        createdAt
-        dni
-        phone
-    }
+query getUserById($id: String!) @auth(level: ADMIN) {
+  users(id: $id) {
+    id
+    name
+    email
+    role
+    createdAt
+    dni
+    phone
+  }
 }
