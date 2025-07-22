@@ -1,4 +1,4 @@
-query ListSales @auth(level: PUBLIC) {
+query ListSales {
   saless {
     id
     saleDate
