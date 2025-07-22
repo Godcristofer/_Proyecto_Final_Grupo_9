@@ -17,9 +17,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 import { format } from 'date-fns';
-import { Badge } from '@/components/ui/badge';
 import AdminNav from '../admin-nav';
+import UpdateStatusForm from './update-status-form';
+
 
 async function getSales() {
   try {
@@ -40,19 +47,6 @@ async function getSales() {
 export default async function SalesAdminPage() {
   const sales = await getSales();
 
-  const getStatusVariant = (status: string | null | undefined) => {
-    switch (status) {
-      case 'pending':
-        return 'secondary';
-      case 'shipped':
-        return 'default';
-      case 'delivered':
-        return 'outline'; // Success-like variant
-      default:
-        return 'secondary';
-    }
-  };
-
   return (
     <div className="container mx-auto py-10">
       <AdminNav />
@@ -64,44 +58,63 @@ export default async function SalesAdminPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID Venta</TableHead>
-                <TableHead>Cliente</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Fecha</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Estado Envío</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {sales.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={6} className="h-24 text-center">
-                    No se encontraron ventas.
-                  </TableCell>
-                </TableRow>
-              ) : (
-                sales.map((sale) => (
-                  <TableRow key={sale.id}>
-                    <TableCell className="font-mono text-xs">{sale.id}</TableCell>
-                    <TableCell className="font-medium">{sale.user?.name || 'N/A'}</TableCell>
-                    <TableCell>{sale.user?.email}</TableCell>
-                    <TableCell>
-                      {format(new Date(sale.saleDate), "dd/MM/yyyy")}
-                    </TableCell>
-                    <TableCell>S/ {sale.total.toFixed(2)}</TableCell>
-                    <TableCell>
-                      <Badge variant={getStatusVariant(sale.shipment?.status)}>
-                        {sale.shipment?.status || 'No enviado'}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
+          <Accordion type="single" collapsible className="w-full">
+            {sales.length === 0 ? (
+              <div className="text-center py-12">
+                No se encontraron ventas.
+              </div>
+            ) : (
+              sales.map((sale) => (
+                <AccordionItem value={sale.id} key={sale.id}>
+                  <AccordionTrigger>
+                    <div className="flex justify-between w-full pr-4 text-sm">
+                        <span className="font-mono text-xs">{sale.id}</span>
+                        <span>{sale.user?.name || 'N/A'}</span>
+                        <span>{format(new Date(sale.saleDate), "dd/MM/yyyy")}</span>
+                        <span className='font-bold'>S/ {sale.total.toFixed(2)}</span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="p-4 bg-muted/50 rounded-md">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <h4 className="font-semibold mb-2">Detalles del Pedido</h4>
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Producto</TableHead>
+                                <TableHead>Cant.</TableHead>
+                                <TableHead className="text-right">Subtotal</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {sale.details.map(detail => (
+                                <TableRow key={detail.id}>
+                                  <TableCell>{detail.product.name}</TableCell>
+                                  <TableCell>{detail.quantity}</TableCell>
+                                  <TableCell className="text-right">S/ {detail.subtotal.toFixed(2)}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+                         <div>
+                          <h4 className="font-semibold mb-2">Envío</h4>
+                           <div className="text-sm space-y-2">
+                              <p><span className="font-medium">Dirección: </span>{sale.shipment?.address || 'No especificada'}</p>
+                              <p><span className="font-medium">Ciudad: </span>{sale.shipment?.city || 'No especificada'}</p>
+                               <div className="pt-2">
+                                <UpdateStatusForm saleId={sale.id} currentStatus={sale.shipment?.status || 'pending'} />
+                               </div>
+                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))
+            )}
+          </Accordion>
         </CardContent>
       </Card>
     </div>

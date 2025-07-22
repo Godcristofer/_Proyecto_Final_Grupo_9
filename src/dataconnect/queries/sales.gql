@@ -1,5 +1,5 @@
-query ListSales {
-  sales {
+query listSales {
+  sales(orderBy: {saleDate: "DESC"}) {
     id
     saleDate
     total
@@ -9,7 +9,20 @@ query ListSales {
       email
     }
     shipment {
+      id
       status
+      address
+      city
+    }
+    details {
+      id
+      quantity
+      subtotal
+      product {
+        id
+        name
+        price
+      }
     }
   }
 }

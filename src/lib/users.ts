@@ -1,7 +1,13 @@
 
 'use server';
 
-import { connectorConfig, createUser as createUserMutation, listUsers } from '@firebasegen/default-2-connector';
+import { 
+  connectorConfig, 
+  createUser as createUserMutation, 
+  listUsers,
+  getUserById as getUserByIdQuery,
+  updateUserRole as updateUserRoleMutation
+} from '@firebasegen/default-2-connector';
 import { getDataConnect } from 'firebase/data-connect';
 import { getFirebaseApp } from './firebase';
 
@@ -56,3 +62,31 @@ export const getUsers = async () => {
         return [];
     }
 };
+
+export const getUserById = async (id: string) => {
+    try {
+        const app = getFirebaseApp();
+        const dataConnect = getDataConnect(connectorConfig, { app });
+        const { data } = await getUserByIdQuery(dataConnect, { id });
+
+        if (!data || !data.users) {
+            return null;
+        }
+        return data.users;
+    } catch (error) {
+        console.error(`Error al obtener usuario con id ${id}:`, error);
+        return null;
+    }
+}
+
+export const updateUserRole = async (id: string, role: string) => {
+    try {
+        const app = getFirebaseApp();
+        const dataConnect = getDataConnect(connectorConfig, { app });
+        await updateUserRoleMutation(dataConnect, { id, role });
+        return { success: true };
+    } catch (error) {
+        console.error(`Error al actualizar el rol del usuario ${id}:`, error);
+        return { success: false };
+    }
+}
