@@ -30,8 +30,8 @@ type Sales @table(name: "sales") {
 
 
 type SaleDetails @table(name: "sale_details") {
-  id: ID!
-  saleId: ID! @col(name: "sale_id")
+  id: UUID!
+  saleId: UUID! @col(name: "sale_id")
   sale: Sales! @ref(references: "id")
   productId: UUID! @col(name: "product_id")
   product: Products! @ref(references: "id")
@@ -40,8 +40,8 @@ type SaleDetails @table(name: "sale_details") {
 }
 
 type Shipments @table(name: "shipments") {
-  id: ID!
-  saleId: ID! @col(name: "sale_id") @unique
+  id: UUID!
+  saleId: UUID! @col(name: "sale_id") @unique
   sale: Sales! @ref(fields: "id")
   address: String!
   city: String!

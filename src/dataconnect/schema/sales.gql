@@ -1,9 +1,8 @@
 type Sales @table(name: "sales") {
-  id: ID!
   userId: String! @col(name: "user_id")
   user: Users! @ref(fields: "userId", references: "id")
-  saleDate: Timestamp! @col(name: "sale_date", default: "now()")
+  saleDate: Timestamp! @col(name: "sale_date") @default(expr: "request.time")
   total: Float!
-  details: [SaleDetails]! @ref(references: "saleId")
-  shipment: Shipments @ref(references: "saleId")
+  details: [SaleDetails]! @ref(fields: "id", references: "saleId")
+  shipment: Shipments @ref(fields: "id", references: "saleId")
 }

@@ -1,9 +1,8 @@
 type SaleDetails @table(name: "sale_details") {
-  id: ID!
-  saleId: ID! @col(name: "sale_id")
-  sale: Sales! @ref(references: "id")
+  saleId: UUID! @col(name: "sale_id")
+  sale: Sales! @ref(fields: "saleId", references: "id")
   productId: UUID! @col(name: "product_id")
-  product: Products! @ref(references: "id")
+  product: Products! @ref(fields: "productId", references: "id")
   quantity: Int!
   subtotal: Float!
 }
