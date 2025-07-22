@@ -398,6 +398,8 @@ export interface ListUsersData {
     name?: string | null;
     email: string;
     createdAt: TimestampString;
+    dni?: string | null;
+    phone?: string | null;
   } & Users_Key)[];
 }
 ```

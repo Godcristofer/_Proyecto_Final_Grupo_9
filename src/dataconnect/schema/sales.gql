@@ -1,0 +1,11 @@
+type Sales @table(name: "sales") {
+  id: ID!
+  userId: String! @col(name: "user_id")
+  user: Users! @ref(references: "id")
+  saleDate: Date! @col(name: "sale_date", default: "now()")
+  total: Float!
+  createdAt: Timestamp! @col(name: "created_at", default: "now()")
+  updatedAt: Timestamp! @col(name: "updated_at", default: "now()", onUpdate: "now()")
+  details: [SaleDetails]! @ref(references: "saleId")
+  shipment: Shipments @ref(references: "saleId")
+}

@@ -1,0 +1,10 @@
+type SaleDetails @table(name: "sale_details") {
+  id: ID!
+  saleId: ID! @col(name: "sale_id")
+  sale: Sales! @ref(references: "id")
+  productId: UUID! @col(name: "product_id")
+  product: Products! @ref(references: "id")
+  quantity: Int!
+  subtotal: Float!
+  createdAt: Timestamp! @col(name: "created_at", default: "now()")
+}
