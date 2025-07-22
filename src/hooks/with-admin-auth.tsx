@@ -1,5 +1,4 @@
 
-"use client"
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getFirebaseAuth }from 'next-firebase-auth-edge/lib/auth';
@@ -17,7 +16,7 @@ if (
 
 const { auth } = getFirebaseAuth({
     ...firebaseAdminConfig,
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
     cookieSignature: [
       process.env.COOKIE_SECRET_CURRENT,
       process.env.COOKIE_SECRET_PREVIOUS,
