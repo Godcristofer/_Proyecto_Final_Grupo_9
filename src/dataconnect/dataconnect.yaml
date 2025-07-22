@@ -13,4 +13,6 @@ connectorDirs:
 mutations:
   source: ./mutations
 queries:
-  source: ./queries
+  source: 
+    - ./queries
+    - ./queries/sales.gql

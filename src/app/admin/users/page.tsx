@@ -16,12 +16,14 @@ import {
 } from "@/components/ui/card";
 import { format } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
+import AdminNav from '../admin-nav';
 
 export default async function UsersAdminPage() {
   const users = await getUsers();
 
   return (
     <div className="container mx-auto py-10">
+      <AdminNav />
       <Card>
         <CardHeader>
           <CardTitle>Usuarios</CardTitle>

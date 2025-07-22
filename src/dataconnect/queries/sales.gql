@@ -1,0 +1,15 @@
+query ListSales {
+  sales {
+    id
+    saleDate
+    total
+    user {
+      id
+      name
+      email
+    }
+    shipment {
+      status
+    }
+  }
+}
