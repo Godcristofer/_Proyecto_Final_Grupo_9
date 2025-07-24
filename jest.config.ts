@@ -16,11 +16,9 @@ const config: Config = {
     // Handle module aliases (this will be automatically configured for you soon)
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  transformIgnorePatterns: [
-    '/node_modules/(?!lucide-react)/',
-    '^.+\\.module\\.(css|sass|scss)$',
+   transformIgnorePatterns: [
+    "/node_modules/(?!lucide-react|@radix-ui/*|react-day-picker|embla-carousel-react).+\\.js$",
   ],
-  // preset: 'ts-jest', // This is not needed with next/jest
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
