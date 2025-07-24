@@ -48,9 +48,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (user) {
         try {
           const idToken = await user.getIdToken();
-          // Set session cookie for server-side verification
-          setCookie('session', idToken, 5); 
+          setCookie('session', idToken, 5);
           
+          // We check the role on the client-side to update the UI (e.g., show admin link)
+          // The definitive verification is done on the server in the layout
           const dbUser = await getUserById(user.uid);
           setIsAdmin(dbUser?.role === 'admin');
 

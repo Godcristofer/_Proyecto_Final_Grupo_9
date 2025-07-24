@@ -11,6 +11,7 @@ async function initializeFirebaseAdmin() {
             admin.initializeApp({
                 credential: admin.credential.cert(firebaseAdminConfig)
             });
+            console.log("Firebase Admin initialized successfully in layout.");
         } catch (error: any) {
             console.error("Firebase admin initialization error in layout:", error.message);
         }
@@ -35,6 +36,7 @@ async function AdminLayout({ children }: { children: React.ReactNode }) {
             return redirect('/');
         }
         
+        console.log(`AdminLayout: User ${user.email} is an admin. Granting access.`);
         return <>{children}</>;
 
     } catch (error) {
