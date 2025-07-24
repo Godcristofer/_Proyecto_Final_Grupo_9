@@ -5,10 +5,15 @@ import admin from 'firebase-admin';
 import { firebaseAdminConfig } from '@/lib/firebase-admin-config';
 
 async function initializeFirebaseAdmin() {
-    if (!admin.apps.length) {
-        admin.initializeApp({
-            credential: admin.credential.cert(firebaseAdminConfig)
-        });
+    try {
+        if (!admin.apps.length) {
+            admin.initializeApp({
+                credential: admin.credential.cert(firebaseAdminConfig)
+            });
+        }
+    } catch (error: any) {
+        console.error("Firebase admin initialization error:", error.message);
+        throw new Error("Failed to initialize Firebase Admin SDK. Please check your service account credentials.");
     }
 }
 
