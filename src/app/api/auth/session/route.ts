@@ -5,15 +5,15 @@ import admin from 'firebase-admin';
 import { firebaseAdminConfig } from '@/lib/firebase-admin-config';
 
 async function initializeFirebaseAdmin() {
-    try {
-        if (!admin.apps.length) {
+    if (!admin.apps.length) {
+        try {
             admin.initializeApp({
                 credential: admin.credential.cert(firebaseAdminConfig)
             });
+        } catch (error: any) {
+            console.error("Firebase admin initialization error:", error.message);
+            throw new Error(`Credential implementation provided to initializeApp() via the "credential" property failed to fetch a valid Google OAuth2 access token with the following error: "${error.message}".`);
         }
-    } catch (error: any) {
-        console.error("Firebase admin initialization error:", error.message);
-        throw new Error("Failed to initialize Firebase Admin SDK. Please check your service account credentials.");
     }
 }
 
