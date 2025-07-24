@@ -30,7 +30,7 @@ async function AdminLayout({ children }: { children: React.ReactNode }) {
     console.log("AdminLayout: Session cookie found.");
 
     try {
-        const decodedClaims = await admin.auth().verifySessionCookie(sessionCookie, true);
+        const decodedClaims = await admin.auth().verifyIdToken(sessionCookie, true);
         console.log(`AdminLayout: Session cookie verified for UID: ${decodedClaims.uid}`);
 
         const user = await getUserById(decodedClaims.uid);
