@@ -17,7 +17,7 @@ const config: Config = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   transformIgnorePatterns: [
-    '/node_modules/',
+    '/node_modules/(?!lucide-react)/',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
   // preset: 'ts-jest', // This is not needed with next/jest
