@@ -27,26 +27,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
     const unsubscribe = onIdTokenChanged(auth, async (user) => {
+      setLoading(true);
       setUser(user);
       if (user) {
-        const dbUserPromise = getUserById(user.uid);
-        const idToken = await user.getIdToken();
+        try {
+          const idToken = await user.getIdToken();
+          const dbUserPromise = getUserById(user.uid);
+  
+          const response = await fetch('/api/auth/session', {
+              method: 'POST',
+              headers: {
+                  'Authorization': `Bearer ${idToken}`,
+              },
+          });
 
-        fetch('/api/auth/session', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${idToken}`,
-            },
-        });
-        
-        const dbUser = await dbUserPromise;
-        setIsAdmin(dbUser?.role === 'admin');
+          if (!response.ok) {
+            throw new Error(`Error al crear la sesión: ${response.statusText}`);
+          }
+          
+          const dbUser = await dbUserPromise;
+          setIsAdmin(dbUser?.role === 'admin');
 
+        } catch (error) {
+            console.error("Error durante el proceso de autenticación:", error);
+            setIsAdmin(false);
+        }
       } else {
         setIsAdmin(false);
-         fetch('/api/auth/session', {
-            method: 'DELETE',
-        });
+        try {
+            await fetch('/api/auth/session', { method: 'DELETE' });
+        } catch (error) {
+            console.error("Error al cerrar la sesión del servidor:", error);
+        }
       }
       setLoading(false);
     });
