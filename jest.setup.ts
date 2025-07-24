@@ -15,7 +15,7 @@ jest.mock('@/lib/users', () => ({
 }));
 
 jest.mock('@firebasegen/default-2-connector', () => ({
-    ...jest.requireActual('@firebasegen/default-2-connector'),
+    connectorConfig: {},
     listProducts: jest.fn().mockResolvedValue({ data: { productss: [] } }),
     createSale: jest.fn().mockResolvedValue({ data: { sales_insert: { id: 'mock-sale-id' } } }),
     createSaleDetail: jest.fn().mockResolvedValue({ data: { saleDetails_insert: { id: 'mock-detail-id' } } }),
