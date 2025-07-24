@@ -10,8 +10,10 @@ async function initializeFirebaseAdmin() {
             admin.initializeApp({
                 credential: admin.credential.cert(firebaseAdminConfig)
             });
+            console.log("Firebase Admin initialized successfully.");
         } catch (error: any) {
             console.error("Firebase admin initialization error:", error.message);
+            // Throw a more specific error to be caught below
             throw new Error(`Credential implementation provided to initializeApp() via the "credential" property failed to fetch a valid Google OAuth2 access token with the following error: "${error.message}".`);
         }
     }
