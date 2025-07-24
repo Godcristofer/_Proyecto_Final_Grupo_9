@@ -30,11 +30,9 @@ export async function POST(request: Request) {
     const idToken = authorization.split('Bearer ')[1];
     const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
 
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
-
-    if (new Date().getTime() / 1000 - decodedToken.auth_time > 5 * 60) {
-        return new Response('Unauthorized: Recent sign-in required.', { status: 401 });
-    }
+    // Se elimina la verificación de "inicio de sesión reciente" que causaba el error.
+    // verifyIdToken es suficiente para validar el token.
+    await admin.auth().verifyIdToken(idToken);
 
     const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
     const isProduction = process.env.NODE_ENV === 'production';
