@@ -15,22 +15,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Function to set a cookie
-const setCookie = (name: string, value: string, days: number) => {
-    let expires = "";
-    if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
-
-// Function to erase a cookie
-const eraseCookie = (name: string) => {   
-    document.cookie = name+'=; Max-Age=-99999999;';  
-}
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -43,26 +27,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
     const unsubscribe = onIdTokenChanged(auth, async (user) => {
-      setLoading(true);
       setUser(user);
       if (user) {
         try {
           const idToken = await user.getIdToken();
-          setCookie('session', idToken, 5);
           
-          // We check the role on the client-side to update the UI (e.g., show admin link)
-          // The definitive verification is done on the server in the layout
+          const response = await fetch('/api/auth/session', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+            },
+          });
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Error al crear la sesión: ${errorText || response.statusText}`);
+          }
+          
           const dbUser = await getUserById(user.uid);
           setIsAdmin(dbUser?.role === 'admin');
 
         } catch (error) {
-            console.error("Error during authentication process:", error);
+            console.error("Error durante el proceso de autenticación:", error);
             setIsAdmin(false);
-            eraseCookie('session');
+            await fetch('/api/auth/session', { method: 'DELETE' });
         }
       } else {
         setIsAdmin(false);
-        eraseCookie('session');
+        await fetch('/api/auth/session', { method: 'DELETE' });
       }
       setLoading(false);
     });
