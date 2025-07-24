@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(user);
       if (user) {
         try {
-          const idToken = await user.getIdToken(true); // Force refresh
+          const idToken = await user.getIdToken();
           await setSessionCookie(idToken);
           
           const dbUser = await getUserById(user.uid);
@@ -57,7 +57,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         } catch (error) {
             console.error("Error durante el proceso de autenticación:", error);
             setIsAdmin(false);
-            await setSessionCookie(null);
+            // Don't clear the session cookie here, as it might be a temporary issue.
+            // Let the server handle cookie expiration.
         }
       } else {
         setIsAdmin(false);

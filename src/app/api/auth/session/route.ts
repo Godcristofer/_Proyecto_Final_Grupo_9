@@ -30,8 +30,6 @@ export async function POST(request: Request) {
     const idToken = authorization.split('Bearer ')[1];
     const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
 
-    // Se elimina la verificación de "inicio de sesión reciente" que causaba el error.
-    // verifyIdToken es suficiente para validar el token.
     await admin.auth().verifyIdToken(idToken);
 
     const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
