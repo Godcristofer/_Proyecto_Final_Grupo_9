@@ -15,9 +15,11 @@ const config: Config = {
   moduleNameMapper: {
     // Handle module aliases (this will be automatically configured for you soon)
     '^@/(.*)$': '<rootDir>/src/$1',
+    // Mock lucide-react to prevent the ESM import error in Jest
+    '^lucide-react$': '<rootDir>/__mocks__/lucide-react.js'
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!lucide-react|@radix-ui/*|react-day-picker|embla-carousel-react).+\\.(js|jsx|ts|tsx)$',
+    '/node_modules/',
   ],
 };
 
