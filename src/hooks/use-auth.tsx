@@ -32,8 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (user) {
         try {
           const idToken = await user.getIdToken();
-          const dbUserPromise = getUserById(user.uid);
-  
+          
           const response = await fetch('/api/auth/session', {
               method: 'POST',
               headers: {
@@ -45,7 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             throw new Error(`Error al crear la sesión: ${response.statusText}`);
           }
           
-          const dbUser = await dbUserPromise;
+          const dbUser = await getUserById(user.uid);
           setIsAdmin(dbUser?.role === 'admin');
 
         } catch (error) {
