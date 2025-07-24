@@ -1,4 +1,5 @@
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
+import '@testing-library/user-event';
 
 jest.mock('@/lib/firebase', () => ({
   getFirebaseApp: jest.fn(() => ({})),
@@ -16,9 +17,9 @@ jest.mock('@/lib/users', () => ({
 jest.mock('@firebasegen/default-2-connector', () => ({
     ...jest.requireActual('@firebasegen/default-2-connector'),
     listProducts: jest.fn().mockResolvedValue({ data: { productss: [] } }),
-    createSale: jest.fn(),
-    createSaleDetail: jest.fn(),
-    createShipment: jest.fn(),
+    createSale: jest.fn().mockResolvedValue({ data: { sales_insert: { id: 'mock-sale-id' } } }),
+    createSaleDetail: jest.fn().mockResolvedValue({}),
+    createShipment: jest.fn().mockResolvedValue({}),
 }));
 
 jest.mock('next/navigation', () => ({

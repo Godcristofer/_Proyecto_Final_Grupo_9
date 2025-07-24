@@ -7,7 +7,7 @@ import CheckoutPage from './page';
 import { useCart } from '@/hooks/use-cart';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
-import { createSale } from '@firebasegen/default-2-connector';
+import { createSale, createSaleDetail, createShipment } from '@firebasegen/default-2-connector';
 
 // Mock hooks and modules
 jest.mock('@/hooks/use-cart');
@@ -21,13 +21,15 @@ describe('CheckoutPage', () => {
   beforeEach(() => {
     (useAuth as jest.Mock).mockReturnValue({ user: { uid: 'test-user-id' }, loading: false });
     (useCart as jest.Mock).mockReturnValue({
-      cartItems: [{ id: '1', product: { id: 'prod1', name: 'Test Product', price: 100 }, quantity: 1 }],
+      cartItems: [{ product: { id: 'prod1', name: 'Test Product', price: 100 }, quantity: 1 }],
       cartTotal: 100,
       clearCart: mockClearCart,
       isLoading: false,
     });
     (useToast as jest.Mock).mockReturnValue({ toast: mockToast });
     (createSale as jest.Mock).mockClear();
+    (createSaleDetail as jest.Mock).mockClear();
+    (createShipment as jest.Mock).mockClear();
     mockClearCart.mockClear();
   });
 
@@ -72,6 +74,29 @@ describe('CheckoutPage', () => {
         })
       );
     });
+
+    await waitFor(() => {
+      expect(createSaleDetail).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+            saleId: 'sale123',
+            productId: 'prod1',
+            quantity: 1
+        })
+      );
+    });
+
+    await waitFor(() => {
+        expect(createShipment).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                saleId: 'sale123',
+                address: '123 Main St',
+                city: 'Anytown'
+            })
+        );
+    });
+
 
     // Check that the success toast was shown and the cart was cleared
     await waitFor(() => {
