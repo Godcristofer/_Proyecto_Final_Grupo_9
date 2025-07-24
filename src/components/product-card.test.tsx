@@ -10,7 +10,6 @@ import { useToast } from '@/hooks/use-toast';
 import type { Product } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 
-// Mock hooks
 jest.mock('@/hooks/use-cart');
 jest.mock('@/hooks/use-auth');
 jest.mock('@/hooks/use-toast');
@@ -57,7 +56,6 @@ describe('ProductCard', () => {
       expect(mockAddToCart).toHaveBeenCalledTimes(1);
     });
     
-    // Check that the "Adding..." state is temporary
     expect(await screen.findByRole('button', { name: /Agregar al carrito/i })).toBeInTheDocument();
   });
 

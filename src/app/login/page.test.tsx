@@ -8,7 +8,6 @@ import { useToast } from '@/hooks/use-toast';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 
-// Mock the necessary hooks and modules
 jest.mock('@/hooks/use-toast');
 jest.mock('firebase/auth');
 jest.mock('@/hooks/use-auth', () => ({
@@ -22,7 +21,6 @@ describe('LoginPage', () => {
   beforeEach(() => {
     (useToast as jest.Mock).mockReturnValue({ toast: mockToast });
     (signInWithEmailAndPassword as jest.Mock).mockClear();
-     // We need to provide the mock implementation for useRouter here
      (useRouter as jest.Mock).mockReturnValue({ push: mockRouterPush });
     mockToast.mockClear();
     mockRouterPush.mockClear();

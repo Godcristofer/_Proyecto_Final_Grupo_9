@@ -9,7 +9,6 @@ import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
 import { createSale, createSaleDetail, createShipment } from '@firebasegen/default-2-connector';
 
-// Mock hooks and modules
 jest.mock('@/hooks/use-cart');
 jest.mock('@/hooks/use-auth');
 jest.mock('@/hooks/use-toast');
@@ -36,38 +35,30 @@ describe('CheckoutPage', () => {
   it('shows validation errors when submitting with empty required fields', async () => {
     render(<CheckoutPage />);
 
-    // Click the submit button without filling out the form
     fireEvent.click(screen.getByRole('button', { name: /Realizar Pedido/i }));
 
-    // Check for validation messages
     await waitFor(() => {
       expect(screen.getByText('La dirección debe tener al menos 5 caracteres.')).toBeInTheDocument();
       expect(screen.getByText('La ciudad debe tener al menos 2 caracteres.')).toBeInTheDocument();
     });
 
-    // Verify that the createSale mutation was NOT called
     expect(createSale).not.toHaveBeenCalled();
   });
 
   it('successfully submits the form with valid data', async () => {
     const user = userEvent.setup();
-    // Mock a successful response from the createSale mutation
     (createSale as jest.Mock).mockResolvedValue({ data: { sales_insert: { id: 'sale123' } } });
 
     render(<CheckoutPage />);
 
-    // Fill the form with valid data
     await user.type(screen.getByLabelText(/Dirección/i), '123 Main St');
     await user.type(screen.getByLabelText(/Ciudad/i), 'Anytown');
 
-    // Click the submit button
     fireEvent.click(screen.getByRole('button', { name: /Realizar Pedido/i }));
 
-    // Wait for the submission to process and check results
     await waitFor(() => {
-      // Check that the mutation was called with the correct data
       expect(createSale).toHaveBeenCalledWith(
-        expect.anything(), // dataConnect instance
+        expect.anything(), 
         expect.objectContaining({
           userId: 'test-user-id',
           total: 100,
@@ -98,7 +89,6 @@ describe('CheckoutPage', () => {
     });
 
 
-    // Check that the success toast was shown and the cart was cleared
     await waitFor(() => {
         expect(mockToast).toHaveBeenCalledWith({
             title: '¡Compra exitosa!',

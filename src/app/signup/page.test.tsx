@@ -9,7 +9,6 @@ import { createUser } from '@/lib/users';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 
-// Mock the necessary hooks and modules
 jest.mock('@/hooks/use-toast');
 jest.mock('firebase/auth');
 jest.mock('@/lib/users');
