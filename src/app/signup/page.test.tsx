@@ -13,7 +13,6 @@ import { useRouter } from 'next/navigation';
 jest.mock('@/hooks/use-toast');
 jest.mock('firebase/auth');
 jest.mock('@/lib/users');
-jest.mock('next/navigation');
 
 
 describe('SignupPage', () => {

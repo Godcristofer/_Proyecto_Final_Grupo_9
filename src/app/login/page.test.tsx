@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation';
 // Mock the necessary hooks and modules
 jest.mock('@/hooks/use-toast');
 jest.mock('firebase/auth');
-jest.mock('next/navigation');
 jest.mock('@/hooks/use-auth', () => ({
   useAuth: () => ({ user: null, loading: false }),
 }));
@@ -23,7 +22,8 @@ describe('LoginPage', () => {
   beforeEach(() => {
     (useToast as jest.Mock).mockReturnValue({ toast: mockToast });
     (signInWithEmailAndPassword as jest.Mock).mockClear();
-    (useRouter as jest.Mock).mockReturnValue({ push: mockRouterPush });
+     // We need to provide the mock implementation for useRouter here
+     (useRouter as jest.Mock).mockReturnValue({ push: mockRouterPush });
     mockToast.mockClear();
     mockRouterPush.mockClear();
   });

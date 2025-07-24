@@ -23,12 +23,7 @@ jest.mock('@firebasegen/default-2-connector', () => ({
 }));
 
 jest.mock('next/navigation', () => ({
-  useRouter() {
-    return {
-      push: jest.fn(),
-      refresh: jest.fn(),
-    };
-  },
+  useRouter: jest.fn(),
   usePathname() {
     return '/';
   }
