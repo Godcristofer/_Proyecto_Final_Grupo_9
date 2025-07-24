@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import admin from 'firebase-admin';
 import { firebaseAdminConfig } from '@/lib/firebase-admin-config';
 
+// Initialize Firebase Admin SDK if not already initialized
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(firebaseAdminConfig)
@@ -17,6 +18,7 @@ export async function POST(request: Request) {
     const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
 
     try {
+      // Create the session cookie. This will also verify the ID token.
       const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
       const isProduction = process.env.NODE_ENV === 'production';
       
@@ -28,12 +30,14 @@ export async function POST(request: Request) {
       });
       
       return NextResponse.json({ status: 'success' });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating session cookie:', error);
-      return new Response('Unauthorized', { status: 401 });
+      // Ensure a specific error message is returned for debugging
+      const errorMessage = error.message || 'Unknown error during session creation.';
+      return new Response(`Unauthorized: ${errorMessage}`, { status: 401 });
     }
   }
-  return new Response('Unauthorized', { status: 401 });
+  return new Response('Unauthorized: No bearer token found.', { status: 401 });
 }
 
 export async function DELETE() {
