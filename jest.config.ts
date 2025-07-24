@@ -16,8 +16,8 @@ const config: Config = {
     // Handle module aliases (this will be automatically configured for you soon)
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-   transformIgnorePatterns: [
-    "/node_modules/(?!lucide-react|@radix-ui/*|react-day-picker|embla-carousel-react).+\\.(js|jsx|ts|tsx)$",
+  transformIgnorePatterns: [
+    '/node_modules/(?!lucide-react|@radix-ui/*|react-day-picker|embla-carousel-react).+\\.(js|jsx|ts|tsx)$',
   ],
 };
 
