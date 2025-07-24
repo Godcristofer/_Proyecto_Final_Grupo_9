@@ -15,11 +15,21 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const setSessionCookie = (token: string | null) => {
+const setSessionCookie = async (token: string | null) => {
   if (token) {
-    document.cookie = `session=${token}; path=/; max-age=${60 * 60 * 24 * 5}`;
+    const response = await fetch('/api/auth/session', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error al crear la sesión: ${errorText || response.statusText}`);
+    }
   } else {
-    document.cookie = 'session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    await fetch('/api/auth/session', { method: 'DELETE' });
   }
 };
 
@@ -38,8 +48,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(user);
       if (user) {
         try {
-          const idToken = await user.getIdToken();
-          setSessionCookie(idToken);
+          const idToken = await user.getIdToken(true); // Force refresh
+          await setSessionCookie(idToken);
           
           const dbUser = await getUserById(user.uid);
           setIsAdmin(dbUser?.role === 'admin');
@@ -47,11 +57,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         } catch (error) {
             console.error("Error durante el proceso de autenticación:", error);
             setIsAdmin(false);
-            setSessionCookie(null);
+            await setSessionCookie(null);
         }
       } else {
         setIsAdmin(false);
-        setSessionCookie(null);
+        await setSessionCookie(null);
       }
       setLoading(false);
     });

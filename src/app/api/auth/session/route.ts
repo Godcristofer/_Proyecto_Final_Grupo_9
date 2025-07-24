@@ -10,36 +10,44 @@ async function initializeFirebaseAdmin() {
             admin.initializeApp({
                 credential: admin.credential.cert(firebaseAdminConfig)
             });
-            console.log("Firebase Admin initialized successfully.");
+            console.log("Firebase Admin initialized successfully in API route.");
         } catch (error: any) {
-            console.error("Firebase admin initialization error:", error.message);
-            throw new Error(`Credential implementation provided to initializeApp() via the "credential" property failed to fetch a valid Google OAuth2 access token with the following error: "${error.message}".`);
+            console.error("Firebase admin initialization error in API route:", error.message);
+            throw new Error("Failed to initialize Firebase Admin SDK.");
         }
     }
 }
 
 export async function POST(request: Request) {
+  await initializeFirebaseAdmin();
+  
   try {
-    await initializeFirebaseAdmin();
     const authorization = request.headers.get('Authorization');
-
-    if (authorization?.startsWith('Bearer ')) {
-      const idToken = authorization.split('Bearer ')[1];
-      const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
-
-      const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
-      const isProduction = process.env.NODE_ENV === 'production';
-      
-      cookies().set('session', sessionCookie, { 
-        maxAge: expiresIn, 
-        httpOnly: true, 
-        secure: isProduction, 
-        path: '/' 
-      });
-      
-      return NextResponse.json({ status: 'success' });
+    if (!authorization?.startsWith('Bearer ')) {
+      return new Response('Unauthorized: No bearer token found.', { status: 401 });
     }
-    return new Response('Unauthorized: No bearer token found.', { status: 401 });
+
+    const idToken = authorization.split('Bearer ')[1];
+    const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
+
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+
+    if (new Date().getTime() / 1000 - decodedToken.auth_time > 5 * 60) {
+        return new Response('Unauthorized: Recent sign-in required.', { status: 401 });
+    }
+
+    const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
+    const isProduction = process.env.NODE_ENV === 'production';
+    
+    cookies().set('session', sessionCookie, { 
+      maxAge: expiresIn, 
+      httpOnly: true, 
+      secure: isProduction, 
+      path: '/' 
+    });
+    
+    return NextResponse.json({ status: 'success' });
+
   } catch (error: any) {
     console.error('Error creating session cookie:', error);
     const errorMessage = error.message || 'Unknown error during session creation.';
