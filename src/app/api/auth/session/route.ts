@@ -13,14 +13,14 @@ async function initializeFirebaseAdmin() {
 }
 
 export async function POST(request: Request) {
-  await initializeFirebaseAdmin();
-  const authorization = request.headers.get('Authorization');
+  try {
+    await initializeFirebaseAdmin();
+    const authorization = request.headers.get('Authorization');
 
-  if (authorization?.startsWith('Bearer ')) {
-    const idToken = authorization.split('Bearer ')[1];
-    const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
+    if (authorization?.startsWith('Bearer ')) {
+      const idToken = authorization.split('Bearer ')[1];
+      const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
 
-    try {
       const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
       const isProduction = process.env.NODE_ENV === 'production';
       
@@ -32,13 +32,13 @@ export async function POST(request: Request) {
       });
       
       return NextResponse.json({ status: 'success' });
-    } catch (error: any) {
-      console.error('Error creating session cookie:', error);
-      const errorMessage = error.message || 'Unknown error during session creation.';
-      return new Response(`Unauthorized: ${errorMessage}`, { status: 401 });
     }
+    return new Response('Unauthorized: No bearer token found.', { status: 401 });
+  } catch (error: any) {
+    console.error('Error creating session cookie:', error);
+    const errorMessage = error.message || 'Unknown error during session creation.';
+    return new Response(`Unauthorized: ${errorMessage}`, { status: 401 });
   }
-  return new Response('Unauthorized: No bearer token found.', { status: 401 });
 }
 
 export async function DELETE() {

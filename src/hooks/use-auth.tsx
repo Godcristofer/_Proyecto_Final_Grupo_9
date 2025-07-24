@@ -41,7 +41,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           });
 
           if (!response.ok) {
-            throw new Error(`Error al crear la sesión: ${response.statusText}`);
+            const errorText = await response.text();
+            throw new Error(`Error al crear la sesión: ${errorText || response.statusText}`);
           }
           
           const dbUser = await getUserById(user.uid);
